@@ -1,0 +1,11 @@
+# line+ IP — requires written consent before public release
+projects/line-collaboration.html
+projects/line-internship.html
+covers/cover-line.png
+covers/cover-line-new.jpg
+images/intern-line-*.jpg
+images/line-protected.jpg
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
