@@ -39,6 +39,10 @@ Publish on GitHub Pages — free public URL you can paste to anyone.
 - 详情页把 `<img src="../images/xxx.png">` 换成你的文件名即可；点击图片会全屏放大（灯箱）。
 
 ## 注意 / Notes
-- **Line+ 项目**：按合作合同，其成果知识产权归 line+，已设为预渲染、防直接下载并标注署名。公开发布前请确认已获 line+ 书面同意。
+- **Line+ 项目**：按合作合同，其成果知识产权归 line+ 所有。相关页面（`line-collaboration.html`、`line-internship.html`）及素材已通过 `.gitignore` 从本仓库排除，待获得书面同意后再补上。
 - 中文使用系统字体（PingFang / 微软雅黑）渲染，无需额外安装。
 - 当前图片总量约 110MB；如需进一步加速，可把 `images/` 里的大图转成 JPG 再压一轮。
+
+## 版权 / License
+见 [LICENSE.md](LICENSE.md)：作品内容版权所有，模板代码可署名后自用于非商业作品集。
+See [LICENSE.md](LICENSE.md): content is all-rights-reserved; template code may be reused for personal, non-commercial portfolios with attribution.
