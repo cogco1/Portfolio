@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ArchFlow V3 — Build Log 施工看板</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Space+Mono:wght@400;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   ARCHFLOW V3 — Build Log 施工看板
+   Style: Pure-white / architecture-studio minimal (同 kaiwenliu.work)
+   结构(判决 2026-07-16 晚): 主页 = 原理图 + Benchmark 三格百分比;
+   其余内容全部收进模块标签页(战报/施工序/指标/万神殿/明日/风险/历史)。
+===================================================================== */
+:root{
+  --ink:#1a1a1a; --muted:#737373; --faint:#a6a6a6;
+  --line:#ededed; --line-strong:#dcdcdc; --bg:#ffffff; --hover:#f6f6f6;
+  --ok:#3f7350; --gate:#a3822f; --risk:#a4453a;
+  --max:1120px; --pad:clamp(24px,5vw,72px);
+  --sans:"Inter","Noto Sans SC","PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+  --mono:"Space Mono","SFMono-Regular",Consolas,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --ink:#e8e8e8; --muted:#9a9a9a; --faint:#6f6f6f;
+         --line:#242424; --line-strong:#333333; --bg:#141414; --hover:#1d1d1d;
+         --ok:#6fae83; --gate:#c9a558; --risk:#c76b5f; }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.label{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* ---- nav / tabs ---- */
+.nav{position:sticky;top:0;z-index:20;background:var(--bg);display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px var(--pad);border-bottom:1px solid var(--line)}
+.nav .name{font-weight:700;letter-spacing:.22em;font-size:12px;white-space:nowrap}
+.nav ul{display:flex;gap:22px;list-style:none;flex-wrap:wrap}
+.nav a{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding-bottom:3px;border-bottom:1px solid transparent}
+.nav a:hover{color:var(--ink)}
+.nav a.on{color:var(--ink);border-bottom-color:var(--ink)}
+.nav .vsc{border:1px solid var(--line-strong);padding:7px 13px;color:var(--ink)}
+.nav .vsc:hover{background:var(--hover)}
+
+/* ---- views(标签页) ---- */
+.view{display:none}
+.view.active{display:block}
+
+/* ---- hero ---- */
+.hero{max-width:var(--max);margin:0 auto;padding:clamp(36px,5vw,64px) var(--pad) clamp(20px,3vw,32px)}
+.hero .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.hero h1{font-size:clamp(30px,4.8vw,52px);font-weight:700;letter-spacing:-.02em;line-height:1.05;text-wrap:balance}
+.hero .sub{margin-top:14px;font-size:14.5px;color:var(--muted);max-width:680px}
+.hero .meta{margin-top:30px;display:flex;gap:40px;flex-wrap:wrap;padding-top:20px;border-top:1px solid var(--line-strong)}
+.hero .meta .label{display:block;margin-bottom:5px}
+.hero .meta span.v{font-size:13.5px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.hero .meta .v.ok{color:var(--ok)} .hero .meta .v.risk{color:var(--risk)}
+
+/* ---- section scaffold ---- */
+section.blk{max-width:var(--max);margin:0 auto;padding:clamp(30px,4vw,52px) var(--pad) 0;scroll-margin-top:76px}
+.sec-head{display:flex;align-items:baseline;gap:14px;padding-bottom:14px;border-bottom:1px solid var(--ink)}
+.sec-head .no{font-family:var(--mono);font-size:11px;color:var(--faint)}
+.sec-head h2{font-size:15px;font-weight:700;letter-spacing:.02em}
+.sec-head .hint{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+h3.sub-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:400;margin:26px 0 4px}
+
+/* ---- 原理图 ---- */
+.figwrap{overflow-x:auto;padding:26px 0 4px}
+.pr{display:block;min-width:1020px;width:100%;height:auto}
+figcaption{font-size:13px;color:var(--muted);padding:12px 0 0;border-top:1px solid var(--line);max-width:920px}
+.pr .bx{fill:none;stroke:var(--line-strong);stroke-width:1}
+.pr .bx2{fill:none;stroke:var(--ink);stroke-width:1.3}
+.pr .t1{font:700 13px var(--sans);fill:var(--ink)}
+.pr .t1m{font:700 12px var(--mono);fill:var(--ink)}
+.pr .t2{font:11px var(--sans);fill:var(--muted)}
+.pr .t2s{font:10px var(--sans);fill:var(--muted)}
+.pr .t3{font:9.5px var(--mono);fill:var(--faint);letter-spacing:.08em}
+.pr .t4{font:10.5px var(--sans);fill:var(--ink)}
+.pr .t5{font:10px var(--mono);fill:var(--muted)}
+.pr .gt-m{font:9.5px var(--mono);fill:var(--gate);letter-spacing:.04em}
+.pr .ln{stroke:var(--ink);stroke-width:1;fill:none}
+.pr .lnf{stroke:var(--faint);stroke-width:.8;fill:none}
+.pr .dot{fill:var(--faint)}
+.pr .ok-l{stroke:var(--ok);stroke-width:1.3;fill:none}
+.pr .ok-t{font:10px var(--sans);fill:var(--ok)}
+.pr .rk-l{stroke:var(--risk);stroke-width:1.2;fill:none}
+.pr .rk-t{font:10.5px var(--sans);fill:var(--risk)}
+.pr .ah{fill:var(--ink)} .pr .ahk{fill:var(--ok)} .pr .ahr{fill:var(--risk)}
+
+/* ---- benchmark tiles ---- */
+.bench{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0 44px;margin-top:4px}
+.tile{display:block;padding:26px 0 22px;border-bottom:1px solid var(--line)}
+.tile:hover{background:var(--hover)}
+.tile .label{display:block;margin-bottom:10px}
+.tile .pct{display:block;font-family:var(--mono);font-weight:700;font-size:clamp(42px,5.5vw,60px);letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.tile .bar{display:block;margin-top:14px;height:2px;background:var(--line)}
+.tile .bar i{display:block;height:100%;width:0;background:var(--ink)}
+.tile .sub{display:block;margin-top:10px;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+
+/* ---- commit rows ---- */
+.row{position:relative;display:grid;grid-template-columns:4.8rem 6.2rem 1fr auto;gap:14px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line)}
+.row .hash{font-family:var(--mono);font-size:11px;color:var(--faint);font-variant-numeric:tabular-nums}
+.row .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.row .tag::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--faint);margin-right:7px;vertical-align:1px}
+.row.arch .tag::before{background:var(--ink)}
+.row.fix .tag::before{background:var(--risk)}
+.row.paper .tag::before{background:var(--gate)}
+.row.ruling .tag::before{background:var(--ok)}
+.row p{font-size:13.8px}
+.row p b{font-weight:700}
+.row p code{font-family:var(--mono);font-size:12px}
+/* files dropdown */
+.dd{position:relative}
+.dd>a{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap;cursor:pointer}
+.dd>a:hover{color:var(--ink)}
+.dd-menu{position:absolute;top:100%;right:0;min-width:320px;max-width:70vw;background:var(--bg);border:1px solid var(--line-strong);padding:5px 0;list-style:none;opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .18s,transform .18s,visibility .18s;z-index:30}
+.dd-menu::before{content:"";position:absolute;top:-14px;left:0;right:0;height:14px}
+.dd:hover .dd-menu,.dd:focus-within .dd-menu{opacity:1;visibility:visible;transform:translateY(0)}
+@media (prefers-reduced-motion:reduce){.dd-menu{transition:none}}
+.dd-menu li a{display:block;padding:8px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dd-menu li a:hover{color:var(--ink);background:var(--hover)}
+.dd-menu li a::after{content:"↗ vscode";float:right;color:var(--faint);font-size:9px;letter-spacing:.1em;margin-left:14px}
+@media (max-width:720px){.row{grid-template-columns:1fr auto;grid-template-rows:auto auto}.row .hash{order:3}.row p{grid-column:1/-1}}
+
+/* ---- phases ---- */
+.phase{padding:18px 0;border-bottom:1px solid var(--line)}
+.phead{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+.phead .pno{font-family:var(--mono);font-size:11px;color:var(--faint);min-width:2.6rem}
+.phead .pname{font-weight:700;font-size:14px}
+.phead .bar{flex:1;min-width:140px;height:2px;background:var(--line);align-self:center}
+.phead .bar i{display:block;height:100%;background:var(--ink)}
+.phead .pct{font-family:var(--mono);font-size:11px;color:var(--muted);min-width:4rem;text-align:right;font-variant-numeric:tabular-nums}
+.pitems{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px 22px}
+.pi{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:var(--muted)}
+.pi::before{content:"○";margin-right:7px;color:var(--faint)}
+.pi.done{color:var(--ink)} .pi.done::before{content:"●";color:var(--ok)}
+.pi.doing::before{content:"◐";color:var(--ink)}
+.pi.gate{color:var(--gate)} .pi.gate::before{content:"◇";color:var(--gate)}
+.pi.riskp{color:var(--risk)} .pi.riskp::before{content:"▲";color:var(--risk)}
+.pnote{margin-top:8px;font-size:12.5px;color:var(--muted)}
+
+/* ---- glossary 术语 ---- */
+.gl{display:grid;grid-template-columns:13rem 1fr;gap:18px;padding:13px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.gl .term{font-family:var(--mono);font-size:12px;font-weight:700}
+.gl .term small{display:block;font-weight:400;font-size:9px;letter-spacing:.08em;color:var(--faint);margin-top:2px;text-transform:uppercase}
+.gl p{font-size:13.5px}
+.gl p .src{color:var(--faint);font-family:var(--mono);font-size:10px;letter-spacing:.04em}
+.gl code{font-family:var(--mono);font-size:12px}
+@media (max-width:720px){.gl{grid-template-columns:1fr;gap:6px}}
+
+/* ---- next / risks ---- */
+ol.next{list-style:none;counter-reset:n;margin-top:6px}
+ol.next li{counter-increment:n;display:grid;grid-template-columns:3rem 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:13.8px}
+ol.next li::before{content:counter(n,decimal-leading-zero);font-family:var(--mono);font-size:11px;color:var(--faint)}
+.gatebox{margin-top:22px;border:1px solid var(--line-strong);padding:16px 20px;font-size:13.5px}
+.gatebox .label{display:block;margin-bottom:8px;color:var(--gate)}
+.risks{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:0 36px;margin-top:4px}
+.riskcard{padding:16px 0;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+.riskcard b{display:block;color:var(--ink);font-size:13.5px;margin-bottom:4px}
+.riskcard b::before{content:"▲";color:var(--risk);font-size:10px;margin-right:8px;vertical-align:1px}
+
+footer{max-width:var(--max);margin:48px auto 0;padding:20px var(--pad) 56px;border-top:1px solid var(--line-strong)}
+footer p{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--faint);line-height:2}
+footer a{color:var(--muted);border-bottom:1px solid var(--line-strong)}
+footer a:hover{color:var(--ink)}
+</style>
+<noscript><style>.view{display:block}</style></noscript>
+<style>/* site-mirror mobile override */@media (max-width:720px){.nav{position:static;flex-wrap:wrap;row-gap:8px;padding:14px 16px}}</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="name" href="#home">ARCHFLOW&nbsp;V3 · BUILD&nbsp;LOG</a>
+  <ul>
+    <li><a data-tab="home" href="#home">原理 Principle</a></li>
+    <li><a data-tab="sitrep" href="#sitrep">战报 Sitrep</a></li>
+    <li><a data-tab="phases" href="#phases">施工序 Phases</a></li>
+    <li><a data-tab="metrics" href="#metrics">指标 Metrics</a></li>
+    <li><a data-tab="pantheon" href="#pantheon">万神殿 Pantheon</a></li>
+    <li><a data-tab="next" href="#next">明日 Next</a></li>
+    <li><a data-tab="risks" href="#risks">风险 Risks</a></li>
+    <li><a data-tab="history" href="#history">历史 History</a></li>
+    <li><a data-tab="glossary" href="#glossary">术语 Glossary</a></li>
+    <li><a href="../atlas/">图集 Atlas</a></li>
+    <li><a class="vsc" href="vscode://file/D:/ARCHFLOW_V3">VSCode ↗</a></li>
+  </ul>
+</nav>
+
+<!-- ================= HOME 主页 = 原理图 + BENCHMARK ================= -->
+<section id="home" class="view">
+
+  <header class="hero">
+    <p class="eyebrow">Construction Log · 判决 A — 加速建造 · Ruling A: Build, Don't Retreat</p>
+    <h1>Committed into Being.</h1>
+    <p class="sub">白盒 LLM 引导体素建筑生成引擎:每一步都是可审计的决策,每一份责任都在账上。摘要 v5 的每一句,都是 2026-10-26 全文截止前的建造义务。</p>
+    <div class="meta">
+      <div><span class="label">Head</span><span class="v num">9c85363</span></div>
+      <div><span class="label">Gates 三门</span><span class="v ok num">pytest 1143 · doctor 0 · selfcheck 16/16</span></div>
+      <div><span class="label">Today 今日提交</span><span class="v num">16 · 探针 6 / 代码 3 / 文档 7</span></div>
+      <div><span class="label">Abstract 摘要截止</span><span class="v num" id="d-abs">07-27 · D-11</span></div>
+      <div><span class="label">Full Paper 全文截止</span><span class="v risk num" id="d-full">10-26 · D-102</span></div>
+    </div>
+  </header>
+
+  <section class="blk">
+    <div class="sec-head"><span class="no">00</span><h2>原理 The Principle · 一图</h2><span class="hint">法 → 决策 → 账本 → 交付空间 → 探针,一条回路</span></div>
+    <figure>
+      <div class="figwrap">
+      <svg class="pr" viewBox="0 0 1160 590" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ArchFlow V3 原理图:法通过掩码进入十四步决策链,决策读写黑板与义务账本,几何经 convert 唯一门口进入体素交付空间,三门与鹈鹕探针把修复送回法而非结果">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ah"/></marker>
+          <marker id="ahk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahk"/></marker>
+          <marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahr"/></marker>
+        </defs>
+
+        <!-- ① 六步原子(每个决策的内部结构) -->
+        <text x="20" y="36" class="t3">每个决策 DXX = 六步原子 SIX-STEP ATOM</text>
+        <g>
+          <rect x="20"  y="46" width="62" height="32" class="bx"/><text x="51"  y="60" class="t4" text-anchor="middle">观察</text><text x="51"  y="72" class="t3" text-anchor="middle">observe</text>
+          <rect x="90"  y="46" width="62" height="32" class="bx"/><text x="121" y="60" class="t4" text-anchor="middle">菜单</text><text x="121" y="72" class="t3" text-anchor="middle">menu</text>
+          <rect x="160" y="46" width="62" height="32" class="bx"/><text x="191" y="60" class="t4" text-anchor="middle">掩码</text><text x="191" y="72" class="t3" text-anchor="middle">mask</text>
+          <rect x="230" y="46" width="62" height="32" class="bx2"/><text x="261" y="60" class="t4" text-anchor="middle">策略</text><text x="261" y="72" class="t3" text-anchor="middle">policy</text>
+          <circle cx="286" cy="50" r="4" class="ln"/>
+          <rect x="300" y="46" width="62" height="32" class="bx"/><text x="331" y="60" class="t4" text-anchor="middle">应用</text><text x="331" y="72" class="t3" text-anchor="middle">apply</text>
+          <rect x="370" y="46" width="62" height="32" class="bx"/><text x="401" y="60" class="t4" text-anchor="middle">门</text><text x="401" y="72" class="t3" text-anchor="middle">gate</text>
+          <path d="M82,62 L89,62" class="ln" marker-end="url(#ah)"/>
+          <path d="M152,62 L159,62" class="ln" marker-end="url(#ah)"/>
+          <path d="M222,62 L229,62" class="ln" marker-end="url(#ah)"/>
+          <path d="M292,62 L299,62" class="ln" marker-end="url(#ah)"/>
+          <path d="M362,62 L369,62" class="ln" marker-end="url(#ah)"/>
+        </g>
+
+        <!-- ② 法(可写死) -->
+        <rect x="470" y="24" width="320" height="74" class="bx2"/>
+        <text x="486" y="46" class="t1">法 LAWS — 可写死的部分</text>
+        <text x="486" y="64" class="t2">传统 pack · canon 比例锁 · 类型掩码 · 结构体系能力表</text>
+        <text x="486" y="82" class="gt-m">判别刀:法可写死 · 选择必过席(铁律15候选)</text>
+        <path d="M630,98 L630,140" class="ln" marker-end="url(#ah)"/>
+        <text x="638" y="122" class="t5">掩码进每个决策</text>
+
+        <!-- ③ PROMPT -->
+        <rect x="20" y="163" width="110" height="72" class="bx2"/>
+        <text x="32" y="181" class="t3">PROMPT</text>
+        <text x="32" y="200" class="t1m">a small house</text>
+        <text x="32" y="216" class="t2s">需求 → 前提</text>
+        <text x="32" y="229" class="t3">parti·intent</text>
+        <path d="M130,199 L148,199" class="ln" marker-end="url(#ah)"/>
+
+        <!-- ④ 决策链 D01–D14:分组括线 -->
+        <text x="239" y="160" class="t3" text-anchor="middle">前提</text><path d="M150,168 L328.6,168" class="lnf"/>
+        <text x="378" y="160" class="t3" text-anchor="middle">平面</text><path d="M334.8,168 L421,168" class="lnf"/>
+        <text x="447" y="160" class="t3" text-anchor="middle">传统</text><path d="M427.2,168 L467.2,168" class="lnf"/>
+        <text x="516.5" y="160" class="t3" text-anchor="middle">体块</text><path d="M473.4,168 L559.6,168" class="lnf"/>
+        <text x="585.8" y="160" class="t3" text-anchor="middle">结构</text><path d="M565.8,168 L605.8,168" class="lnf"/>
+        <text x="655" y="160" class="t3" text-anchor="middle">构成</text><path d="M612,168 L698.2,168" class="lnf"/>
+        <text x="747.5" y="160" class="t3" text-anchor="middle">门</text><path d="M704.4,168 L790.6,168" class="lnf"/>
+
+        <!-- 决策格 -->
+        <rect x="150" y="176" width="40" height="46" class="bx"/><text x="170" y="193" class="t3" text-anchor="middle">D01</text><text x="170" y="211" class="t4" text-anchor="middle">方差</text>
+        <rect x="196.2" y="176" width="40" height="46" class="bx"/><text x="216.2" y="193" class="t3" text-anchor="middle">D02</text><text x="216.2" y="211" class="t4" text-anchor="middle">意图</text>
+        <rect x="242.4" y="176" width="40" height="46" class="bx"/><text x="262.4" y="193" class="t3" text-anchor="middle">D03</text><text x="262.4" y="211" class="t4" text-anchor="middle">需求</text>
+        <rect x="288.6" y="176" width="40" height="46" class="bx"/><text x="308.6" y="193" class="t3" text-anchor="middle">D04</text><text x="308.6" y="211" class="t4" text-anchor="middle">计划</text>
+        <rect x="334.8" y="176" width="40" height="46" class="bx2"/><text x="354.8" y="193" class="t3" text-anchor="middle">D05</text><text x="354.8" y="211" class="t4" text-anchor="middle">行为</text>
+        <rect x="381" y="176" width="40" height="46" class="bx"/><text x="401" y="193" class="t3" text-anchor="middle">D06</text><text x="401" y="211" class="t4" text-anchor="middle">布局</text>
+        <rect x="427.2" y="176" width="40" height="46" class="bx2"/><text x="447.2" y="193" class="t3" text-anchor="middle">D07</text><text x="447.2" y="211" class="t4" text-anchor="middle">传统</text>
+        <rect x="473.4" y="176" width="40" height="46" class="bx"/><text x="493.4" y="193" class="t3" text-anchor="middle">D08</text><text x="493.4" y="211" class="t4" text-anchor="middle">分区</text>
+        <rect x="519.6" y="176" width="40" height="46" class="bx"/><text x="539.6" y="193" class="t3" text-anchor="middle">D09</text><text x="539.6" y="211" class="t4" text-anchor="middle">体块</text>
+        <rect x="565.8" y="176" width="40" height="46" class="bx2"/><text x="585.8" y="193" class="t3" text-anchor="middle">D10</text><text x="585.8" y="211" class="t4" text-anchor="middle">结构</text>
+        <rect x="612" y="176" width="40" height="46" class="bx"/><text x="632" y="193" class="t3" text-anchor="middle">D11</text><text x="632" y="211" class="t4" text-anchor="middle">构成</text>
+        <rect x="658.2" y="176" width="40" height="46" class="bx"/><text x="678.2" y="193" class="t3" text-anchor="middle">D12</text><text x="678.2" y="211" class="t4" text-anchor="middle">事件</text>
+        <rect x="704.4" y="176" width="40" height="46" class="bx"/><text x="724.4" y="193" class="t3" text-anchor="middle">D13</text><text x="724.4" y="211" class="t4" text-anchor="middle">验证</text>
+        <rect x="750.6" y="176" width="40" height="46" class="bx"/><text x="770.6" y="193" class="t3" text-anchor="middle">D14</text><text x="770.6" y="211" class="t4" text-anchor="middle">评估</text>
+
+        <!-- 席位行:◌=真菜单(LLM 可插拔) ●=确定性(图例在图底) -->
+        <circle cx="170" cy="232" r="2" class="dot"/><circle cx="216.2" cy="232" r="2" class="dot"/><circle cx="262.4" cy="232" r="2" class="dot"/><circle cx="308.6" cy="232" r="2" class="dot"/>
+        <circle cx="354.8" cy="232" r="3.5" class="ln"/>
+        <circle cx="401" cy="232" r="2" class="dot"/>
+        <circle cx="447.2" cy="232" r="3.5" class="ln"/>
+        <circle cx="493.4" cy="232" r="2" class="dot"/><circle cx="539.6" cy="232" r="2" class="dot"/>
+        <circle cx="585.8" cy="232" r="3.5" class="ln"/>
+        <circle cx="632" cy="232" r="2" class="dot"/><circle cx="678.2" cy="232" r="2" class="dot"/><circle cx="724.4" cy="232" r="2" class="dot"/><circle cx="770.6" cy="232" r="2" class="dot"/>
+
+        <!-- ⑤ 义务弧:D05 创建 → D09 清偿;D10 cover→bear -->
+        <path d="M354.8,246 C354.8,296 539.6,296 539.6,246" class="ok-l" marker-end="url(#ahk)"/>
+        <text x="447" y="302" class="ok-t" text-anchor="middle">隐私义务:D05 创建 → D09 清偿(首条跨决策链)</text>
+        <path d="M585.8,246 C585.8,276 632,276 632,246" class="ok-l" marker-end="url(#ahk)"/>
+        <text x="648" y="280" class="ok-t">cover→bear 级联召唤</text>
+
+        <!-- 读写上账 -->
+        <path d="M196,246 L196,310" class="ln" marker-end="url(#ah)"/>
+        <path d="M204,310 L204,246" class="ln" marker-end="url(#ah)"/>
+        <text x="212" y="282" class="t5">读 / 写上账</text>
+
+        <!-- ⑥ 黑板 + 义务账本 -->
+        <rect x="150" y="312" width="640" height="34" class="bx"/>
+        <text x="162" y="333" class="t1">黑板 BLACKBOARD</text>
+        <text x="310" y="333" class="t2">槽位读写集 · 前提 parti / function_intent 贯穿全部决策(铁律11)</text>
+        <rect x="150" y="358" width="640" height="48" class="bx2"/>
+        <text x="162" y="377" class="t1">义务账本 LEDGER</text>
+        <text x="310" y="377" class="t2">created → discharged · seat 作者身份 · transcript 问答笔录</text>
+        <text x="162" y="396" class="t2">清偿逐项对账(多重集差)</text>
+        <text x="340" y="396" class="rk-t">未清 = 债务留账 = 诚实拒绝(绝不进 ValidationResult)</text>
+
+        <!-- ⑦ convert 唯一门口 → 体素交付空间 -->
+        <path d="M790.6,199 L813,199" class="ln" marker-end="url(#ah)"/>
+        <rect x="815" y="150" width="140" height="110" class="bx2"/>
+        <text x="827" y="170" class="t3">CONVERT</text>
+        <text x="827" y="189" class="t1">唯一门口</text>
+        <text x="827" y="208" class="t5">to_voxels()</text>
+        <text x="827" y="224" class="t5">conversion_findings</text>
+        <text x="827" y="242" class="t2s">existence · bearing</text>
+        <text x="827" y="255" class="t2s">在交付空间执法</text>
+        <path d="M955,199 L983,199" class="ln" marker-end="url(#ah)"/>
+        <rect x="985" y="150" width="155" height="110" class="bx2"/>
+        <g>
+          <rect x="1007" y="164" width="24" height="24" class="lnf"/>
+          <rect x="997" y="172" width="24" height="24" class="ln"/>
+          <path d="M997,172 L1007,164 M1021,172 L1031,164 M997,196 L1007,188 M1021,196 L1031,188" class="lnf"/>
+        </g>
+        <text x="1040" y="180" class="t1">体素建筑</text>
+        <text x="1040" y="196" class="t3">VOXELS</text>
+        <text x="997" y="224" class="t5">.schem · iso/双剖/立面</text>
+        <text x="997" y="244" class="t2s">transcript 问答笔录</text>
+
+        <!-- ⑧ 三门 + 鹈鹕探针 -->
+        <path d="M1062,260 L1062,308" class="ln" marker-end="url(#ah)"/>
+        <rect x="815" y="310" width="325" height="46" class="bx"/>
+        <text x="827" y="330" class="t1">三门 GATES</text>
+        <text x="827" y="347" class="t2">pytest · doctor · selfcheck 金样16+废墟 · 字节锚=V2 等价</text>
+        <path d="M977,356 L977,370" class="ln" marker-end="url(#ah)"/>
+        <rect x="815" y="372" width="325" height="60" class="bx2"/>
+        <text x="827" y="393" class="t1">鹈鹕探针 PROBE-AND-REPAIR</text>
+        <text x="827" y="411" class="t2">对抗建筑案例 · 渲染/剖面眼验 · 金样对照</text>
+        <text x="827" y="427" class="t2">猎物:验证通过但建筑错误(假阴性)</text>
+
+        <!-- ⑨ 修法回路(红):缺陷 → 改法 → 重放推导 -->
+        <path d="M977,432 L977,500 L692,500" class="rk-l"/>
+        <rect x="430" y="484" width="260" height="32" class="rk-l"/>
+        <text x="560" y="504" class="rk-t" text-anchor="middle">修法,不修果 · FIX THE LAW, NOT THE RESULT</text>
+        <path d="M430,500 L120,500 L120,248" class="rk-l" marker-end="url(#ahr)"/>
+        <text x="108" y="380" class="rk-t" text-anchor="middle" transform="rotate(-90 108 380)">重放推导 REPLAY</text>
+
+        <!-- 图例 -->
+        <circle cx="26" cy="566" r="3.5" class="ln"/>
+        <text x="38" y="570" class="t2">真菜单 · LLM 可插拔席(D05 行为 / D07 传统 / D10 结构)</text>
+        <circle cx="392" cy="566" r="2" class="dot"/>
+        <text x="402" y="570" class="t2">确定性席</text>
+        <path d="M470,566 L500,566" class="ok-l"/>
+        <text x="508" y="570" class="ok-t">义务创建 → 清偿</text>
+        <path d="M620,566 L650,566" class="rk-l"/>
+        <text x="658" y="570" class="rk-t">留债 / 修法回路</text>
+      </svg>
+      </div>
+      <figcaption><b>读法</b>:法(可写死)以掩码进入每个决策;14 步决策各走六步原子,读写黑板并逐步上账;义务跨决策创建与清偿,未清=债务留账=诚实拒绝;几何只经 convert 唯一门口进入交付空间成体素;三门守回归,鹈鹕探针猎假阴性——修复永远落在法上,重放推导出新结果,从不手改几何。MDP / RAD / 六步原子等术语解释见<a href="#glossary" style="border-bottom:1px solid var(--line-strong)">「术语 Glossary」</a>。</figcaption>
+    </figure>
+  </section>
+
+  <section class="blk">
+    <div class="sec-head"><span class="no">B</span><h2>Benchmark 进度</h2><span class="hint">● 1 · ◐ 0.5 · ○ 0 求和 · 明细在模块页</span></div>
+    <div class="bench">
+      <a class="tile" href="#phases" data-tile="arch">
+        <span class="label">架构 Architecture</span>
+        <span class="pct num">—</span>
+        <span class="bar"><i></i></span>
+        <span class="sub">施工序 P0–P3.1 · 明细 → 施工序</span>
+      </a>
+      <a class="tile" href="#metrics" data-tile="assets">
+        <span class="label">素材 Materials</span>
+        <span class="pct num">—</span>
+        <span class="bar"><i></i></span>
+        <span class="sub">论文与证据素材 · 明细 → 指标</span>
+      </a>
+      <a class="tile" href="#metrics" data-tile="valid">
+        <span class="label">验证 Validation</span>
+        <span class="pct num">—</span>
+        <span class="bar"><i></i></span>
+        <span class="sub">门与探针覆盖 · 明细 → 指标</span>
+      </a>
+    </div>
+  </section>
+
+</section>
+
+<!-- ================= 01 SITREP 战报 ================= -->
+<section id="sitrep" class="view">
+<section class="blk">
+  <div class="sec-head"><span class="no">01</span><h2>今日战报 Sitrep · 2026-07-17</h2><span class="hint">hover 行尾 files ▾ 下拉 · 点击文件用 VSCode 打开</span></div>
+
+  <h3 class="sub-label">Engine 架构与代码 — 引擎今天实际改了什么</h3>
+  <div class="row arch"><span class="hash">7d310d6</span><span class="tag">退役第一案</span>
+    <p><b>决策路径万神殿 v0</b>:compose_mode 旋钮(D11 composer 让位)+ 盖谱席 dome 入菜单 + 环律归位编译器(稀疏环声明仍被拒,铁律6 不破)。hall 32m 穹 + 60 环柱,义务 10/10 全清,坐标门块级验收;视觉席当场抓到闸E(天空双答)。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/decision/v2_stages.py">archflow/decision/v2_stages.py</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/brain/solving/structure_graph.py">archflow/brain/solving/structure_graph.py</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/core/orchestrator/context_knobs.py">archflow/core/orchestrator/context_knobs.py</a></li>
+    </ul></span></div>
+  <div class="row fix"><span class="hash">5ac4dbb</span><span class="tag">闸E 修复</span>
+    <p><b>天空只答一次</b>:三个抢答者逐一剥离——自适应屋顶对已答 cover 让位(answered_covers)/ roof_truss 不再裹接地壳 / 穹渲染方言桥(roof_form 元数据直达体素器)。四视图全过:穹顶显形、穹下无柱、剖面剪影成立;三门 1143/0/16。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/brain/making/geometry/__init__.py">archflow/brain/making/geometry/__init__.py</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/brain/making/voxelize/__init__.py">archflow/brain/making/voxelize/__init__.py</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/tests/test_p1_obligation_structure.py">archflow/tests/test_p1_obligation_structure.py</a></li>
+    </ul></span></div>
+  <div class="row arch"><span class="hash">44627ae</span><span class="tag">熵钩子</span>
+    <p><b>E2 落地</b>:<code>Ledger.entropy_trace()</code> 从上账菜单直读 <code>H(A_t|S_t)=Σlog₂|options|</code>——熵预算从"声称"变"测量",与 token-per-building 同一张图。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/blackboard/__init__.py">archflow/blackboard/__init__.py</a></li>
+    </ul></span></div>
+  <div class="row arch"><span class="hash">76330b8</span><span class="tag">理论A/B</span>
+    <p><b>"理论有没有影响生成本身"——有,且可导出对照</b>:同 prompt 旋钮全关(V2)= 20 构件平顶盒、零结构件;义务模式 = <b>97 构件 · 44 柱 22 梁 12 板</b>、天花 5/7/10、16 义务全清。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/training_records/probes">training_records/probes/(theory_ab)</a></li>
+    </ul></span></div>
+
+  <h3 class="sub-label">Probes 头部问句战役 — 本地三模型上岗一日(全零 API 成本)</h3>
+  <div class="row arch"><span class="hash">3f9bf03</span><span class="tag">头部问句</span>
+    <p><b>Kevin 论点实证</b>:"第一步就该定体块搭配、各多高"。qwen3:30b 本地答出 <b>鼓高 16m = 内半径(Pantheon 依据)</b>效度 PASS——昨日闸F(鼓座矮)不是体量 bug,是头部问句从未被问;五缺口清单(D2.5 问句/状态槽/SolidRegion 形状/commitment 义务/RAD 注入点)。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/REPORT.md">probes/20260717_头部问句/REPORT.md</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/probe_type_massing.py">probe_type_massing.py</a></li>
+    </ul></span></div>
+  <div class="row arch"><span class="hash">5f286a3</span><span class="tag">席位基准</span>
+    <p><b>三模型 × 三类型 × 4 维基准</b>:qwen3=体块席主力(热身 5s/问,鼓高 16=16 稳);deepseek 知识在但<b>承诺翻面</b>(16↔32)只留批判席;glm 词汇/依据全崩出局承诺席。巴西利卡层级题(中厅必须高于侧廊)qwen+ds 双满分 = <b>真类型推理,非背书</b>。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/bench_massing_models.py">bench_massing_models.py</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/bench_results.json">bench_results.json</a></li>
+    </ul></span></div>
+  <div class="row arch"><span class="hash">77fd81d</span><span class="tag">调度席</span>
+    <p><b>Claude 调度、本地模型执行子项</b>:qwen 构成 / glm 被效度门拒→确定性回退上账 / deepseek 批判两发全中(柱列缺失 + oculus 4 vs 史实 8.9 hard)。<b>修复环:重答恰好一个问题</b>,oculus 4→8.9(11.7s)= Selective Uncommit 微缩活体。三硬结论:多席纵深 / 调度门也要审 / 采样漂移双保险。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/agent_dispatch.py">agent_dispatch.py</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/training_records/probes/20260717_头部问句">training_records/…/agent_dispatch_pantheon/</a></li>
+    </ul></span></div>
+  <div class="row fix"><span class="hash">eeaa276</span><span class="tag">标准答案考</span>
+    <p><b>先查资料立标(43.3/21.65/8.9/11.9 + 中介体块 + 五拓扑),三模型盲考亲判</b>:中介块 <b>0/3 全漏 = 明信片偏差</b>(图纸级知识在文本语料结构性缺席,RAD 必要性最硬实证);glm 数字 5/5 但 schema 三连犯(出局承诺席、不出局知识源);qwen 几何矛盾(穹 86.6 坐鼓 43.3)→ 跨体量一致门入债;判卷器 v1 压分 = 错门静默错判决第三例。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/standard_answer_pantheon.json">standard_answer_pantheon.json</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/compare_to_standard.py">compare_to_standard.py</a></li>
+    </ul></span></div>
+  <div class="row arch"><span class="hash">9c85363</span><span class="tag">RAD 三方</span>
+    <p><b>盲考 vs 朴素 RAD vs 结构化 RAD 收官</b>:整段灌注<b>净变差</b>(字面性劫持:"壁厚6.4"被造成 6.4m 高的板;引源满分内容崩=引用≠理解);结构化 RAD(逐源掩码单问→带单位事实账本→律层推导→一致门)<b>三轮拒→拒→过</b>,oculus 8.9 与 30 罗马尺换算互证合并。判词:<b>检索喂事实账本,不喂 prompt;LLM 答知识问句,后果问句全归律</b>——边界即白盒论点。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/rad_v2_structured.py">rad_v2_structured.py</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/rad_results.json">rad_results.json</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/REPORT.md">REPORT.md 追加五</a></li>
+    </ul></span></div>
+
+  <h3 class="sub-label">Rulings &amp; Paper 判决与论文 — 今天定了什么</h3>
+  <div class="row ruling"><span class="hash">cba69bf</span><span class="tag">铁则入宪</span>
+    <p><b>视觉轮铁则(Kevin 指示)</b>:凡产出/改变几何的轮,收口前<b>四视图全读</b>(iso+双剖+立面),不是只看轴测+账本。判例 = 万神殿 v0 账全清但剖面是矮棚子(+32ef7ae 试点结论降格:账对楼错)。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/CLAUDE.md">CLAUDE.md</a></li>
+    </ul></span></div>
+  <div class="row paper"><span class="hash">387d872</span><span class="tag">假阴性立论</span>
+    <p><b>"闸口为何全绿但内容不对"的工程答案</b>:三机制——命题缺失(律法落后于现象)/ 空间错位(验的和交付的不是一个空间)/ 局部真≠整体真;三派生门入债(天空唯一性 / 全楼重叠 / 方言统一)。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/docs/项目动态地图_V3.md">docs/项目动态地图_V3.md</a></li>
+    </ul></span></div>
+  <div class="row ruling"><span class="hash">9c85363</span><span class="tag">空间 MDP</span>
+    <p><b>Kevin 判词:"原点只存在于实现层——柱子的位置只和台基的大小有关,推算时只看这一部分"</b>= 局部马尔可夫性从决策序列推广到空间:关系图=依赖 DAG,落位=拓扑序前向推算,每步只看父集;非局部约束(重叠/越界)不做父节点、做全局门。推论:编译态小=漂移面小 · Selective Uncommit 便宜的理论保票(父未动子树不动)· 父集小⇒菜单小⇒熵低。<b>落位求解器立项(LLM 永不答坐标)</b>。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/REPORT.md">REPORT.md 追加五</a></li>
+    </ul></span></div>
+</section>
+</section>
+
+<!-- ================= 02 PHASES 施工序 ================= -->
+<section id="phases" class="view">
+<section class="blk">
+  <div class="sec-head"><span class="no">02</span><h2>施工序 Phases · P0 → P4</h2><span class="hint">= 摘要 v5 的兑现路线 · 10-26 前必须为真 · P0–P3.1 计入主页「架构」格</span></div>
+
+  <div class="phase" data-bench="arch">
+    <div class="phead"><span class="pno">P0</span><span class="pname">已确认 bug 修复</span><span class="bar"><i style="width:67%"></i></span><span class="pct">2 / 3</span></div>
+    <div class="pitems">
+      <span class="pi done">obligation_completion 按身份</span>
+      <span class="pi done">deck 穿层(战役卡#1 眼验已清)</span>
+      <span class="pi">downstream_of WAW → 并入 P3.1</span>
+    </div>
+  </div>
+
+  <div class="phase" data-bench="arch">
+    <div class="phead"><span class="pno">P1</span><span class="pname">Spine · 义务数据类型 + 溯源上账</span><span class="bar"><i style="width:83%"></i></span><span class="pct">5 / 6</span></div>
+    <div class="pitems">
+      <span class="pi done">席位身份 seat</span>
+      <span class="pi done">规则/构造器版本 + 种子上账</span>
+      <span class="pi done">LLMPolicy 回退留痕</span>
+      <span class="pi done">合法菜单 + 提交动作上账</span>
+      <span class="pi done">LLM 原始回复上账</span>
+      <span class="pi gate">义务升 dataclass — 形状待 Kevin 批</span>
+    </div>
+    <p class="pnote">两级义务(legality / commitment)是链三冲突·豁免语义的唯一来源——形状拍板即开工。convert 唯一门口(633dbd2)已为交付空间执法打好地基;voxelize 本体物理迁入 convert/ 已排队(垫片模式)。</p>
+  </div>
+
+  <div class="phase" data-bench="arch">
+    <div class="phead"><span class="pno">P2</span><span class="pname">链三 · 场地影响模块</span><span class="bar"><i style="width:0%"></i></span><span class="pct">0 / 4</span></div>
+    <div class="pitems">
+      <span class="pi gate">v0 范围待 Kevin 拍(提案已在)</span>
+      <span class="pi">SiteContext + raycast</span>
+      <span class="pi">view_corridor 义务</span>
+      <span class="pi">朝向偏置</span>
+    </div>
+    <p class="pnote">Codex 独立认定:三链中唯一带冲突 / 协商 / 豁免的链 = 全文可信度最高杠杆。</p>
+  </div>
+
+  <div class="phase" data-bench="arch">
+    <div class="phead"><span class="pno">P3.1</span><span class="pname">选择性修订 Selective Uncommit</span><span class="bar"><i style="width:0%"></i></span><span class="pct">0 / 3</span></div>
+    <div class="pitems">
+      <span class="pi riskp">从 2027-02 上移 Oct — 全案最紧赌注</span>
+      <span class="pi">invalidate(D⁺(X)) + 局部重规划</span>
+      <span class="pi">downstream_of WAW 收紧(随建)</span>
+    </div>
+    <p class="pnote">9 月检查点:若悬,退路 = v5 冲突修订句降级"框架支持、实验见 ACADIA"。</p>
+  </div>
+
+  <div class="phase">
+    <div class="phead"><span class="pno">P4</span><span class="pname">实验 · 四级消融 + repair-locality(N≥30)</span><span class="bar"><i style="width:0%"></i></span><span class="pct">0 / 5</span></div>
+    <div class="pitems">
+      <span class="pi">L1 单发整图(建驱动)</span>
+      <span class="pi">L2 逐步+掩码(席已通,最便宜)</span>
+      <span class="pi">L3 需"义务关"旋钮</span>
+      <span class="pi">L4 需第二条跨决策族(dome cover→ring bear = 万神殿退役试点)</span>
+      <span class="pi gate">CS 二作 · 8 月面谈</span>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phead"><span class="pno">论文</span><span class="pname">CAADRIA 2027 摘要</span><span class="bar"><i style="width:100%"></i></span><span class="pct">v5 锁定</span></div>
+    <div class="pitems">
+      <span class="pi done">619 词 · 匿名 · 结构化五段 · 5 关键词 · 5 文献</span>
+      <span class="pi gate">Kevin 动作:贴 OpenConf(07-27 AoE 前)</span>
+    </div>
+  </div>
+</section>
+</section>
+
+<!-- ================= 03 METRICS 指标 ================= -->
+<section id="metrics" class="view">
+<section class="blk">
+  <div class="sec-head"><span class="no">03</span><h2>指标 Metrics · 账本与三门</h2><span class="hint">真源 = 义务探针 + pytest 实测 · 每日刷新</span></div>
+
+  <h3 class="sub-label">Obligation Ledger 义务账本 — 两个例证建筑(实测)</h3>
+  <div class="row arch"><span class="hash num">16 / 16</span><span class="tag" style="color:var(--ok)">全清</span>
+    <p><b>small house</b>(timber_trabeated)— 创建 16 · 清偿 16 · <b>未清 0</b>:行为义务(D05→D09)+ 结构义务(cover→bear)全链走通。</p>
+    <span></span></div>
+  <div class="row fix"><span class="hash num">7 / 11</span><span class="tag" style="color:var(--risk)">留债 4</span>
+    <p><b>courthouse</b>(trabeated_stone)— 创建 11 · 清偿 7 · <b>未清 4</b>:石梁柱盖不了 20m 厅,拒绝被记录、债留账上——<b>诚实拒绝是特性,不是缺陷</b>。</p>
+    <span></span></div>
+
+  <h3 class="sub-label">Gates Trend 三门趋势 — pytest 通过数(按提交)</h3>
+  <div id="spark" style="padding:14px 0 4px"></div>
+  <script type="application/json" id="gates-data">[
+    {"label":"07-14 基线","passed":1055},
+    {"label":"07-15","passed":1115},
+    {"label":"07-16 早","passed":1121},
+    {"label":"f37476b","passed":1125},
+    {"label":"950cb7d","passed":1126},
+    {"label":"90bb2df","passed":1127},
+    {"label":"25ecb84","passed":1129},
+    {"label":"633dbd2","passed":1134},
+    {"label":"2624add","passed":1136},
+    {"label":"07-17","passed":1136}
+  ]</script>
+  <p class="pnote" style="border-bottom:1px solid var(--line);padding-bottom:16px">doctor 0 findings · selfcheck 16/16 + 废墟门 PASS(2026-07-16 实测)· 曲线只升不降 = 每块建造都带自己的回归网。</p>
+
+  <h3 class="sub-label">Benchmark 明细 — 素材 Materials(主页第二格的算法:● 1 · ◐ 0.5 · ○ 0)</h3>
+  <div class="pitems" data-bench="assets" style="padding-bottom:16px;border-bottom:1px solid var(--line)">
+    <span class="pi done">CAADRIA 摘要 v5(619 词可投)</span>
+    <span class="pi done">金样库 16 golden + 废墟门</span>
+    <span class="pi done">探针产物制度 export_probe + log.jsonl</span>
+    <span class="pi done">战役卡#1 四案例(检查板/剖面/schem)</span>
+    <span class="pi doing">万神殿每日档(Day 1 基准已立)</span>
+    <span class="pi doing">§7.3 验证门升级素材(已录 2 件)</span>
+    <span class="pi">三链演示素材(链一/二/三)</span>
+    <span class="pi">封面案例:万神殿义务链版(退役试点)</span>
+    <span class="pi">消融 L1 单发整图</span>
+    <span class="pi">消融 L2 逐步+掩码</span>
+    <span class="pi">消融 L3 义务关</span>
+    <span class="pi">消融 L4 第二义务族</span>
+  </div>
+
+  <h3 class="sub-label">Benchmark 明细 — 验证 Validation(主页第三格的算法同上)</h3>
+  <div class="pitems" data-bench="valid" style="padding-bottom:16px;border-bottom:1px solid var(--line)">
+    <span class="pi done">pytest 全绿(1136)</span>
+    <span class="pi done">doctor 0 findings</span>
+    <span class="pi done">selfcheck 金样 16/16 + 废墟门</span>
+    <span class="pi done">字节锚:旋钮全关 = V2 等价</span>
+    <span class="pi done">义务账本例证(小屋全清 · 法院留债)</span>
+    <span class="pi done">鹈鹕战役#1 楼板污染四拓扑 CLEAN</span>
+    <span class="pi done">坐标检验门(构件成块+块级承托)</span>
+    <span class="pi done">convert 门:existence/bearing 交付空间执法</span>
+    <span class="pi done">万神殿指纹基线 Day 1</span>
+    <span class="pi">eyeball_p12 渲染眼验(P1.2 柱网)</span>
+    <span class="pi">门洞可通行探针(战役卡#2 候选)</span>
+    <span class="pi done">LLM 席重放:原始回复+菜单+动作已上账</span>
+    <span class="pi done">D05 留债成品测试(不可验支付)</span>
+  </div>
+</section>
+</section>
+
+<!-- ================= 04 PANTHEON 万神殿 ================= -->
+<section id="pantheon" class="view">
+<section class="blk">
+  <div class="sec-head"><span class="no">04</span><h2>万神殿每日 Pantheon Daily</h2><span class="hint">鹈鹕测试 · 同一 prompt 每日重生成 · 指纹变=行为漂移</span></div>
+  <div class="hero" style="padding:18px 0 0;max-width:none">
+    <div class="meta" style="margin-top:0;border-top:0;padding-top:6px">
+      <div><span class="label">Date 日期</span><span class="v num">2026-07-17 · Day 2</span></div>
+      <div><span class="label">Fingerprint 指纹</span><span class="v ok num">2aaca5e6d336 · 2d 稳定</span></div>
+      <div><span class="label">Components 构件</span><span class="v num">333(柱 32 · 梁 18 · 饰 249)</span></div>
+      <div><span class="label">Validation 验证</span><span class="v ok num">PASS</span></div>
+      <div><span class="label">Obligations 义务账</span><span class="v risk num">0 / 0 / 0 — 链未触发</span></div>
+      <div><span class="label">Seats 席位</span><span class="v num">deterministic ×14</span></div>
+    </div>
+  </div>
+  <div style="padding:20px 0 6px;border-bottom:1px solid var(--line)"><img src="看板万神殿.svg" alt="Pantheon elevation and plan line diagram 万神殿立面与平面线图" style="width:100%;max-width:760px;display:block"></div>
+  <h3 class="sub-label">Critic 今日一问 · 2026-07-17(每日一位 critic,问题必须扎在当日数据/图像上)</h3>
+  <div class="row fix" style="grid-template-columns:1fr"><p><b>两天零漂移,账本也两天全零。</b>Day 2 指纹 2aaca5e6d336 未动(稳定本身是好消息),但 obligation 账仍 <b>0 / 0 / 0</b>——"a large pantheon" 走 composer 类型学,333 构件里 249 装饰、32 柱、18 梁没有一笔上账。今晨 <b>76330b8</b> 的理论 A/B 对照给了最锋利的反例:同为帕拉第奥体量,旋钮全关(A)只有 20 构件、天花一刀平 5.0、零结构件;义务模式(B)长出 <b>97 构件 · 44 柱 22 梁 12 板</b>、天花按房间比例 5/7/10、<b>16 义务创建全清</b>。剖面我亲验过——A 是一只平顶盒子,B 的横剖里楼板各就其位、没切穿高厅。问:B 已证明通用义务路径能把这类建筑真正"扛"起来,"a large pantheon" 何时改道走 B、让它的账本不再读 0?退役试点第①步(composer 冻结为 V2 参照)今日是否落子?<span class="src" style="color:var(--faint)">(周五性能一瞥:B 的 97 构件对 A 的 20,渲染/导出成本随义务展开上抬——token-per-building 该把这条曲线纳进 N30 指标。)</span></p></div>
+</section>
+</section>
+
+<!-- ================= 05 NEXT 明日 ================= -->
+<section id="next" class="view">
+<section class="blk">
+  <div class="sec-head"><span class="no">05</span><h2>明日方向 Next · 2026-07-17 晚(手动轮)</h2><span class="hint">每日 00:02 自动更新本段</span></div>
+  <ol class="next">
+    <li><span><b>落位求解器 v0</b>(空间 MDP 判决落地):轴+关系→坐标的确定性前向推算(基准=鼓心+入口轴),替换调度实验里问错席的 S2 门;关系不可满足=求解器直接拒(一致门升级)。</span></li>
+    <li><span><b>D2.5 类型体块席接线</b>(待义务 dataclass 拍板):结构化 RAD 流水线(事实账本+律层)即原型;S1 门硬化清单 + 跨体量一致门 + 抽取方言两处(object enum / qualitative 通道)一并收。</span></li>
+    <li><span><b>voxelize 本体迁入 convert/</b>(P1.5 垫片模式,已排队):表示空间转换的物理归位。</span></li>
+    <li><span><b>闸F 鼓座起拱</b>:头部问句接线后顺带解(体量承诺 h=半径进状态);porch 穹荒谬留盖谱席细化。</span></li>
+  </ol>
+  <div class="gatebox">
+    <span class="label">Awaiting Ruling 待 Kevin 拍 — 拍完即开大块</span>
+    ① 义务 dataclass 形状(状态枚举 + 两级 legality/commitment)→ 开 P1 主体 · ② 链三场地模块 v0 范围 → 开 P2 · ③ 战役卡#2 是否发「门洞真实可通行」
+  </div>
+</section>
+</section>
+
+<!-- ================= 06 RISKS 风险 ================= -->
+<section id="risks" class="view">
+<section class="blk">
+  <div class="sec-head"><span class="no">06</span><h2>风险雷达 Risks</h2></div>
+  <div class="risks">
+    <div class="riskcard"><b>P3.1 上移 = 最紧赌注</b>repair 机器从零建 + N≥30 出数,3 个月内。9 月检查点定去留;退路已备。</div>
+    <div class="riskcard"><b>LLM 占席 build 暂不可复现</b>LLMPolicy 弃回复 → 重放只对确定性席成立。回复上账(P1)后解除。</div>
+    <div class="riskcard"><b>渲染眼验剩 1 件</b>eyeball_p12(P1.2 柱网)。deck 修复已由战役卡#1 剖面亲验清账(2026-07-16)。</div>
+  </div>
+</section>
+</section>
+
+<!-- ================= 07 HISTORY 历史 ================= -->
+<section id="history" class="view">
+<section class="blk">
+  <div class="sec-head"><span class="no">07</span><h2>历史战报 History</h2><span class="hint">零点刷新时昨日战报归档于此 · 保留 30 天</span></div>
+  <details style="border-bottom:1px solid var(--line);padding:12px 0">
+    <summary style="cursor:pointer;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:var(--muted)">2026-07-16 — 判决 A 施工开工 + 鹈鹕协议上线 · 36 commits · 摘要 v5 锁定 · 战役卡#1 CLEAN</summary>
+    <div style="padding:10px 0 4px;font-size:13px;color:var(--muted);line-height:2">
+      摘要 v2→v5 四迭代收官(619 词可投)· 三方合议归档 · 判决 A=加速建造,施工序 P0→P4 立项<br>
+      首条跨决策义务链(D05→D09)· 自问自答入代码 · 理论卷成记法真源 · 席位身份 seat 上账<br>
+      两修复 HIGH:obligation_completion 按身份 / deck 穿层 per-zone 接地(战役卡#1 四拓扑 CLEAN 证普适+眼验清账)<br>
+      鹈鹕模式入宪(修法不修果+双向防作弊)· 幽灵柱+坐标检验门(成果A)· convert 表示空间唯一门口(铁律16候选)<br>
+      composer 类型学分级退役判决(万神殿第一案)· 探针产物导出制度 · 看板重构(主页=原理图+Benchmark,内容入模块)
+    </div>
+  </details>
+</section>
+</section>
+
+<!-- ================= 08 GLOSSARY 术语 ================= -->
+<section id="glossary" class="view">
+<section class="blk">
+  <div class="sec-head"><span class="no">08</span><h2>术语 Glossary</h2><span class="hint">真源 = docs/理论(记法) + 术语对照 + 提案卷 · 判决时更新</span></div>
+
+  <h3 class="sub-label">理论框架 Theory — 论文的骨头(记法以理论卷为准)</h3>
+  <div class="gl"><span class="term">MDP · 马尔可夫决策过程<small>Markov Decision Process</small></span>
+    <p>全项目的理论底座:建筑构成 = 一串决策的轨迹 <code>p(τ)=p(a₀…a_T|s₀)</code>,建筑只是轨迹终点 <code>B=f(τ)</code>。与其学"条件 C 下采样成品 B",不如构造能稳定推进、限制组合爆炸、记录承诺、允许局部修订的<b>设计状态系统</b>。"建筑不是被采样出来的,而是在连续承诺中成为现实。" <span class="src">理论卷 §0</span></p></div>
+  <div class="gl"><span class="term">POMDP · 部分可观测 MDP<small>Partially Observable MDP</small></span>
+    <p>真实设计天然有隐藏意图——"这里不能放柱子"的真正原因可能是没说出口的视线、仪式序列或未来立面构想,所以天然是部分可观测的。ArchFlow 的对策不是硬学,而是把意图显式化 → 见「构造马尔可夫性」。 <span class="src">理论卷 §3.3</span></p></div>
+  <div class="gl"><span class="term">构造马尔可夫性<small>Constructed Markovianity</small></span>
+    <p>不是<b>发现</b>设计过程是马尔可夫的,而是<b>把它构造成</b>马尔可夫的:隐藏意图编译为显式状态变量(前提 premises:<code>parti</code> / <code>function_intent</code> / <code>tradition</code>,铁律11 强制每个决策必读),让"只看当前状态就能走下一步"成为工程事实。 <span class="src">premises.py · 理论卷 §3</span></p></div>
+  <div class="gl"><span class="term">状态编译 S_t<small>State Compiler</small></span>
+    <p>把历史、提案、验证结果编译成<b>最小充分状态</b> <code>S_t=(G,C,L,O,U)</code> + 义务账本 <code>𝒪_t</code>;完整思考历史反而引发漂移,编译态才可控。代码 = 黑板(槽位读写集+前提)。 <span class="src">blackboard/ · 谱系:Hayes-Roth 1985 · Hearsay-II</span></p></div>
+  <div class="gl"><span class="term">熵预算<small>Action Budgeter</small></span>
+    <p>每步条件熵 <code>H(A_t|S_t)≈log₂|A_valid|</code> 压在预算带 <code>[H_min,H_max]</code> 内:掩码先把菜单缩到合法集 A_valid,策略只在合法项里选。代码 = MenuSpec(预掩码菜单,三真菜单已通)。 <span class="src">policy.py · 谱系:SPRING(AIJ 2024) · shielded RL</span></p></div>
+  <div class="gl"><span class="term">D⁺(X) · 依赖闭包<small>Dependency Graph</small></span>
+    <p>决策 X 的全部下游 <code>D⁺(X)={Y|X⤳Y}</code>;修订成本 <code>C_revision ∝ |D⁺(X)|</code>——改一个决策的代价由<b>依赖闭包</b>决定,不由结果规模决定(repair locality 的测量面)。代码 = 读写集 + <code>downstream_of()</code>。 <span class="src">谱系:TMS(Doyle 1979) · de Kleer 1986</span></p></div>
+  <div class="gl"><span class="term">Selective Uncommit<small>选择性修订 · P3.1</small></span>
+    <p><code>invalidate(D⁺(X))</code> → 局部重规划,而非整图重生:只解除被波及的承诺,其余照旧。修改不可逆的三个原因(下游扩散/编译丢史/路径依赖)正是它要绕开的。施工序 P3.1 在建,全案最紧赌注(9 月检查点)。 <span class="src">理论卷 §5–6</span></p></div>
+  <div class="gl"><span class="term">RAD · 检索增强决策<small>Retrieval-Augmented Decision-making</small></span>
+    <p>不叫 RAG:<b>RAG 接地 token,RAD 接地决策</b>。三件套:① 检索进掩码文法——先例只影响"合法项里选哪个",不可能引入违法;② 溯源上账——哪个先例影响了哪个决策,进合法史可回放;③ 忠实度 = 确定性重放审计——删掉检索重放一遍,看选择变不变(引用忠实度全场无人能审计,我们的重放基建正好能)。状态:待 Kevin 三拍(入宪方式/语料池/指标),P2.5 桩。 <span class="src">提案_检索增强决策 · precedent.py · 谱系:CBR 三祖 · LeanDojo · LayoutGPT</span></p></div>
+  <div class="gl"><span class="term">义务 ⊕<small>Obligation</small></span>
+    <p>前向债:<code>created → discharged</code>,未清 = debt 留账。义务跨决策创建与清偿(D05 隐私义务 → D09 楼板检查;cover→bear 级联召唤),清偿逐项对账(多重集差)。词汇桥:形式方法的 proof obligation。 <span class="src">ledger · ⊕=比理论卷多出的增补件</span></p></div>
+  <div class="gl"><span class="term">自问自答 ⊕<small>Question-Driven Agenda</small></span>
+    <p>议程 = 问题清单:每个决策带 <code>question</code> 字段,<code>transcript()</code> 把推导渲染成"问/答"笔录;repair = 重问一个问题(而非重画一块几何)。 <span class="src">decision/ · blackboard/</span></p></div>
+
+  <h3 class="sub-label">工程词汇 Engineering — 门与纪律(动态地图口径)</h3>
+  <div class="gl"><span class="term">六步原子<small>Six-Step Atom</small></span>
+    <p>每个决策单元的内部结构:<code>observe 观察 → menu 菜单 → mask 掩码 → policy 策略 → apply 应用 → gate 门</code>。菜单先被掩码缩到合法集,策略只答"选哪个",门只记录不裁决。 <span class="src">decision/ · 地图 §P0.1</span></p></div>
+  <div class="gl"><span class="term">真菜单 / 席位<small>Menu · Seat</small></span>
+    <p>有真实选择集(MenuSpec)的决策称真菜单;策略席可插拔——确定性 / LLM / 人,谁答的记在 <code>seat</code> 字段上账。当前三席:D05 行为 · D07 传统 · D10 结构;确定性默认 = 字节锚不破。 <span class="src">policy.py · v2_stages.py</span></p></div>
+  <div class="gl"><span class="term">法 / 判别刀<small>Laws · The Discriminator</small></span>
+    <p>常量先问它是<b>法</b>还是<b>选择</b>:法(词汇/掩码/canon 比例锁)可写死;选择(对单个设计的判断)必过策略席——否则就是又一个参数化 CityEngine。扩展对:复用可入 pack,配方必过流。 <span class="src">铁律15候选(判决 2026-07-16)</span></p></div>
+  <div class="gl"><span class="term">三门<small>Three Gates</small></span>
+    <p><code>pytest</code> · <code>doctor</code> · <code>selfcheck</code>(16 金样+废墟门):任何提交必须三门全绿;碰默认路径字节的修复必须显式声明金样影响。 <span class="src">CLAUDE.md 工作协议</span></p></div>
+  <div class="gl"><span class="term">字节锚 / 金样<small>Byte Anchor · Golden</small></span>
+    <p>旋钮全关 = V2 <code>Pipeline.run</code> 字节等价(参照系本体不动);金样 = 冻结的基准产物,字节漂移即报警。双向防作弊:禁"凑金样"(结果侧塞特判),禁"自改考卷"(悄悄重生成金样)——换代必过 Kevin 拍板。 <span class="src">CLAUDE.md · selfcheck</span></p></div>
+  <div class="gl"><span class="term">鹈鹕模式<small>Probe-and-Repair</small></span>
+    <p>主动构造对抗建筑案例,猎"<b>验证通过但建筑错误</b>"的假阴性(幽灵柱判例:账对图不对);第一原理 = <b>修法不修果</b>,修复落在架构(律法/掩码/canon/义务链)而非生成结果,同案例 A/B 重跑取证。 <span class="src">CLAUDE.md 鹈鹕协议(判决 2026-07-16)</span></p></div>
+  <div class="gl"><span class="term">convert 唯一门口<small>The Only Doorway</small></span>
+    <p>浮点 bbox 世界 → 离散体素<b>交付空间</b>的单一转换点:<code>to_voxels()</code> + <code>conversion_findings()</code>,existence / bearing 两法在交付空间执法(承托判定从 bbox 升到体素,"离散可判定"主张自家兑现)。 <span class="src">archflow/convert/ · 铁律16候选</span></p></div>
+  <div class="gl"><span class="term">诚实拒绝<small>Honest Refusal</small></span>
+    <p>能力不够时拒绝并把债留在账上(法院石梁柱盖不了 20m 厅 → 4 债挂账),绝不用漂亮几何硬盖;未清义务绝不进 ValidationResult。拒绝是特性,不是缺陷——失败分类学从这里长出来。 <span class="src">ledger · 地图 §1.4</span></p></div>
+</section>
+</section>
+
+<footer>
+  <p>更新制度 UPDATE PROTOCOL — ① 每日 00:02 定时刷新(战报 / 施工序 / 明日方向 / 指标 / 历史归档;主页原理图与 Benchmark 结构不动,百分比由明细自动求和)· ② 思想性更新当轮即时 push + 刷手机镜像 Artifact · ③ 数据真源 = git log + 动态地图 + 义务探针,看板只可视化<br>
+  vscode 链接须在<b>系统浏览器</b>打开本页才生效(Claude 面板与手机镜像拦协议跳转;首次点击浏览器会问一次,勾"始终允许")<br>
+  重构 2026-07-16(判决:主页=原理图+Benchmark,内容入模块)· 下次自动刷新 2026-07-18 00:02 · <a href="vscode://file/D:/ARCHFLOW_V3/docs/项目动态地图_V3.md">动态地图 ↗ vscode</a> · <a href="vscode://file/D:/ARCHFLOW_V3/docs/审议/合议_Codex预审与全项目审计_2026-07-16.md">合议报告 ↗ vscode</a></p>
+</footer>
+
+<script>
+// ---- 标签页路由(hash → 显示对应模块;默认主页) ----
+(function(){
+  var views = Array.prototype.slice.call(document.querySelectorAll(".view"));
+  var tabs  = Array.prototype.slice.call(document.querySelectorAll(".nav a[data-tab]"));
+  function route(){
+    var h = (location.hash || "#home").slice(1);
+    if(!document.getElementById(h) || !document.getElementById(h).classList.contains("view")) h = "home";
+    views.forEach(function(v){ v.classList.toggle("active", v.id === h); });
+    tabs.forEach(function(a){ a.classList.toggle("on", a.getAttribute("data-tab") === h); });
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener("hashchange", route);
+  route();
+})();
+// ---- Benchmark:主页三格百分比 = 明细列表(data-bench)按 ●1/◐0.5/○0 求和 ----
+(function(){
+  var groups = {};
+  Array.prototype.forEach.call(document.querySelectorAll("[data-bench]"), function(c){
+    var k = c.getAttribute("data-bench");
+    groups[k] = groups[k] || {sum:0, n:0};
+    Array.prototype.forEach.call(c.querySelectorAll(".pi"), function(p){
+      groups[k].n++;
+      if(p.classList.contains("done")) groups[k].sum += 1;
+      else if(p.classList.contains("doing")) groups[k].sum += 0.5;
+    });
+  });
+  Object.keys(groups).forEach(function(k){
+    var t = document.querySelector('[data-tile="'+k+'"]');
+    if(!t || !groups[k].n) return;
+    var pct = Math.round(groups[k].sum / groups[k].n * 100);
+    t.querySelector(".pct").textContent = pct + "%";
+    t.querySelector(".bar i").style.width = pct + "%";
+  });
+})();
+// ---- 倒计时按打开时刻实时计算(不依赖定时刷新) ----
+(function(){
+  var day = 86400000;
+  function dn(iso){ return Math.floor((new Date(iso+"T23:59:59") - new Date())/day); }
+  function set(id, label, iso){
+    var n = dn(iso), el = document.getElementById(id);
+    if(el) el.textContent = label + " · " + (n >= 0 ? "D-" + n : "已过 " + (-n) + " 天");
+  }
+  set("d-abs",  "07-27", "2026-07-27");
+  set("d-full", "10-26", "2026-10-26");
+})();
+// ---- 三门趋势 sparkline(纯 SVG,无外部库;数据在 #gates-data,零点任务追加) ----
+(function(){
+  var el = document.getElementById("spark"), src = document.getElementById("gates-data");
+  if(!el || !src) return;
+  var pts; try{ pts = JSON.parse(src.textContent); }catch(e){ return; }
+  if(!pts.length) return;
+  var W=560, H=64, PAD=6, n=pts.length,
+      vals=pts.map(function(p){return p.passed;}),
+      lo=Math.min.apply(null,vals), hi=Math.max.apply(null,vals), span=(hi-lo)||1;
+  function x(i){ return n<2 ? W/2 : PAD + i*(W-2*PAD)/(n-1); }
+  function y(v){ return H-PAD - (v-lo)*(H-2*PAD)/span; }
+  var line = pts.map(function(p,i){ return x(i).toFixed(1)+","+y(p.passed).toFixed(1); }).join(" ");
+  var last = pts[n-1];
+  var cs = getComputedStyle(document.documentElement);
+  var ink = cs.getPropertyValue("--ink").trim(), faint = cs.getPropertyValue("--faint").trim(), ok = cs.getPropertyValue("--ok").trim();
+  el.innerHTML =
+    '<svg width="100%" height="'+(H+22)+'" viewBox="0 0 '+(W+90)+' '+(H+22)+'" role="img" aria-label="pytest passed trend">'+
+    '<line x1="'+PAD+'" y1="'+(H-PAD)+'" x2="'+(W-PAD)+'" y2="'+(H-PAD)+'" stroke="'+faint+'" stroke-width="0.5" opacity="0.5"/>'+
+    '<polyline points="'+line+'" fill="none" stroke="'+ink+'" stroke-width="1.5"/>'+
+    pts.map(function(p,i){ return '<circle cx="'+x(i)+'" cy="'+y(p.passed)+'" r="2" fill="'+(i===n-1?ok:ink)+'"/>'; }).join("")+
+    '<text x="'+(W+6)+'" y="'+(y(last.passed)+4)+'" font-family="Space Mono,monospace" font-size="12" fill="'+ok+'">'+last.passed+'</text>'+
+    '<text x="'+PAD+'" y="'+(H+16)+'" font-family="Space Mono,monospace" font-size="9" letter-spacing="1" fill="'+faint+'">'+pts[0].label+'</text>'+
+    '<text x="'+(W-PAD)+'" y="'+(H+16)+'" text-anchor="end" font-family="Space Mono,monospace" font-size="9" letter-spacing="1" fill="'+faint+'">'+last.label+'</text>'+
+    '</svg>';
+})();
+</script>
+</body>
+</html>
