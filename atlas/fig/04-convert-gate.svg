@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="560" viewBox="0 0 1160 560" role="img" aria-label="convert 唯一门口:浮点 bbox 世界经 to_voxels 与 conversion_findings 进入体素交付空间,existence 与 bearing 在交付空间执法;消费者全部过门">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=Space+Mono:wght@400;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap');
+:root{--ink:#1a1a1a;--muted:#737373;--faint:#a6a6a6;--line:#ededed;--line-strong:#dcdcdc;--bg:#ffffff;--ok:#3f7350;--gate:#a3822f;--risk:#a4453a;
+--sans:"Inter","Noto Sans SC","PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+--mono:"Space Mono","SFMono-Regular",Consolas,Menlo,monospace;}
+@media (prefers-color-scheme:dark){:root{--ink:#e8e8e8;--muted:#9a9a9a;--faint:#6f6f6f;--line:#242424;--line-strong:#333333;--bg:#141414;--ok:#6fae83;--gate:#c9a558;--risk:#c76b5f;}}
+.bg{fill:var(--bg)}
+.bx{fill:none;stroke:var(--line-strong);stroke-width:1}
+.bx2{fill:none;stroke:var(--ink);stroke-width:1.3}
+.t1{font:700 13px var(--sans);fill:var(--ink)}
+.t1m{font:700 12px var(--mono);fill:var(--ink)}
+.t2{font:11px var(--sans);fill:var(--muted)}
+.t2s{font:10px var(--sans);fill:var(--muted)}
+.t3{font:9.5px var(--mono);fill:var(--faint);letter-spacing:.08em}
+.t4{font:10.5px var(--sans);fill:var(--ink)}
+.t5{font:10px var(--mono);fill:var(--muted)}
+.gt-m{font:9.5px var(--mono);fill:var(--gate);letter-spacing:.04em}
+.gt-l{stroke:var(--gate);stroke-width:1.2;fill:none}
+.ln{stroke:var(--ink);stroke-width:1;fill:none}
+.lnf{stroke:var(--faint);stroke-width:.8;fill:none}
+.dot{fill:var(--faint)}
+.ok-l{stroke:var(--ok);stroke-width:1.3;fill:none}
+.ok-t{font:10px var(--sans);fill:var(--ok)}
+.rk-l{stroke:var(--risk);stroke-width:1.2;fill:none}
+.rk-t{font:10.5px var(--sans);fill:var(--risk)}
+.ah{fill:var(--ink)}.ahk{fill:var(--ok)}.ahr{fill:var(--risk)}
+</style>
+<rect class="bg" width="1160" height="560"/>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ah"/></marker>
+<marker id="ahk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahk"/></marker>
+<marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahr"/></marker>
+</defs>
+
+<text x="40" y="34" class="t3">表示空间转换 REPRESENTATION CROSSING — 全部几何只经一个门口进入交付空间</text>
+
+<!-- 浮点世界 -->
+<rect x="40" y="64" width="330" height="220" class="bx"/>
+<text x="56" y="90" class="t1">浮点 bbox 世界</text>
+<text x="56" y="106" class="t3">FLOAT BBOX WORLD · 推导空间</text>
+<text x="56" y="132" class="t2">决策链与义务账本在此推导</text>
+<text x="56" y="152" class="t2">构件 = 浮点包围盒 bbox</text>
+<text x="56" y="172" class="t2">几何 recipe → solids</text>
+<text x="56" y="204" class="rk-t">判例·幽灵柱:小模数柱被银行家舍入</text>
+<text x="56" y="222" class="rk-t">塌成零块,bbox 侧 load_trace 全过 = 假阴性</text>
+<text x="56" y="246" class="t2s">账对、图不对——验的空间 ≠ 交付的空间</text>
+
+<path d="M370,174 L458,174" class="ln" marker-end="url(#ah)"/>
+
+<!-- convert 门 -->
+<rect x="460" y="44" width="240" height="252" class="bx2"/>
+<text x="476" y="68" class="t3">CONVERT</text>
+<text x="476" y="90" class="t1">唯一门口 The Only Doorway</text>
+<text x="476" y="116" class="t5">to_voxels()</text>
+<text x="476" y="132" class="t2s">网格化 + 逐件归属</text>
+<text x="476" y="156" class="t5">conversion_findings()</text>
+<rect x="476" y="166" width="208" height="26" class="bx"/>
+<text x="486" y="183" class="t4">existence — 构件必须成块</text>
+<rect x="476" y="198" width="208" height="26" class="bx"/>
+<text x="486" y="215" class="t4">bearing — 承托块级成立</text>
+<text x="476" y="242" class="t2s">两法在交付空间执法</text>
+<text x="476" y="266" class="gt-m">铁律16候选:验收在交付空间</text>
+
+<path d="M700,174 L788,174" class="ln" marker-end="url(#ah)"/>
+
+<!-- 体素交付空间 -->
+<rect x="790" y="64" width="330" height="220" class="bx2"/>
+<g>
+<rect x="826" y="86" width="26" height="26" class="lnf"/>
+<rect x="814" y="96" width="26" height="26" class="ln"/>
+<path d="M814,96 L826,86 M840,96 L852,86 M814,122 L826,112 M840,122 L852,112" class="lnf"/>
+</g>
+<text x="874" y="100" class="t1">体素交付空间</text>
+<text x="874" y="116" class="t3">VOXEL DELIVERY SPACE</text>
+<text x="810" y="152" class="t2">离散空间内的可行性验证</text>
+<text x="810" y="172" class="t2s">合法性精确可判定 · 不依赖容差</text>
+<text x="810" y="196" class="t5">.schem · iso / 双剖 / 立面</text>
+<text x="810" y="222" class="t2s">compliance 主张可锐利证伪(域框定判决 2026-07-15)</text>
+
+<!-- 消费者 -->
+<text x="180" y="340" class="t3">消费者全部过门 ALL CONSUMERS PASS THE DOOR</text>
+<rect x="180" y="352" width="200" height="46" class="bx"/>
+<text x="196" y="372" class="t4">结构链坐标门</text>
+<text x="196" y="388" class="t3">coordinate gate</text>
+<rect x="460" y="352" width="200" height="46" class="bx"/>
+<text x="476" y="372" class="t4">样品导出</text>
+<text x="476" y="388" class="t3">sample_export</text>
+<rect x="740" y="352" width="200" height="46" class="bx"/>
+<text x="756" y="372" class="t4">命令行 渲染/导出</text>
+<text x="756" y="388" class="t3">cli</text>
+<path d="M280,352 L556,300" class="ln" marker-end="url(#ah)"/>
+<path d="M560,352 L578,300" class="ln" marker-end="url(#ah)"/>
+<path d="M840,352 L604,300" class="ln" marker-end="url(#ah)"/>
+
+<text x="180" y="432" class="ok-t">三门证字节零漂移:pytest 1134 · doctor 0 · selfcheck 16(2026-07-16 收口)</text>
+<text x="180" y="456" class="t2">修法两条(幽灵柱案):① _ints 非塌缩法(实厚&gt;0.5 不得舍空)② 结构链第6步坐标检验门(构件成块+块级承托,否则整组拒绝)</text>
+<text x="180" y="478" class="t2s">排队:voxelize 本体物理迁入 convert/(P1.5 垫片模式)</text>
+
+<text x="40" y="524" class="t3">真源:看板 08 Glossary「convert 唯一门口」 · 地图 已清账 2026-07-16(convert / 幽灵柱+坐标检验门) · §7.2 域框定</text>
+</svg>

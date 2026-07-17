@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="620" viewBox="0 0 1160 620" role="img" aria-label="溯源上账 LedgerEntry:基座字段与七账 seat/seed/versions/fallbacks/menu/action/reply;确定性重放,同 trace 异 rules 不再能冒充重放">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=Space+Mono:wght@400;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap');
+:root{--ink:#1a1a1a;--muted:#737373;--faint:#a6a6a6;--line:#ededed;--line-strong:#dcdcdc;--bg:#ffffff;--ok:#3f7350;--gate:#a3822f;--risk:#a4453a;
+--sans:"Inter","Noto Sans SC","PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+--mono:"Space Mono","SFMono-Regular",Consolas,Menlo,monospace;}
+@media (prefers-color-scheme:dark){:root{--ink:#e8e8e8;--muted:#9a9a9a;--faint:#6f6f6f;--line:#242424;--line-strong:#333333;--bg:#141414;--ok:#6fae83;--gate:#c9a558;--risk:#c76b5f;}}
+.bg{fill:var(--bg)}
+.bx{fill:none;stroke:var(--line-strong);stroke-width:1}
+.bx2{fill:none;stroke:var(--ink);stroke-width:1.3}
+.t1{font:700 13px var(--sans);fill:var(--ink)}
+.t1m{font:700 12px var(--mono);fill:var(--ink)}
+.t2{font:11px var(--sans);fill:var(--muted)}
+.t2s{font:10px var(--sans);fill:var(--muted)}
+.t3{font:9.5px var(--mono);fill:var(--faint);letter-spacing:.08em}
+.t4{font:10.5px var(--sans);fill:var(--ink)}
+.t5{font:10px var(--mono);fill:var(--muted)}
+.gt-m{font:9.5px var(--mono);fill:var(--gate);letter-spacing:.04em}
+.gt-l{stroke:var(--gate);stroke-width:1.2;fill:none}
+.ln{stroke:var(--ink);stroke-width:1;fill:none}
+.lnf{stroke:var(--faint);stroke-width:.8;fill:none}
+.dot{fill:var(--faint)}
+.ok-l{stroke:var(--ok);stroke-width:1.3;fill:none}
+.ok-t{font:10px var(--sans);fill:var(--ok)}
+.rk-l{stroke:var(--risk);stroke-width:1.2;fill:none}
+.rk-t{font:10.5px var(--sans);fill:var(--risk)}
+.ah{fill:var(--ink)}.ahk{fill:var(--ok)}.ahr{fill:var(--risk)}
+</style>
+<rect class="bg" width="1160" height="620"/>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ah"/></marker>
+<marker id="ahk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahk"/></marker>
+<marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahr"/></marker>
+</defs>
+
+<text x="40" y="34" class="t3">溯源上账 PROVENANCE LEDGER — LedgerEntry 七账(P1 Spine · 2026-07-16 全落)</text>
+
+<!-- LedgerEntry 卡 -->
+<rect x="40" y="56" width="520" height="510" class="bx2"/>
+<text x="56" y="84" class="t1">LedgerEntry</text>
+<text x="56" y="100" class="t3">一步决策的完整账 ONE DECISION, FULL ACCOUNT</text>
+<text x="56" y="124" class="t3">基座 BASE FIELDS</text>
+<rect x="56" y="132" width="488" height="26" class="bx"/>
+<text x="66" y="149" class="t5">decision_id</text><text x="200" y="149" class="t2s">决策编号</text>
+<rect x="56" y="164" width="488" height="26" class="bx"/>
+<text x="66" y="181" class="t5">question</text><text x="200" y="181" class="t2s">问句(自问自答议程)</text>
+<rect x="56" y="196" width="488" height="26" class="bx"/>
+<text x="66" y="213" class="t5">reads / writes</text><text x="200" y="213" class="t2s">读写集(D⁺(X) 依赖闭包的测量面)</text>
+<rect x="56" y="228" width="488" height="26" class="bx"/>
+<text x="66" y="245" class="t5">obligations</text><text x="200" y="245" class="t2s">义务(created / discharged)</text>
+<rect x="56" y="260" width="488" height="26" class="bx"/>
+<text x="66" y="277" class="t5">note</text><text x="200" y="277" class="t2s">备注</text>
+<text x="56" y="310" class="t3">七账 SEVEN PROVENANCE FIELDS(加性字段 · trace() 全序列化)</text>
+<rect x="56" y="318" width="488" height="28" class="bx2"/>
+<text x="66" y="336" class="t1m">① seat</text><text x="200" y="336" class="t2s">席位身份:谁应答(deterministic / llm / human)</text>
+<rect x="56" y="352" width="488" height="28" class="bx2"/>
+<text x="66" y="370" class="t1m">② seed</text><text x="200" y="370" class="t2s">随机种子</text>
+<rect x="56" y="386" width="488" height="28" class="bx2"/>
+<text x="66" y="404" class="t1m">③ versions</text><text x="200" y="404" class="t2s">规则 / 构造器版本指纹(engine + canon)</text>
+<rect x="56" y="420" width="488" height="28" class="bx2"/>
+<text x="66" y="438" class="t1m">④ fallbacks</text><text x="200" y="438" class="t2s">逐槽回退痕(回退不再静默)</text>
+<rect x="56" y="454" width="488" height="28" class="bx2"/>
+<text x="66" y="472" class="t1m">⑤ menu</text><text x="200" y="472" class="t2s">合法菜单(逐槽选项 + 锁定槽)</text>
+<rect x="56" y="488" width="488" height="28" class="bx2"/>
+<text x="66" y="506" class="t1m">⑥ action</text><text x="200" y="506" class="t2s">提交动作(选中值)</text>
+<rect x="56" y="522" width="488" height="28" class="bx2"/>
+<text x="66" y="540" class="t1m">⑦ reply</text><text x="200" y="540" class="t2s">LLM 原始回复(验证前逐字)</text>
+
+<!-- 重放 -->
+<rect x="620" y="56" width="500" height="122" class="bx2"/>
+<text x="636" y="82" class="t1">确定性重放 DETERMINISTIC REPLAY</text>
+<text x="636" y="106" class="t2">trace() 全序列化 → 同法 + 同种子 + 同菜单下重推导,逐字节对照</text>
+<text x="636" y="126" class="t2s">reply 上账 = LLM 占席 build 可复现的最后一块</text>
+<text x="636" y="154" class="ok-t">「同 trace 异 rules 不再能冒充重放」—— versions 指纹钉死规则世代</text>
+
+<rect x="620" y="200" width="500" height="92" class="bx"/>
+<text x="636" y="222" class="t3">PROVENANCE ≠ REPLAY(合议 §1④ · Codex 与内部审计撞同一洞)</text>
+<text x="636" y="246" class="t2">动作值 · 构造器/规则版本 · 种子 · 模型回复——缺一不配叫 deterministic replay</text>
+<text x="636" y="266" class="t2s">席位不记则「谁答的」事后不可考(LLMPolicy 静默回退旧病,已修)</text>
+
+<text x="636" y="330" class="t4">七账 → 三种能力</text>
+<path d="M636,350 L652,350" class="ok-l" marker-end="url(#ahk)"/>
+<text x="660" y="354" class="t2">seat + reply + fallbacks → 作者性可审计(「谁答的」永远在账上)</text>
+<path d="M636,378 L652,378" class="ok-l" marker-end="url(#ahk)"/>
+<text x="660" y="382" class="t2">seed + versions → 重放可信(同 trace 异 rules 即现形)</text>
+<path d="M636,406 L652,406" class="ok-l" marker-end="url(#ahk)"/>
+<text x="660" y="410" class="t2">menu + action → 掩码内选择可复核(逐槽留档)</text>
+
+<rect x="620" y="436" width="500" height="80" class="bx"/>
+<text x="636" y="458" class="t3">摘要 v5 METHODS 上账句 —— 至此全部为真(2026-07-16)</text>
+<text x="636" y="480" class="t2s">"the ledger records the question, the legal action menu, the proposer,</text>
+<text x="636" y="496" class="t2s">the committed action, …, the rule version"</text>
+
+<text x="620" y="548" class="gt-m">剩最后一块:义务升 dataclass(状态枚举 + 两级 legality/commitment)——形状待 Kevin 拍</text>
+
+<text x="40" y="600" class="t3">真源:地图 §3 P1 Spine(席位身份 / 溯源上账 二·三) · 合议 §1④(provenance ≠ replay) · 看板 02 施工序 P1</text>
+</svg>

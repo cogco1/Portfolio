@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="680" viewBox="0 0 1160 680" role="img" aria-label="席位体系:确定性/LLM/人可插拔;调度席实验 S1 到 S5,效度门拒收即回退上账,批判席发现喂回修复环重答一问;三条硬结论">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=Space+Mono:wght@400;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap');
+:root{--ink:#1a1a1a;--muted:#737373;--faint:#a6a6a6;--line:#ededed;--line-strong:#dcdcdc;--bg:#ffffff;--ok:#3f7350;--gate:#a3822f;--risk:#a4453a;
+--sans:"Inter","Noto Sans SC","PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+--mono:"Space Mono","SFMono-Regular",Consolas,Menlo,monospace;}
+@media (prefers-color-scheme:dark){:root{--ink:#e8e8e8;--muted:#9a9a9a;--faint:#6f6f6f;--line:#242424;--line-strong:#333333;--bg:#141414;--ok:#6fae83;--gate:#c9a558;--risk:#c76b5f;}}
+.bg{fill:var(--bg)}
+.bx{fill:none;stroke:var(--line-strong);stroke-width:1}
+.bx2{fill:none;stroke:var(--ink);stroke-width:1.3}
+.t1{font:700 13px var(--sans);fill:var(--ink)}
+.t1m{font:700 12px var(--mono);fill:var(--ink)}
+.t2{font:11px var(--sans);fill:var(--muted)}
+.t2s{font:10px var(--sans);fill:var(--muted)}
+.t3{font:9.5px var(--mono);fill:var(--faint);letter-spacing:.08em}
+.t4{font:10.5px var(--sans);fill:var(--ink)}
+.t5{font:10px var(--mono);fill:var(--muted)}
+.gt-m{font:9.5px var(--mono);fill:var(--gate);letter-spacing:.04em}
+.gt-l{stroke:var(--gate);stroke-width:1.2;fill:none}
+.ln{stroke:var(--ink);stroke-width:1;fill:none}
+.lnf{stroke:var(--faint);stroke-width:.8;fill:none}
+.dot{fill:var(--faint)}
+.ok-l{stroke:var(--ok);stroke-width:1.3;fill:none}
+.ok-t{font:10px var(--sans);fill:var(--ok)}
+.rk-l{stroke:var(--risk);stroke-width:1.2;fill:none}
+.rk-t{font:10.5px var(--sans);fill:var(--risk)}
+.ah{fill:var(--ink)}.ahk{fill:var(--ok)}.ahr{fill:var(--risk)}
+</style>
+<rect class="bg" width="1160" height="680"/>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ah"/></marker>
+<marker id="ahk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahk"/></marker>
+<marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahr"/></marker>
+</defs>
+
+<text x="40" y="34" class="t3">席位体系 SEAT SYSTEM — 效度门 → 回退上账 → 批判席 → 修复环(素材:调度席实验 2026-07-17)</text>
+
+<!-- 可插拔三席 -->
+<rect x="40" y="54" width="180" height="44" class="bx"/>
+<text x="130" y="72" class="t4" text-anchor="middle">确定性席 deterministic</text>
+<text x="130" y="88" class="t2s" text-anchor="middle">默认 = 字节锚</text>
+<rect x="240" y="54" width="180" height="44" class="bx"/>
+<text x="330" y="72" class="t4" text-anchor="middle">LLM 席 llm</text>
+<text x="330" y="88" class="t2s" text-anchor="middle">掩码内提议</text>
+<rect x="440" y="54" width="180" height="44" class="bx"/>
+<text x="530" y="72" class="t4" text-anchor="middle">人席 human</text>
+<text x="530" y="88" class="t2s" text-anchor="middle">否决 = 合法推导</text>
+<text x="660" y="68" class="t2">同一原子同一套门;谁应答记 seat 上账,回退留 fallback 痕</text>
+<text x="660" y="88" class="t2s">席位分工:schema 承诺=qwen3 独座 · 批判=deepseek(翻面在批判角色无害) · glm=挖数字外接解析,永不直接入账</text>
+
+<!-- 调度席 -->
+<rect x="40" y="126" width="1080" height="60" class="bx2"/>
+<text x="56" y="150" class="t1">调度席 DISPATCHER(Claude)</text>
+<text x="300" y="150" class="t2">发子项:每子项 = 编译态 + 掩码单问,永不滚动上下文</text>
+<text x="300" y="172" class="gt-m">调度席的门也要被审——S1 门三处松(portico 形状 / 天空体块 / basis 质量)= 判例</text>
+
+<path d="M138,186 L138,218" class="lnf"/>
+<path d="M354,186 L354,218" class="lnf"/>
+<path d="M570,186 L570,218" class="lnf"/>
+<path d="M786,186 L786,218" class="lnf"/>
+<path d="M1002,186 L1002,218" class="lnf"/>
+
+<!-- 子项 S1–S5 -->
+<rect x="40" y="220" width="196" height="100" class="bx"/>
+<text x="52" y="242" class="t3">S1 · qwen3:30b</text>
+<text x="52" y="262" class="t4">体块构成</text>
+<text x="52" y="282" class="t2s">过门,但答案变薄</text>
+<text x="52" y="298" class="t2s">(门太松没拦)</text>
+<text x="52" y="314" class="t5">4.2s</text>
+<rect x="256" y="220" width="196" height="100" class="bx"/>
+<text x="268" y="242" class="t3">S2 · glm-4.7-flash</text>
+<text x="268" y="262" class="t4">场地落位</text>
+<text x="268" y="282" class="rk-t">效度门拒(ids 全空)</text>
+<text x="268" y="298" class="ok-t">→ 确定性回退,回退上账</text>
+<text x="268" y="314" class="t5">34.9s</text>
+<rect x="472" y="220" width="196" height="100" class="bx"/>
+<text x="484" y="242" class="t3">S3 · qwen3:30b</text>
+<text x="484" y="262" class="t4">开口承诺</text>
+<text x="484" y="282" class="t2s">oculus=4m 过门</text>
+<text x="484" y="298" class="rk-t">门带太宽(2–12)没拦</text>
+<text x="484" y="314" class="t5">12.0s</text>
+<rect x="688" y="220" width="196" height="100" class="bx2"/>
+<text x="700" y="242" class="t3">S4 · deepseek-r1</text>
+<text x="700" y="262" class="t4">批判席 CRITIC</text>
+<text x="700" y="282" class="t2s">① portico 柱列缺失(note)</text>
+<text x="700" y="298" class="t2s">② oculus 4 vs 史实 8.9(hard)</text>
+<text x="700" y="314" class="t5">35.9s · 两发全中</text>
+<rect x="904" y="220" width="196" height="100" class="bx"/>
+<text x="916" y="242" class="t3">S5 · 零 LLM</text>
+<text x="916" y="262" class="t4">实现 + 视觉轮</text>
+<text x="916" y="282" class="t2s">鼓+穹圆厅成立</text>
+<text x="916" y="298" class="t2s">真 annulus 环墙托分级半球</text>
+<text x="916" y="314" class="t5">—</text>
+
+<path d="M236,270 L255,270" class="ln" marker-end="url(#ah)"/>
+<path d="M452,270 L471,270" class="ln" marker-end="url(#ah)"/>
+<path d="M668,270 L687,270" class="ln" marker-end="url(#ah)"/>
+<path d="M884,270 L903,270" class="ln" marker-end="url(#ah)"/>
+
+<!-- 效度门 -->
+<path d="M138,320 L138,342" class="lnf" marker-end="url(#ah)"/>
+<path d="M354,320 L354,342" class="lnf" marker-end="url(#ah)"/>
+<path d="M570,320 L570,342" class="lnf" marker-end="url(#ah)"/>
+<rect x="40" y="344" width="628" height="36" class="bx"/>
+<text x="52" y="367" class="t4">效度门 VALIDITY GATE — schema 强制 · 词汇 · 范围带;拒收即回退上账,LLM 答案永不直接入状态</text>
+
+<!-- 修复环 -->
+<path d="M786,320 L786,470 L570,470 L570,382" class="rk-l" marker-end="url(#ahr)"/>
+<text x="678" y="494" class="rk-t" text-anchor="middle">修复环 REPAIR LOOP:critic hard 发现喂回编译态,重答恰好一个问题</text>
+<text x="678" y="514" class="rk-t" text-anchor="middle">oculus 4 → 8.9m(11.7s)= Selective Uncommit 微缩活体</text>
+
+<!-- 三硬结论 -->
+<rect x="40" y="546" width="346" height="88" class="bx"/>
+<text x="52" y="568" class="t4">① 多席冗余 = 纵深防御</text>
+<text x="52" y="588" class="t2s">我的门漏的(oculus 4m),批判席逮住;</text>
+<text x="52" y="604" class="t2s">批判席逮不住的格式病,效度门逮住</text>
+<text x="52" y="620" class="t2s">(glm ids 全空)</text>
+<rect x="407" y="546" width="346" height="88" class="bx"/>
+<text x="419" y="568" class="t4">② 调度席的门也要被审</text>
+<text x="419" y="588" class="t2s">门的质量决定状态的质量;「闸口全绿</text>
+<text x="419" y="604" class="t2s">内容不对」在调度层重演;D2.5 接线时</text>
+<text x="419" y="620" class="t2s">S1 门按清单硬化</text>
+<rect x="774" y="546" width="346" height="88" class="bx"/>
+<text x="786" y="568" class="t4">③ 同席跨轮采样漂移真实存在</text>
+<text x="786" y="588" class="t2s">MDP 单问防上下文漂移,防不了采样漂移;</text>
+<text x="786" y="604" class="t2s">temp 0.2 仍需门+批判席双保险,</text>
+<text x="786" y="620" class="t2s">或关键承诺双抽一致才入账</text>
+
+<text x="40" y="664" class="t3">真源:probes/20260717_头部问句/REPORT.md 追加三(调度席实验) · 追加二(三模型席位基准) · 追加四(席位分工最终版)</text>
+</svg>

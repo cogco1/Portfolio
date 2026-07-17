@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="640" viewBox="0 0 1160 640" role="img" aria-label="三门与鹈鹕回路:法生成产物,探针猎假阴性,修复箭头指向法而非结果;三门守回归;双向防作弊">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=Space+Mono:wght@400;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap');
+:root{--ink:#1a1a1a;--muted:#737373;--faint:#a6a6a6;--line:#ededed;--line-strong:#dcdcdc;--bg:#ffffff;--ok:#3f7350;--gate:#a3822f;--risk:#a4453a;
+--sans:"Inter","Noto Sans SC","PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+--mono:"Space Mono","SFMono-Regular",Consolas,Menlo,monospace;}
+@media (prefers-color-scheme:dark){:root{--ink:#e8e8e8;--muted:#9a9a9a;--faint:#6f6f6f;--line:#242424;--line-strong:#333333;--bg:#141414;--ok:#6fae83;--gate:#c9a558;--risk:#c76b5f;}}
+.bg{fill:var(--bg)}
+.bx{fill:none;stroke:var(--line-strong);stroke-width:1}
+.bx2{fill:none;stroke:var(--ink);stroke-width:1.3}
+.t1{font:700 13px var(--sans);fill:var(--ink)}
+.t1m{font:700 12px var(--mono);fill:var(--ink)}
+.t2{font:11px var(--sans);fill:var(--muted)}
+.t2s{font:10px var(--sans);fill:var(--muted)}
+.t3{font:9.5px var(--mono);fill:var(--faint);letter-spacing:.08em}
+.t4{font:10.5px var(--sans);fill:var(--ink)}
+.t5{font:10px var(--mono);fill:var(--muted)}
+.gt-m{font:9.5px var(--mono);fill:var(--gate);letter-spacing:.04em}
+.gt-l{stroke:var(--gate);stroke-width:1.2;fill:none}
+.ln{stroke:var(--ink);stroke-width:1;fill:none}
+.lnf{stroke:var(--faint);stroke-width:.8;fill:none}
+.dot{fill:var(--faint)}
+.ok-l{stroke:var(--ok);stroke-width:1.3;fill:none}
+.ok-t{font:10px var(--sans);fill:var(--ok)}
+.rk-l{stroke:var(--risk);stroke-width:1.2;fill:none}
+.rk-t{font:10.5px var(--sans);fill:var(--risk)}
+.rk-s{font:9.5px var(--mono);fill:var(--risk);letter-spacing:.06em}
+.ah{fill:var(--ink)}.ahk{fill:var(--ok)}.ahr{fill:var(--risk)}
+</style>
+<rect class="bg" width="1160" height="640"/>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ah"/></marker>
+<marker id="ahk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahk"/></marker>
+<marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahr"/></marker>
+</defs>
+
+<text x="40" y="34" class="t3">三门 + 鹈鹕回路 THREE GATES + PROBE-AND-REPAIR — 猎物:验证通过但建筑错误(假阴性)</text>
+
+<!-- 法 -->
+<rect x="40" y="70" width="250" height="120" class="bx2"/>
+<text x="56" y="96" class="t1">法 LAWS</text>
+<text x="56" y="118" class="t2">律法 · 掩码 · canon 比例锁</text>
+<text x="56" y="136" class="t2">义务链 · 结构体系能力表</text>
+<text x="56" y="164" class="gt-m">可写死的部分——修复落点在这里</text>
+<path d="M290,130 L398,130" class="ln" marker-end="url(#ah)"/>
+
+<!-- 生成 -->
+<rect x="400" y="70" width="250" height="120" class="bx"/>
+<text x="416" y="96" class="t1">真实生成 GENERATE</text>
+<text x="416" y="118" class="t2">决策链真实生成路径</text>
+<text x="416" y="138" class="t5">输入 · context · seed · 旋钮</text>
+<text x="416" y="162" class="t2s">保存可复现命令</text>
+<path d="M650,130 L758,130" class="ln" marker-end="url(#ah)"/>
+
+<!-- 产物 -->
+<rect x="760" y="70" width="360" height="120" class="bx"/>
+<text x="776" y="96" class="t1">产物 ARTIFACTS</text>
+<text x="776" y="118" class="t2">终态几何 · 义务账本 · findings</text>
+<text x="776" y="136" class="t2">四视图渲染:iso + 双剖 + 立面</text>
+<text x="776" y="160" class="t2s">.schem + log.jsonl(export_probe 制度)</text>
+<path d="M940,190 L940,248" class="ln" marker-end="url(#ah)"/>
+
+<!-- 探针 -->
+<rect x="760" y="250" width="360" height="150" class="bx2"/>
+<text x="776" y="276" class="t1">鹈鹕探针 PROBE</text>
+<text x="776" y="298" class="t2">对抗建筑案例:优先只变一个维度</text>
+<text x="776" y="316" class="t2">亲读四视图(视觉轮铁则 2026-07-17)</text>
+<text x="776" y="334" class="t2s">数字账与图像不一致处 = 假阴性藏身处</text>
+<text x="776" y="360" class="rk-t">判例:幽灵柱——账对、图不对</text>
+<text x="776" y="378" class="rk-t">万神殿 v0——账全清,剖面是矮棚子</text>
+
+<!-- 修法回路 -->
+<path d="M760,325 L560,325" class="rk-l"/>
+<rect x="300" y="300" width="260" height="50" class="rk-l"/>
+<text x="430" y="322" class="rk-t" text-anchor="middle" style="font-weight:700">修法,不修果</text>
+<text x="430" y="340" class="rk-s" text-anchor="middle">FIX THE LAW, NOT THE RESULT</text>
+<path d="M300,325 L165,325 L165,192" class="rk-l" marker-end="url(#ahr)"/>
+<text x="152" y="290" class="rk-t" text-anchor="middle" transform="rotate(-90 152 290)">根因复现后才许改</text>
+<text x="430" y="374" class="rk-t" text-anchor="middle">最小 diff · 同案例 A/B 重跑 · 重放推导出新结果</text>
+
+<!-- 修果禁行 -->
+<path d="M600,296 L744,198" class="rk-l" stroke-dasharray="5 4" marker-end="url(#ahr)"/>
+<text x="640" y="234" class="rk-t">✗ 手改结果 = 在结果空间打补丁(禁)</text>
+
+<!-- 三门 -->
+<text x="40" y="452" class="t3">守回归 REGRESSION NET — 修后只跑相关测试;campaign 收口至多一次全量</text>
+<rect x="40" y="466" width="620" height="94" class="bx"/>
+<text x="56" y="492" class="t1">三门 GATES</text>
+<text x="200" y="492" class="gt-m">字节锚:旋钮全关 = V2 Pipeline.run 字节等价</text>
+<text x="56" y="518" class="t4">pytest · doctor · selfcheck(16 金样 + 废墟门)</text>
+<text x="56" y="542" class="t2">只防「修 A 坏 B」,不负责发现 A——发现 A 的是探针</text>
+
+<!-- 双向防作弊 -->
+<rect x="700" y="466" width="420" height="94" class="gt-l"/>
+<text x="716" y="492" class="gt-m">双向防作弊 ANTI-CHEAT(判决 2026-07-16)</text>
+<text x="716" y="518" class="t2">① 禁「凑金样」:结果侧塞特判对齐金样</text>
+<text x="716" y="540" class="t2">② 禁「自改考卷」:字节变必须显式摆出,金样换代 = Kevin 拍板</text>
+
+<text x="40" y="604" class="t3">真源:CLAUDE.md 鹈鹕协议(修法不修果 / 双向防作弊 / 视觉轮铁则) · 看板 08 Glossary「三门 / 字节锚·金样 / 鹈鹕模式」</text>
+</svg>

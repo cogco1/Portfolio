@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="620" viewBox="0 0 1160 620" role="img" aria-label="义务生命周期:created 到 discharged 或 debt 留账(诚实拒绝);cover/bear 级联召唤;D05 到 D09 首条跨决策义务链;小屋全清与法院留债实测">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=Space+Mono:wght@400;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap');
+:root{--ink:#1a1a1a;--muted:#737373;--faint:#a6a6a6;--line:#ededed;--line-strong:#dcdcdc;--bg:#ffffff;--ok:#3f7350;--gate:#a3822f;--risk:#a4453a;
+--sans:"Inter","Noto Sans SC","PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+--mono:"Space Mono","SFMono-Regular",Consolas,Menlo,monospace;}
+@media (prefers-color-scheme:dark){:root{--ink:#e8e8e8;--muted:#9a9a9a;--faint:#6f6f6f;--line:#242424;--line-strong:#333333;--bg:#141414;--ok:#6fae83;--gate:#c9a558;--risk:#c76b5f;}}
+.bg{fill:var(--bg)}
+.bx{fill:none;stroke:var(--line-strong);stroke-width:1}
+.bx2{fill:none;stroke:var(--ink);stroke-width:1.3}
+.t1{font:700 13px var(--sans);fill:var(--ink)}
+.t1m{font:700 12px var(--mono);fill:var(--ink)}
+.t2{font:11px var(--sans);fill:var(--muted)}
+.t2s{font:10px var(--sans);fill:var(--muted)}
+.t3{font:9.5px var(--mono);fill:var(--faint);letter-spacing:.08em}
+.t4{font:10.5px var(--sans);fill:var(--ink)}
+.t5{font:10px var(--mono);fill:var(--muted)}
+.gt-m{font:9.5px var(--mono);fill:var(--gate);letter-spacing:.04em}
+.gt-l{stroke:var(--gate);stroke-width:1.2;fill:none}
+.ln{stroke:var(--ink);stroke-width:1;fill:none}
+.lnf{stroke:var(--faint);stroke-width:.8;fill:none}
+.dot{fill:var(--faint)}
+.ok-l{stroke:var(--ok);stroke-width:1.3;fill:none}
+.ok-t{font:10px var(--sans);fill:var(--ok)}
+.rk-l{stroke:var(--risk);stroke-width:1.2;fill:none}
+.rk-t{font:10.5px var(--sans);fill:var(--risk)}
+.nk{font:700 12px var(--mono);fill:var(--ok)}
+.nr{font:700 12px var(--mono);fill:var(--risk)}
+.ah{fill:var(--ink)}.ahk{fill:var(--ok)}.ahr{fill:var(--risk)}
+</style>
+<rect class="bg" width="1160" height="620"/>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ah"/></marker>
+<marker id="ahk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahk"/></marker>
+<marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahr"/></marker>
+</defs>
+
+<text x="40" y="34" class="t3">义务生命周期 OBLIGATION LIFECYCLE — 前向债:因做了决策 Δ,未来必须兑现 X</text>
+
+<!-- ① 生命周期 -->
+<rect x="40" y="60" width="170" height="64" class="bx"/>
+<text x="56" y="86" class="t1">决策 Δ_t</text>
+<text x="56" y="106" class="t2s">例:D05 声明隐私关系</text>
+<path d="M210,92 L278,92" class="ln" marker-end="url(#ah)"/>
+<text x="244" y="84" class="t5" text-anchor="middle">创建</text>
+<rect x="280" y="60" width="190" height="64" class="bx2"/>
+<text x="296" y="86" class="t1">义务 created</text>
+<text x="296" y="106" class="t5">cover:hall · a~b 关系</text>
+<path d="M470,84 L598,74" class="ok-l" marker-end="url(#ahk)"/>
+<text x="520" y="66" class="ok-t">清偿</text>
+<path d="M470,104 L598,146" class="rk-l" marker-end="url(#ahr)"/>
+<text x="500" y="140" class="rk-t">违背 / 超能力</text>
+<rect x="600" y="44" width="250" height="60" class="ok-l"/>
+<text x="616" y="68" class="t1">清偿 discharged</text>
+<text x="616" y="90" class="t2s">逐项对账(多重集差)· 清偿者可以是另一个决策</text>
+<rect x="600" y="124" width="250" height="60" class="rk-l"/>
+<text x="616" y="148" class="t1">债 debt · 留账</text>
+<text x="616" y="170" class="t2s">诚实拒绝 Honest Refusal——拒绝被记录,债留账上</text>
+<text x="880" y="68" class="t2">终止前须清零 = obligation_completion</text>
+<text x="880" y="148" class="rk-t">未清义务绝不进 ValidationResult</text>
+<text x="880" y="168" class="t2">拒绝是特性,不是缺陷——失败分类学从这里长出</text>
+
+<!-- ② 级联召唤 -->
+<text x="40" y="230" class="t3">级联召唤 CASCADE — cover: / bear:(每盖→跨→承,连跨向都在账上)</text>
+<rect x="40" y="246" width="230" height="56" class="bx2"/>
+<text x="56" y="270" class="t1m">cover:main_room</text>
+<text x="56" y="290" class="t2s">D10 盖义务:此区必须有天</text>
+<path d="M270,264 L398,254" class="ok-l" marker-end="url(#ahk)"/>
+<path d="M270,284 L398,306" class="ok-l" marker-end="url(#ahk)"/>
+<text x="322" y="246" class="ok-t">召唤 summon</text>
+<rect x="400" y="238" width="230" height="40" class="bx"/>
+<text x="416" y="262" class="t1m">bear:main_room_N</text>
+<rect x="400" y="288" width="230" height="40" class="bx"/>
+<text x="416" y="312" class="t1m">bear:main_room_S</text>
+<text x="650" y="256" class="t2">承托召唤由 grounder 上报,账本记完整级联</text>
+<text x="650" y="308" class="t2">跨向在账上:service_core 短跨优先选 E/W 排</text>
+<text x="40" y="336" class="rk-t">拒绝组召唤作废——compilation 弃则 bear 不上账(法院石梁柱:4 covers 留债、零 bear)</text>
+
+<!-- ③ 首条跨决策链 + 实测 -->
+<text x="40" y="384" class="t3">首条跨决策义务链 FIRST CROSS-DECISION CHAIN(2026-07-16 落地)</text>
+<rect x="40" y="400" width="110" height="52" class="bx2"/>
+<text x="95" y="420" class="t3" text-anchor="middle">D05</text>
+<text x="95" y="438" class="t4" text-anchor="middle">行为</text>
+<rect x="190" y="400" width="90" height="52" class="bx"/>
+<text x="235" y="420" class="t3" text-anchor="middle">D06</text>
+<text x="235" y="438" class="t4" text-anchor="middle">布局</text>
+<rect x="300" y="400" width="90" height="52" class="bx"/>
+<text x="345" y="420" class="t3" text-anchor="middle">D07</text>
+<text x="345" y="438" class="t4" text-anchor="middle">传统</text>
+<rect x="410" y="400" width="90" height="52" class="bx"/>
+<text x="455" y="420" class="t3" text-anchor="middle">D08</text>
+<text x="455" y="438" class="t4" text-anchor="middle">分区</text>
+<rect x="520" y="400" width="110" height="52" class="bx2"/>
+<text x="575" y="420" class="t3" text-anchor="middle">D09</text>
+<text x="575" y="438" class="t4" text-anchor="middle">体块</text>
+<path d="M150,426 L189,426" class="lnf"/>
+<path d="M280,426 L299,426" class="lnf"/>
+<path d="M390,426 L409,426" class="lnf"/>
+<path d="M500,426 L519,426" class="lnf"/>
+<path d="M95,452 C95,514 575,514 575,452" class="ok-l" marker-end="url(#ahk)"/>
+<text x="335" y="524" class="ok-t" text-anchor="middle">隐私义务:D05 创建(separated_from / acoustic_buffer / no_direct_access)→ D09 楼板检查 layout_checks 清偿</text>
+
+<rect x="700" y="392" width="420" height="122" class="bx"/>
+<text x="716" y="414" class="t3">账本实测 LEDGER IN PRACTICE(看板 03 指标)</text>
+<text x="716" y="440" class="t4">small house(timber_trabeated)</text>
+<text x="1104" y="440" class="nk" text-anchor="end">16 / 16 全清</text>
+<text x="716" y="468" class="t4">courthouse(trabeated_stone)</text>
+<text x="1104" y="468" class="nr" text-anchor="end">创建 11 · 清偿 7 · 留债 4</text>
+<text x="716" y="496" class="t2s">石梁柱盖不了 20m 厅——拒绝被记录,债留账 = 诚实拒绝</text>
+
+<text x="40" y="564" class="gt-m">义务升 dataclass(状态枚举 + 两级 legality/commitment)待 Kevin 拍——P1 最后一块</text>
+<text x="40" y="592" class="t3">真源:看板 08 Glossary「义务 / 诚实拒绝」 · 地图 §1.4 / 承托召唤上账(2026-07-15) · 看板 03 指标</text>
+</svg>

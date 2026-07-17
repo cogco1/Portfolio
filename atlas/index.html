@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ArchFlow V3 — 架构图集 Architecture Atlas</title>
+<link rel="icon" href="../favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Space+Mono:wght@400;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   ARCHFLOW V3 — 架构图集 Architecture Atlas(kaiwenliu.work 镜像 · unlisted)
+   与 ARCHFLOW-V3 仓库 docs/看板/进度看板.html 同一套视觉系统
+   (纯白建筑工作室风 · 暗色自动反色);源 = docs/看板/架构图集.html
+===================================================================== */
+:root{
+  --ink:#1a1a1a; --muted:#737373; --faint:#a6a6a6;
+  --line:#ededed; --line-strong:#dcdcdc; --bg:#ffffff; --hover:#f6f6f6;
+  --ok:#3f7350; --gate:#a3822f; --risk:#a4453a;
+  --max:1120px; --pad:clamp(24px,5vw,72px);
+  --sans:"Inter","Noto Sans SC","PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+  --mono:"Space Mono","SFMono-Regular",Consolas,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --ink:#e8e8e8; --muted:#9a9a9a; --faint:#6f6f6f;
+         --line:#242424; --line-strong:#333333; --bg:#141414; --hover:#1d1d1d;
+         --ok:#6fae83; --gate:#c9a558; --risk:#c76b5f; }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.label{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+
+.nav{position:sticky;top:0;z-index:20;background:var(--bg);display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px var(--pad);border-bottom:1px solid var(--line)}
+.nav .name{font-weight:700;letter-spacing:.22em;font-size:12px;white-space:nowrap}
+.nav ul{display:flex;gap:22px;list-style:none;flex-wrap:wrap}
+.nav a{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding-bottom:3px;border-bottom:1px solid transparent}
+.nav a:hover{color:var(--ink)}
+
+.hero{max-width:var(--max);margin:0 auto;padding:clamp(36px,5vw,64px) var(--pad) clamp(20px,3vw,32px)}
+.hero .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.hero h1{font-size:clamp(30px,4.8vw,52px);font-weight:700;letter-spacing:-.02em;line-height:1.05;text-wrap:balance}
+.hero .sub{margin-top:14px;font-size:14.5px;color:var(--muted);max-width:680px}
+
+section.blk{max-width:var(--max);margin:0 auto;padding:clamp(30px,4vw,52px) var(--pad) 0;scroll-margin-top:76px}
+.sec-head{display:flex;align-items:baseline;gap:14px;padding-bottom:14px;border-bottom:1px solid var(--ink)}
+.sec-head .no{font-family:var(--mono);font-size:11px;color:var(--faint)}
+.sec-head h2{font-size:15px;font-weight:700;letter-spacing:.02em}
+.sec-head .hint{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+
+.figwrap{overflow-x:auto;padding:26px 0 4px}
+.pr{display:block;min-width:1020px;width:100%;height:auto;border:0}
+figcaption{font-size:13px;color:var(--muted);padding:12px 0 0;border-top:1px solid var(--line);max-width:920px}
+figcaption b{color:var(--ink)}
+figcaption .src{color:var(--faint);font-family:var(--mono);font-size:10px;letter-spacing:.04em}
+
+footer{max-width:var(--max);margin:48px auto 0;padding:20px var(--pad) 56px;border-top:1px solid var(--line-strong)}
+footer p{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--faint);line-height:2}
+footer a{color:var(--muted);border-bottom:1px solid var(--line-strong)}
+footer a:hover{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="name" href="#a1">ARCHFLOW&nbsp;V3 · ATLAS 架构图集</a>
+  <ul>
+    <li><a href="../index.html">← kaiwenliu.work</a></li>
+    <li><a href="#a1">原子</a></li>
+    <li><a href="#a2">状态</a></li>
+    <li><a href="#a3">义务</a></li>
+    <li><a href="#a4">convert</a></li>
+    <li><a href="#a5">鹈鹕</a></li>
+    <li><a href="#a6">席位</a></li>
+    <li><a href="#a7">RAD</a></li>
+    <li><a href="#a8">空间</a></li>
+    <li><a href="#a9">溯源</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+  <p class="eyebrow">Architecture Atlas · 判决 2026-07-17 · 与施工看板同一套视觉系统 · Unlisted</p>
+  <h1>Nine Diagrams, One Machine.</h1>
+  <p class="sub">白盒 LLM 引导体素建筑生成引擎 ArchFlow V3 的九张架构图:六步原子 → 状态编译 → 义务生命周期 → convert 唯一门口 → 三门与鹈鹕回路 → 席位体系 → 结构化 RAD → 空间 MDP → 溯源上账。图上任何主张必须在真源有出处;每图 figcaption 注真源。</p>
+</header>
+
+<section id="a1" class="blk">
+  <div class="sec-head"><span class="no">01</span><h2>六步原子 Six-Step Atom</h2><span class="hint">decision/ · policy.py</span></div>
+  <figure>
+    <div class="figwrap"><img class="pr" src="fig/01-six-step-atom.svg" alt="六步原子架构图"></div>
+    <figcaption><b>读法</b>:每个决策同一形状——观察读编译态,菜单出候选,掩码缩到合法集(切除非法未来、降条件熵),策略只答「选哪个」且席位可插拔(确定性/LLM/人,换席不换门),应用提交增量,门只记录不裁决;每步问句、菜单、动作、席位全部上账。<span class="src">真源:看板 08 Glossary「六步原子/真菜单·席位/法·判别刀」· 地图 §0.5/§1.3 · 理论卷 §2</span></figcaption>
+  </figure>
+</section>
+
+<section id="a2" class="blk">
+  <div class="sec-head"><span class="no">02</span><h2>状态编译 S_t State Compiler</h2><span class="hint">blackboard/ · premises.py</span></div>
+  <figure>
+    <div class="figwrap"><img class="pr" src="fig/02-state-compiler.svg" alt="状态编译架构图"></div>
+    <figcaption><b>读法</b>:完整历史里已否决提案、过期假设与草稿会被重新激活引发漂移;φ 把历史编译成最小充分状态 S_t=(G,C,L,O,U)+前提(parti·function_intent·tradition,铁律11)+义务账本 𝒪_t,决策只读编译态(policy 读黑板不读 transcript);双轨 L/S 解「压缩历史 vs 可回放」的表面矛盾。<span class="src">真源:理论卷 §3 · 合议 §1 双轨形式化 · 看板 08 Glossary「状态编译 S_t」</span></figcaption>
+  </figure>
+</section>
+
+<section id="a3" class="blk">
+  <div class="sec-head"><span class="no">03</span><h2>义务生命周期 Obligation Lifecycle</h2><span class="hint">ledger · D05→D09</span></div>
+  <figure>
+    <div class="figwrap"><img class="pr" src="fig/03-obligation-lifecycle.svg" alt="义务生命周期架构图"></div>
+    <figcaption><b>读法</b>:义务是前向债——created 后要么 discharged(逐项对账,多重集差;清偿者可以是另一个决策),要么留债=诚实拒绝(未清绝不进 ValidationResult);cover:/bear: 级联召唤连跨向都在账上;D05 隐私义务 → D09 楼板检查是首条跨决策链;小屋 16/16 全清、法院 11/7/4 留债为实测两例。<span class="src">真源:看板 08 Glossary「义务/诚实拒绝」· 地图 §1.4/承托召唤上账 · 看板 03 指标</span></figcaption>
+  </figure>
+</section>
+
+<section id="a4" class="blk">
+  <div class="sec-head"><span class="no">04</span><h2>convert 唯一门口 The Only Doorway</h2><span class="hint">archflow/convert/ · 铁律16候选</span></div>
+  <figure>
+    <div class="figwrap"><img class="pr" src="fig/04-convert-gate.svg" alt="convert 唯一门口架构图"></div>
+    <figcaption><b>读法</b>:浮点 bbox 推导空间与体素交付空间之间只有一个门口——to_voxels() 网格化+逐件归属,conversion_findings() 让 existence/bearing 两法在交付空间执法;幽灵柱判例(账对图不对)是它的出生证,结构链坐标门、sample_export、cli 全部过门,三门证字节零漂移。<span class="src">真源:看板 08 Glossary「convert 唯一门口」· 地图 已清账 2026-07-16 · §7.2 域框定</span></figcaption>
+  </figure>
+</section>
+
+<section id="a5" class="blk">
+  <div class="sec-head"><span class="no">05</span><h2>三门 + 鹈鹕回路 Gates + Probe-and-Repair</h2><span class="hint">CLAUDE.md 鹈鹕协议</span></div>
+  <figure>
+    <div class="figwrap"><img class="pr" src="fig/05-gates-and-probe-loop.svg" alt="三门与鹈鹕回路架构图"></div>
+    <figcaption><b>读法</b>:法经真实生成路径产出几何+账本+四视图,探针用对抗案例亲读四视图猎假阴性;修复箭头永远指回法(修法不修果),手改结果是禁行道;三门(pytest·doctor·selfcheck)只守回归不负责发现,双向防作弊禁「凑金样」与「自改考卷」。<span class="src">真源:CLAUDE.md 鹈鹕协议(判决 2026-07-16/视觉轮铁则 2026-07-17)· 看板 08 Glossary「三门/字节锚/鹈鹕模式」</span></figcaption>
+  </figure>
+</section>
+
+<section id="a6" class="blk">
+  <div class="sec-head"><span class="no">06</span><h2>席位体系 Seat System</h2><span class="hint">调度席实验 2026-07-17</span></div>
+  <figure>
+    <div class="figwrap"><img class="pr" src="fig/06-seat-system.svg" alt="席位体系架构图"></div>
+    <figcaption><b>读法</b>:策略席可插拔(确定性/LLM/人);调度席实验 S1–S5 实录一条完整防线——效度门拒收 glm(ids 全空)后确定性回退上账,批判席 deepseek 两发全中,hard 发现喂回编译态触发修复环重答恰好一个问题(oculus 4→8.9m = Selective Uncommit 微缩活体);三硬结论:多席纵深、调度门也要审、采样漂移双保险。<span class="src">真源:probes/20260717_头部问句/REPORT.md 追加二·三·四</span></figcaption>
+  </figure>
+</section>
+
+<section id="a7" class="blk">
+  <div class="sec-head"><span class="no">07</span><h2>结构化 RAD Structured Retrieval-Augmented Decision</h2><span class="hint">RAD 三方对照收官</span></div>
+  <figure>
+    <div class="figwrap"><img class="pr" src="fig/07-structured-rad.svg" alt="结构化 RAD 流水线架构图"></div>
+    <figcaption><b>读法</b>:可用的 RAD 形态=检索段落 → 逐源掩码单问抽取(槽位+单位钉死)→ 带单位事实账本(双源互证合并)→ 律层(推导/换算/互证)→ 拓扑正则化 → 一致门(三轮拒→拒→过,零漏放),过门才入状态;对照组朴素 RAD 整段灌注净变差——字面性劫持、引用≠理解、变相滚动上下文,故画叉。<span class="src">真源:REPORT.md 追加五(RAD 三方对照/判词)· 追加四(明信片偏差)· 看板 08 Glossary「RAD」</span></figcaption>
+  </figure>
+</section>
+
+<section id="a8" class="blk">
+  <div class="sec-head"><span class="no">08</span><h2>空间 MDP 落位 Spatial Markov</h2><span class="hint">Kevin 判词 2026-07-17</span></div>
+  <figure>
+    <div class="figwrap"><img class="pr" src="fig/08-spatial-mdp.svg" alt="空间 MDP 落位架构图"></div>
+    <figcaption><b>读法</b>:关系图=依赖 DAG(基准:鼓心+入口轴 → drum → vestibule → portico;dome bears_on drum;oculus 居顶心),落位=拓扑序前向推算、每步只看父集——「柱位|台基」即局部马尔可夫;非局部约束(重叠/越界)不做父节点、走全局门:推导局部化,验证全局化;落位求解器立项,LLM 永不答坐标。<span class="src">真源:REPORT.md 追加五(Kevin 空间 MDP 判词)· 追加四(五拓扑)· 看板 05 明日</span></figcaption>
+  </figure>
+</section>
+
+<section id="a9" class="blk">
+  <div class="sec-head"><span class="no">09</span><h2>溯源上账 LedgerEntry Provenance</h2><span class="hint">P1 Spine · 合议 §1④</span></div>
+  <figure>
+    <div class="figwrap"><img class="pr" src="fig/09-ledger-provenance.svg" alt="溯源上账 LedgerEntry 架构图"></div>
+    <figcaption><b>读法</b>:LedgerEntry 在基座字段(decision_id·question·读写集·义务·note)之上补齐七账——seat/seed/versions 指纹/fallbacks/menu/action/reply——由此获得三种能力:作者性可审计、重放可信(同 trace 异 rules 不再能冒充重放)、掩码内选择可复核;provenance ≠ replay 是 Codex 与内部审计撞出的同一个洞,七账即修法。<span class="src">真源:地图 §3 P1 Spine(溯源上账 二·三)· 合议 §1④ · 看板 02 施工序</span></figcaption>
+  </figure>
+</section>
+
+<footer>
+  <p>ARCHFLOW V3 · 白盒 LLM 引导体素建筑生成引擎 — 研究进行中 WORK IN PROGRESS<br>
+  本页为 ARCHFLOW-V3 私有仓库 docs/看板/架构图集.html 的站点镜像(unlisted · noindex);术语对齐看板 Glossary 与理论卷,图上主张必须在真源有出处<br>
+  绘制 2026-07-17 · <a href="../index.html">kaiwenliu.work ←</a></p>
+</footer>
+
+</body>
+</html>
