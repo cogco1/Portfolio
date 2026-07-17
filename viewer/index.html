@@ -1,0 +1,1333 @@
+<!doctype html>
+<!--
+  ArchFlow 体素预览器 — 单文件核心 + 两个外置模块（都不嵌入、可独立更新）：
+
+  外置模块 A · Minecraft 贴图库:
+    external/viewer-assets/ (junction -> D:\ARCHFLOW\viewer_assets) 里的 atlas.png + atlas.json。
+    由 build_viewer_assets.py 从本地 Minecraft jar 提取生成（Mojang 资产不进 Git）。
+    重建: D:/ARCHFLOW/.venv/Scripts/python.exe archflow/apps/build_viewer_assets.py
+    拿不到图集时自动回退纯色模式（比如双击 file:// 打开时）。
+
+  外置模块 B · Mini-HRR 光追 (Kevin 的 SHADER 项目):
+    external/mini-hrr (junction -> D:\PROJECTS\01_ACTIVE_当前项目\SHADER)。
+    schem_viewer_rt.js 运行时 import 它的 gl.js、fetch 它的 common.glsl（DDA/天空内核），
+    只在内存里把演示世界补丁成 schematic 3D 纹理 —— SHADER 项目文件零修改。
+
+  用法:
+    1) 双击本文件打开, 拖入 .schem（纯色模式, 无光追）;
+    2) 静态服务(推荐): 在 V2.0 目录 python -m http.server 8143
+       http://localhost:8143/archflow/apps/schem_viewer.html?file=/samples/greek_temple_golden/greek_temple.schem
+
+  支持格式: Sponge Schematic v2/v3 (.schem, 即 connectors/schem.py 的输出)、
+            旧版 MCEdit .schematic、vanilla structure .nbt。gzip 与未压缩均可。
+  操作:     左键拖动=旋转  右键/Shift+左键=平移  滚轮=缩放  R=复位视角
+  剖切:     左侧 X/Y/Z 滑块, 对齐 A(横)/B(竖) 剖面习惯; 光栅/光追两种模式都生效。
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="../archflow-access.css">
+<script>try{if(sessionStorage.getItem("archflow_private_access_v1")!=="granted")document.documentElement.classList.add("archflow-locked")}catch(_){document.documentElement.classList.add("archflow-locked")}</script>
+<script defer src="../archflow-access.js"></script>
+<title>ArchFlow 体素预览器</title>
+<style>
+  :root {
+    --bg: #14171c; --panel: #1c2027; --panel2: #222731; --line: #2e3540;
+    --text: #d8dde5; --dim: #8b94a3; --accent: #5aa9ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow: hidden; }
+  body {
+    background: var(--bg); color: var(--text);
+    font: 13px/1.5 "Segoe UI", "Microsoft YaHei", sans-serif;
+    display: flex; flex-direction: column;
+  }
+  #topbar {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    padding: 8px 12px; background: var(--panel); border-bottom: 1px solid var(--line);
+    user-select: none; z-index: 5;
+  }
+  #topbar .title { font-weight: 600; margin-right: 4px; }
+  #topbar .title span { color: var(--accent); }
+  #topbar .siteback { margin-left:auto; color:var(--dim); text-decoration:none; font-size:11px; }
+  #topbar .siteback:hover { color:var(--text); }
+  button, select {
+    background: var(--panel2); color: var(--text); border: 1px solid var(--line);
+    border-radius: 6px; padding: 4px 10px; font: inherit; cursor: pointer;
+  }
+  button:hover, select:hover { border-color: var(--accent); }
+  button.on { background: var(--accent); color: #10131a; border-color: var(--accent); }
+  #stats { margin-left: auto; color: var(--dim); font-size: 12px; white-space: nowrap; }
+  #main { flex: 1; display: flex; min-height: 0; }
+  #side {
+    width: 250px; flex: none; background: var(--panel); border-right: 1px solid var(--line);
+    overflow-y: auto; padding: 10px 12px; display: flex; flex-direction: column; gap: 12px;
+  }
+  #side h3 { font-size: 12px; color: var(--dim); font-weight: 600; letter-spacing: .05em; }
+  .sliderRow { display: flex; align-items: center; gap: 8px; }
+  .sliderRow label { width: 3.5em; flex: none; color: var(--dim); }
+  .sliderRow input[type=range] { flex: 1; accent-color: var(--accent); }
+  .sliderRow output { width: 3.2em; flex: none; text-align: right; color: var(--dim); font-size: 12px; }
+  #palList { display: flex; flex-direction: column; gap: 2px; }
+  .palRow { display: flex; align-items: center; gap: 6px; padding: 2px 4px; border-radius: 4px; cursor: pointer; }
+  .palRow:hover { background: var(--panel2); }
+  .palRow input { accent-color: var(--accent); flex: none; }
+  .palRow .sw { width: 14px; height: 14px; border-radius: 3px; flex: none; border: 1px solid rgba(255,255,255,.18); }
+  .palRow canvas.sw { image-rendering: pixelated; }
+  .palRow .nm { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+  .palRow .ct { color: var(--dim); font-size: 11px; flex: none; }
+  #hint { color: var(--dim); font-size: 11px; border-top: 1px solid var(--line); padding-top: 8px; }
+  #viewport { flex: 1; position: relative; min-width: 0; background:
+    radial-gradient(1200px 700px at 50% -10%, #232b38 0%, #171b22 55%, #101318 100%); }
+  canvas.view { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  #rtgl { display: none; }
+  #empty {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 12px; color: var(--dim);
+    pointer-events: none; text-align: center;
+  }
+  #empty .big { font-size: 20px; color: var(--text); }
+  #empty button { pointer-events: auto; }
+  #dropMask {
+    position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
+    background: rgba(90,169,255,.12); border: 3px dashed var(--accent); z-index: 10;
+    font-size: 22px; color: var(--accent); pointer-events: none;
+  }
+  #toast {
+    position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%);
+    background: #3a1e22; color: #ffb4b4; border: 1px solid #7c3a42; border-radius: 8px;
+    padding: 8px 16px; display: none; max-width: 80%; z-index: 20;
+  }
+  #loading {
+    position: absolute; left: 50%; top: 14px; transform: translateX(-50%);
+    background: var(--panel2); border: 1px solid var(--line); border-radius: 8px;
+    padding: 5px 14px; display: none; z-index: 20; color: var(--dim);
+  }
+</style>
+</head>
+<body>
+<div id="topbar">
+  <div class="title">ArchFlow <span>体素预览器</span></div>
+  <button id="btnOpen">打开文件</button>
+  <select id="modelSel" title="已加载的模型" style="max-width:180px; display:none;"></select>
+  <button id="btnRemove" title="从列表移除当前模型(不动磁盘文件)" style="display:none">移除</button>
+  <span style="color:var(--dim)">视角:</span>
+  <button data-view="iso">等轴</button>
+  <button data-view="front">正面</button>
+  <button data-view="side">侧面</button>
+  <button data-view="top">顶视</button>
+  <button id="btnSpin">自动旋转</button>
+  <button id="btnTex" class="on" title="Minecraft 贴图 / 纯色示意">贴图</button>
+  <button id="btnRT" title="外置 Mini-HRR 体素光追(需 http 方式打开)">光影</button>
+  <button id="btnShot">截图 PNG</button>
+  <div id="stats"></div>
+  <a class="siteback" href="../index.html#archflow">← kaiwenliu.work</a>
+  <input id="fileInput" type="file" accept=".schem,.schematic,.nbt" multiple style="display:none">
+</div>
+<div id="main">
+  <div id="side">
+    <div>
+      <h3>剖切(可见比例)</h3>
+      <div class="sliderRow"><label>X 横剖</label><input type="range" id="clipX" min="2" max="100" value="100"><output id="clipXo">100%</output></div>
+      <div class="sliderRow"><label>Y 水平</label><input type="range" id="clipY" min="2" max="100" value="100"><output id="clipYo">100%</output></div>
+      <div class="sliderRow"><label>Z 竖剖</label><input type="range" id="clipZ" min="2" max="100" value="100"><output id="clipZo">100%</output></div>
+      <div style="margin-top:6px"><button id="btnClipReset" style="font-size:12px">复位剖切</button></div>
+    </div>
+    <div>
+      <h3>光影(外置 Mini-HRR)</h3>
+      <div class="sliderRow"><label>太阳</label><input type="range" id="sunA" min="0" max="360" value="140"><output id="sunAo">140°</output></div>
+      <div style="color:var(--dim);font-size:11px">光影模式: DDA 光追阴影+反射+天空,<br>来自 external/mini-hrr(零改动接入)</div>
+    </div>
+    <div>
+      <h3>图例 / 显隐 <button id="btnPalAll" style="font-size:11px;padding:1px 6px">全显</button></h3>
+      <div id="palList"><span style="color:var(--dim);font-size:12px">(加载模型后显示)</span></div>
+    </div>
+    <div id="hint">
+      左键拖动 旋转 · 右键/Shift+左键 平移<br>
+      滚轮 缩放 · R 复位视角<br>
+      支持 .schem (v2/v3) / .schematic / .nbt<br>
+      URL 传参: ?file=/相对服务根路径.schem
+    </div>
+  </div>
+  <div id="viewport">
+    <canvas id="gl" class="view"></canvas>
+    <canvas id="rtgl" class="view"></canvas>
+    <div id="empty">
+      <div class="big">把 .schem 文件拖进来</div>
+      <div>或</div>
+      <button onclick="document.getElementById('fileInput').click()">选择文件…</button>
+    </div>
+    <div id="dropMask">松开加载</div>
+    <div id="toast"></div>
+    <div id="loading">解析中…</div>
+  </div>
+</div>
+
+<script>
+'use strict';
+/* ============================== NBT 解析 ============================== */
+const TAG = { END:0, BYTE:1, SHORT:2, INT:3, LONG:4, FLOAT:5, DOUBLE:6,
+              BYTE_ARR:7, STRING:8, LIST:9, COMPOUND:10, INT_ARR:11, LONG_ARR:12 };
+
+function parseNBT(buf) {
+  const dv = new DataView(buf.buffer, buf.byteOffset, buf.byteLength);
+  const td = new TextDecoder();
+  let p = 0;
+  function name() { const n = dv.getInt16(p); p += 2; const s = td.decode(buf.subarray(p, p + n)); p += n; return s; }
+  function payload(t) {
+    switch (t) {
+      case TAG.BYTE:   return dv.getInt8(p++);
+      case TAG.SHORT:  { const v = dv.getInt16(p); p += 2; return v; }
+      case TAG.INT:    { const v = dv.getInt32(p); p += 4; return v; }
+      case TAG.LONG:   { const v = dv.getBigInt64(p); p += 8; return v; }
+      case TAG.FLOAT:  { const v = dv.getFloat32(p); p += 4; return v; }
+      case TAG.DOUBLE: { const v = dv.getFloat64(p); p += 8; return v; }
+      case TAG.BYTE_ARR: { const n = dv.getInt32(p); p += 4; const v = buf.subarray(p, p + n); p += n; return v; }
+      case TAG.STRING: { const n = dv.getInt16(p); p += 2; const s = td.decode(buf.subarray(p, p + n)); p += n; return s; }
+      case TAG.LIST: {
+        const et = dv.getUint8(p++); const n = dv.getInt32(p); p += 4;
+        const a = new Array(n);
+        for (let i = 0; i < n; i++) a[i] = payload(et);
+        return a;
+      }
+      case TAG.COMPOUND: {
+        const o = {};
+        for (;;) {
+          const tt = dv.getUint8(p++);
+          if (tt === TAG.END) return o;
+          const k = name();          // 必须先读名字再读值(顺序敏感)
+          o[k] = payload(tt);
+        }
+      }
+      case TAG.INT_ARR: { const n = dv.getInt32(p); p += 4; const v = new Int32Array(n);
+        for (let i = 0; i < n; i++) { v[i] = dv.getInt32(p); p += 4; } return v; }
+      case TAG.LONG_ARR: { const n = dv.getInt32(p); p += 4; const v = new BigInt64Array(n);
+        for (let i = 0; i < n; i++) { v[i] = dv.getBigInt64(p); p += 8; } return v; }
+      default: throw new Error('未知 NBT tag ' + t + ' @' + p);
+    }
+  }
+  const t = dv.getUint8(p++); const rootName = name();
+  return { rootName, root: payload(t) };
+}
+
+async function maybeGunzip(buf) {
+  const u8 = new Uint8Array(buf);
+  if (u8[0] === 0x1f && u8[1] === 0x8b) {
+    if (typeof DecompressionStream === 'undefined')
+      throw new Error('浏览器不支持 DecompressionStream, 请用较新的 Chrome/Edge');
+    const ds = new DecompressionStream('gzip');
+    const out = await new Response(new Blob([u8]).stream().pipeThrough(ds)).arrayBuffer();
+    return new Uint8Array(out);
+  }
+  return u8;
+}
+
+/* ====================== schematic 归一化为统一模型 ====================== */
+/* 统一模型: { name, W,H,L, palette:[blockstate字符串], data:Uint16Array(W*H*L), counts:[] }
+   索引: idx = x + z*W + y*W*L  (x=宽/东, y=高/上, z=长/南, 与 Sponge 一致) */
+
+function decodeVarints(bytes, out) {
+  let i = 0, n = bytes.length, idx = 0;
+  while (i < n) {
+    let v = 0, s = 0, b;
+    do { b = bytes[i++]; v |= (b & 0x7f) << s; s += 7; } while (b & 0x80);
+    out[idx++] = v;
+  }
+  return idx;
+}
+
+const LEGACY_IDS = { // 旧版数字 id -> 现代名 (常用子集; meta 处理见下)
+  0:'air',1:'stone',2:'grass_block',3:'dirt',4:'cobblestone',5:'oak_planks',7:'bedrock',
+  8:'water',9:'water',10:'lava',11:'lava',12:'sand',13:'gravel',14:'gold_ore',15:'iron_ore',
+  16:'coal_ore',17:'oak_log',18:'oak_leaves',19:'sponge',20:'glass',21:'lapis_ore',22:'lapis_block',
+  24:'sandstone',35:'wool',41:'gold_block',42:'iron_block',43:'smooth_stone',44:'stone_slab',
+  45:'bricks',46:'tnt',47:'bookshelf',48:'mossy_cobblestone',49:'obsidian',50:'torch',
+  53:'oak_stairs',54:'chest',56:'diamond_ore',57:'diamond_block',58:'crafting_table',61:'furnace',
+  64:'oak_door',67:'cobblestone_stairs',79:'ice',80:'snow_block',82:'clay',85:'oak_fence',
+  86:'pumpkin',87:'netherrack',88:'soul_sand',89:'glowstone',91:'jack_o_lantern',95:'stained_glass',
+  98:'stone_bricks',102:'glass_pane',108:'brick_stairs',109:'stone_brick_stairs',112:'nether_bricks',
+  121:'end_stone',125:'oak_planks',126:'oak_slab',128:'sandstone_stairs',133:'emerald_block',
+  139:'cobblestone_wall',152:'redstone_block',155:'quartz_block',156:'quartz_stairs',
+  159:'terracotta_dyed',162:'acacia_log',168:'prismarine',169:'sea_lantern',170:'hay_block',
+  172:'terracotta',173:'coal_block',174:'packed_ice',179:'red_sandstone' };
+const DYE = ['white','orange','magenta','light_blue','yellow','lime','pink','gray',
+             'light_gray','cyan','purple','blue','brown','green','red','black'];
+
+function normalizeSchematic(rootName, root, fileName) {
+  let r = root;
+  if (r.Schematic && typeof r.Schematic === 'object') r = r.Schematic; // v3 外壳
+  const model = { name: fileName, W: 0, H: 0, L: 0, palette: [], data: null, counts: [] };
+
+  if (r.Palette && r.BlockData) {                     // Sponge v2 (archflow 导出格式)
+    fill(r, r.Palette, r.BlockData);
+  } else if (r.Blocks && r.Blocks.Palette) {          // Sponge v3
+    fill(r, r.Blocks.Palette, r.Blocks.Data);
+  } else if (r.Blocks && r.Width !== undefined) {     // 旧版 MCEdit .schematic
+    fillLegacy(r);
+  } else if (r.size && r.palette && r.blocks) {       // vanilla structure .nbt
+    fillStructure(r);
+  } else {
+    throw new Error('无法识别的 schematic 结构 (根: ' + Object.keys(r).join(', ') + ')');
+  }
+  return model;
+
+  function fill(r2, palObj, blockData) {
+    model.W = r2.Width; model.H = r2.Height; model.L = r2.Length;
+    const maxId = Math.max(...Object.values(palObj).map(Number));
+    model.palette = new Array(maxId + 1).fill('minecraft:air');
+    for (const [k, v] of Object.entries(palObj)) model.palette[Number(v)] = k;
+    model.data = new Uint16Array(model.W * model.H * model.L);
+    decodeVarints(blockData, model.data);
+  }
+  function fillLegacy(r2) {
+    model.W = r2.Width; model.H = r2.Height; model.L = r2.Length;
+    const blocks = r2.Blocks, meta = r2.Data;
+    const palMap = new Map();
+    model.palette = ['minecraft:air']; palMap.set('minecraft:air', 0);
+    model.data = new Uint16Array(model.W * model.H * model.L);
+    for (let i = 0; i < blocks.length; i++) {
+      const id = blocks[i] & 0xff, m = meta ? (meta[i] & 0xff) : 0;
+      let nm = LEGACY_IDS[id] || ('legacy_' + id);
+      if (nm === 'wool') nm = DYE[m & 15] + '_wool';
+      else if (nm === 'stained_glass') nm = DYE[m & 15] + '_stained_glass';
+      else if (nm === 'terracotta_dyed') nm = DYE[m & 15] + '_terracotta';
+      nm = 'minecraft:' + nm;
+      let pi = palMap.get(nm);
+      if (pi === undefined) { pi = model.palette.length; model.palette.push(nm); palMap.set(nm, pi); }
+      model.data[i] = pi;
+    }
+  }
+  function fillStructure(r2) {
+    model.W = r2.size[0]; model.H = r2.size[1]; model.L = r2.size[2];
+    model.palette = r2.palette.map(e => {
+      let s = e.Name;
+      if (e.Properties) s += '[' + Object.entries(e.Properties).map(([k, v]) => k + '=' + v).join(',') + ']';
+      return s;
+    });
+    model.data = new Uint16Array(model.W * model.H * model.L);
+    let airIdx = model.palette.findIndex(s => s.startsWith('minecraft:air'));
+    if (airIdx < 0) { airIdx = model.palette.length; model.palette.push('minecraft:air'); }
+    model.data.fill(airIdx);
+    for (const b of r2.blocks) {
+      const [x, y, z] = b.pos;
+      model.data[x + z * model.W + y * model.W * model.L] = b.state;
+    }
+  }
+}
+
+/* ============================== 配色(纯色回退) ============================== */
+const C = h => [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+const BASE = {
+  stone:'7d7d7d', smooth_stone:'a0a0a0', stone_bricks:'777777', cracked_stone_bricks:'6b6b6b',
+  mossy_stone_bricks:'697a5e', chiseled_stone_bricks:'757575', cobblestone:'848484',
+  mossy_cobblestone:'6b7f62', andesite:'898b8b', polished_andesite:'848686', diorite:'c9c9c3',
+  polished_diorite:'c3c3bd', granite:'9f6b58', polished_granite:'a97663', tuff:'6d6f66',
+  tuff_bricks:'74766c', calcite:'dfe0dc', bone_block:'d1cdb7', deepslate:'505054',
+  deepslate_tiles:'373739', deepslate_bricks:'474749', cobbled_deepslate:'4f4f53',
+  polished_deepslate:'48484c', chiseled_deepslate:'36363a', blackstone:'2a252b', basalt:'4a4a4f',
+  polished_basalt:'525257', smooth_basalt:'434347', obsidian:'15121d', crying_obsidian:'2a1653',
+  bedrock:'565656', sandstone:'dbd3a0', smooth_sandstone:'dfd8a6', cut_sandstone:'d8d09d',
+  chiseled_sandstone:'d6ce9b', sand:'dcd0a6', red_sandstone:'b0602a', smooth_red_sandstone:'b4652e',
+  red_sand:'bf6721', gravel:'837f7e', dirt:'866043', coarse_dirt:'7a5b3f', rooted_dirt:'8a6547',
+  dirt_path:'94794a', grass_block:'74a044', podzol:'6b4d2d', moss_block:'5c7431', clay:'a0a7b2',
+  mycelium:'6f6265', snow_block:'f2f8f8',
+  bricks:'9c5b47', brick:'9c5b47', nether_bricks:'2c161a', red_nether_bricks:'500a0c',
+  chiseled_nether_bricks:'30181c', end_stone:'dede9f', end_stone_bricks:'dbdf9e',
+  quartz_block:'ece6df', smooth_quartz:'ece7e0', chiseled_quartz_block:'e8e2da',
+  quartz_bricks:'eae4dd', quartz_pillar:'ebe5de',
+  prismarine:'639c97', prismarine_bricks:'63ab9f', dark_prismarine:'345f52',
+  purpur_block:'a97ea9', netherrack:'723232', soul_sand:'544033', soul_soil:'4a382d',
+  gold_block:'f8d33e', iron_block:'d8d8d8', emerald_block:'2ec163', diamond_block:'7ee5da',
+  lapis_block:'1f4b9e', redstone_block:'aa1206', netherite_block:'443f41', coal_block:'171717',
+  copper_block:'c26d51', exposed_copper:'a17e68', weathered_copper:'6ba184', oxidized_copper:'53a486',
+  raw_gold_block:'d7a63c', raw_iron_block:'a88f70', raw_copper_block:'9a6a4f', amethyst_block:'8a63c2',
+  budding_amethyst:'8560b8', oak_planks:'b8945f', spruce_planks:'7a5a33', birch_planks:'d7cb8d',
+  jungle_planks:'b88764', acacia_planks:'ad5d32', dark_oak_planks:'432b14', crimson_planks:'943f61',
+  warped_planks:'3a8e8c', oak_log:'6e5530', stripped_oak_log:'b79157', oak_wood:'6e5530',
+  stripped_oak_wood:'b79157', spruce_log:'4a3620', stripped_spruce_log:'7a5b35', birch_log:'d7d7d2',
+  stripped_birch_log:'c5b177', jungle_log:'554419', dark_oak_log:'352110', stripped_dark_oak_log:'4d3a1f',
+  acacia_log:'676157', crimson_hyphae:'5c1a1e', warped_hyphae:'3a3b4e', bookshelf:'b08a4d',
+  oak_leaves:'4a7a24', spruce_leaves:'40613f', birch_leaves:'6d9349', jungle_leaves:'3f9622',
+  dark_oak_leaves:'3d6620', acacia_leaves:'588f24', azalea_leaves:'637f30', flowering_azalea_leaves:'71833c',
+  vine:'4a7020', grass:'6f9c3f', tall_grass:'6f9c3f', fern:'5a8a3a', large_fern:'5a8a3a',
+  water:'3f76e4', lava:'d45a12', ice:'84a5e8', packed_ice:'86b5f5', blue_ice:'74a9fd',
+  glass:'dbeff0', glass_pane:'dbeff0', tinted_glass:'2b2633',
+  glowstone:'ffd970', sea_lantern:'d5e8e2', shroomlight:'f2974b', lantern:'ffc26b', soul_lantern:'7fd3d0',
+  torch:'ffd27f', soul_torch:'7fd3d0', campfire:'d68a3e', soul_campfire:'62c3c0', fire:'ff9a2e',
+  jack_o_lantern:'d67d1f', redstone_lamp:'8a5b34', hay_block:'c9a827', terracotta:'985e43',
+  crafting_table:'7a4f2b', furnace:'6f6f6f', smoker:'5c5a58', blast_furnace:'5a5a5c', barrel:'755a35',
+  chest:'8b6b34', ender_chest:'243a3c', dried_kelp_block:'38412c', nether_wart_block:'711314',
+  warped_wart_block:'177879', honey_block:'fbba38', honeycomb_block:'e99a3d', slime_block:'79c05a',
+  pumpkin:'c07219', carved_pumpkin:'c07219', melon:'71a83d', sponge:'c4c14b', wet_sponge:'999729',
+  tnt:'a93028', note_block:'5c3c28', mushroom_stem:'cbc4b9', brown_mushroom_block:'957051',
+  red_mushroom_block:'c22f2d', dripstone_block:'87695a', pointed_dripstone:'87695a',
+  anvil:'494949', lodestone:'777a7a', respawn_anchor:'452b8c', end_portal_frame:'3f6b60',
+  iron_bars:'9a9c98', chain:'5a5f66', iron_door:'c6c6c6', iron_trapdoor:'c0c0c0', rail:'907d5a',
+  coal_ore:'686868', iron_ore:'8a827a', copper_ore:'7f7a6e', gold_ore:'948d6b', redstone_ore:'8a6d6d',
+  emerald_ore:'6d8a74', lapis_ore:'5f6c8c', diamond_ore:'7d9d9a', nether_quartz_ore:'7d5550',
+  nether_gold_ore:'775441', crimson_nylium:'832727', warped_nylium:'2f7365',
+  tube_coral_block:'3257cd', brain_coral_block:'cf5b9f', bubble_coral_block:'a1189f',
+  fire_coral_block:'a4232f', horn_coral_block:'d0b83d', dead_tube_coral_block:'857f7a',
+  dead_bubble_coral_block:'857f7a', dead_fire_coral_block:'857f7a', poppy:'c22e26', dandelion:'f5d93b',
+  cornflower:'4a6cc4', oxeye_daisy:'e6e8dc', azure_bluet:'dfe6e8', lilac:'b287b0', peony:'c9a2c0',
+  rose_bush:'b13a2e', sunflower:'f0c02e', orange_tulip:'d8722a', pink_tulip:'e3a7c4',
+  red_tulip:'bb3730', white_tulip:'e2e2da', allium:'a97fd0', oak_sapling:'5e7d2a',
+  sea_pickle:'5f7d3a', turtle_egg:'e8e3c8', chorus_plant:'6c4a70', chorus_flower:'9d78a2',
+  cactus:'587b3a', bamboo:'5f9020', hanging_roots:'a3745a', big_dripleaf:'5e8e37',
+  big_dripleaf_stem:'5e8e37', small_amethyst_bud:'a17fd1', cave_vines:'5a7a2e', wheat:'c9a84e',
+  nether_wart:'8c2c2c', composter:'8b5d2b', fletching_table:'bfa974', smithing_table:'3e3a45',
+  stonecutter:'82807a', beehive:'b48a4e', bee_nest:'c99e4e', target:'e2c8b0', piston:'8a8265',
+  dropper:'6f6f6f', dispenser:'6f6f6f', observer:'62615e', hopper:'4b4b4b', cauldron:'3a3a3a',
+  water_cauldron:'3a5a8c', command_block:'a06a4f', chain_command_block:'76a29a',
+  repeating_command_block:'6a5b9e', structure_block:'5c4f66', jigsaw:'5a5364', ladder:'a8843f',
+  scaffolding:'c8a25c', dead_bush:'8a6d3b', cobweb:'e6eaea', wither_rose:'2f3524',
+  spore_blossom:'d67fbe', flowering_azalea:'71833c', azalea:'637f30', lightning_rod:'c26d51',
+  bell:'c9a83a', grindstone:'8a8a8a', lectern:'a3763f', loom:'8a6b4f', cartography_table:'6b5137',
+  brewing_stand:'7a6a52', enchanting_table:'2f4d4d', jukebox:'5c3c28', beacon:'74dcd4',
+  conduit:'9a8a6a', dragon_egg:'12101a', end_rod:'d8cfc4', shulker_box:'8a628a',
+  farmland:'6b4a2a', wither_skeleton_skull:'2a2a2a', skeleton_skull:'b0b0a8', flower_pot:'743e2e'
+};
+const DYE_RGB = { white:'e9ecec', orange:'f07613', magenta:'bd44b3', light_blue:'3aafd9',
+  yellow:'f8c527', lime:'70b919', pink:'ed8dac', gray:'3e4447', light_gray:'8e8e86',
+  cyan:'158991', purple:'792aac', blue:'35399d', brown:'724728', green:'546d1b',
+  red:'a12722', black:'141519' };
+const TERRA_RGB = { white:'d1b1a1', orange:'a25426', magenta:'95576c', light_blue:'706c8a',
+  yellow:'ba8523', lime:'677534', pink:'a24e4e', gray:'392a24', light_gray:'876b62',
+  cyan:'565c5c', purple:'764656', blue:'4a3c5c', brown:'4d3324', green:'4c532a',
+  red:'8f3d2f', black:'251711' };
+const SHAPE_SUFFIX = ['_stairs','_slab','_wall','_fence_gate','_fence','_trapdoor','_door',
+                      '_sign','_pane','_bars','_button','_pressure_plate','_carpet'];
+
+function hashColor(s) {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+  const hue = (h >>> 0) % 360, f = n => { const k = (n + hue / 30) % 12;
+    return Math.round(255 * (0.62 - 0.25 * Math.max(-1, Math.min(k - 3, 9 - k, 1)))); };
+  return [f(0), f(8), f(4)];
+}
+function mul(rgb, k) { return [Math.min(255, rgb[0] * k), Math.min(255, rgb[1] * k), Math.min(255, rgb[2] * k)]; }
+
+function resolveColor(base) {
+  if (BASE[base]) return C(BASE[base]);
+  for (const dye of DYE) {
+    if (base.startsWith(dye + '_')) {
+      const fam = base.slice(dye.length + 1);
+      if (fam === 'wool') return C(DYE_RGB[dye]);
+      if (fam === 'concrete') return mul(C(DYE_RGB[dye]), 0.9);
+      if (fam === 'concrete_powder') return mul(C(DYE_RGB[dye]), 1.05);
+      if (fam === 'terracotta') return C(TERRA_RGB[dye]);
+      if (fam === 'glazed_terracotta') return mul(C(DYE_RGB[dye]), 1.1);
+      if (fam.startsWith('stained_glass')) return C(DYE_RGB[dye]);
+      if (fam === 'shulker_box' || fam === 'bed' || fam === 'candle' || fam === 'banner' || fam === 'carpet')
+        return C(DYE_RGB[dye]);
+    }
+  }
+  for (const suf of SHAPE_SUFFIX) {
+    if (base.endsWith(suf)) {
+      const stem = base.slice(0, -suf.length);
+      for (const cand of [stem, stem + 's', stem + '_block', stem + '_planks'])
+        if (BASE[cand]) return C(BASE[cand]);
+      const r = resolveColor(stem); if (r) return r;
+      break;
+    }
+  }
+  if (base.startsWith('stripped_')) { const r = resolveColor(base.slice(9)); if (r) return mul(r, 1.25); }
+  if (base.startsWith('waxed_'))    { const r = resolveColor(base.slice(6)); if (r) return r; }
+  for (const kw of ['quartz','sandstone','deepslate','blackstone','prismarine','purpur',
+                    'amethyst','copper','brick','stone','planks','log','leaves','glass',
+                    'ice','water','dirt','sand','wool','terracotta','concrete'])
+    if (base.includes(kw) && BASE[kw]) return C(BASE[kw]);
+  if (base.includes('coral')) return C('c96a8f');
+  return hashColor(base);
+}
+
+const TRANSPARENT = b => b.includes('glass') || b === 'water' || b === 'ice' ||
+                         b === 'slime_block' || b === 'honey_block';
+const EMISSIVE = b => ['glowstone','sea_lantern','shroomlight','lantern','soul_lantern','torch',
+  'soul_torch','wall_torch','campfire','soul_campfire','fire','jack_o_lantern','lava','beacon',
+  'end_rod','redstone_lamp'].includes(b);
+const METAL_RT = b => b === 'gold_block' || b === 'iron_block' || b === 'netherite_block' ||
+  b.includes('copper_block') || b.includes('cut_copper') || b === 'raw_gold_block' || b === 'raw_iron_block';
+
+/* ============================== 贴图图集(外置模块 A) ============================== */
+/* ATL.tiles: 贴图名->tile 序号; tile 0 = 纯白(无贴图回退)。 */
+const ATL = { img: null, tex: null, cols: 1, rows: 1, tiles: {}, avg: {} };
+let texOn = true;
+
+const TINT_GRASS = [145,189,89], TINT_FOLIAGE = [119,171,47], TINT_SPRUCE = [97,153,97],
+      TINT_BIRCH = [128,167,85], TINT_WATER = [63,118,228];
+
+// 分面贴图特例表: {t,s,b} 或 {all}; 元素 = [贴图名, 染色|null]
+const SPECIAL_TEX = {
+  grass_block: { t:['grass_block_top',TINT_GRASS], s:['grass_block_side'], b:['dirt'] },
+  podzol: { t:['podzol_top'], s:['podzol_side'], b:['dirt'] },
+  mycelium: { t:['mycelium_top'], s:['mycelium_side'], b:['dirt'] },
+  dirt_path: { t:['dirt_path_top'], s:['dirt_path_side'], b:['dirt'] },
+  sandstone: { t:['sandstone_top'], s:['sandstone'], b:['sandstone_bottom'] },
+  cut_sandstone: { t:['sandstone_top'], s:['cut_sandstone'], b:['sandstone_bottom'] },
+  chiseled_sandstone: { t:['sandstone_top'], s:['chiseled_sandstone'], b:['sandstone_bottom'] },
+  smooth_sandstone: { all:['sandstone_top'] },
+  red_sandstone: { t:['red_sandstone_top'], s:['red_sandstone'], b:['red_sandstone_bottom'] },
+  cut_red_sandstone: { t:['red_sandstone_top'], s:['cut_red_sandstone'], b:['red_sandstone_bottom'] },
+  smooth_red_sandstone: { all:['red_sandstone_top'] },
+  quartz_block: { t:['quartz_block_top'], s:['quartz_block_side'], b:['quartz_block_bottom'] },
+  smooth_quartz: { all:['quartz_block_bottom'] },
+  chiseled_quartz_block: { t:['chiseled_quartz_block_top'], s:['chiseled_quartz_block'] },
+  quartz_pillar: { t:['quartz_pillar_top'], s:['quartz_pillar'] },
+  purpur_pillar: { t:['purpur_pillar_top'], s:['purpur_pillar'] },
+  bone_block: { t:['bone_block_top'], s:['bone_block_side'] },
+  basalt: { t:['basalt_top'], s:['basalt_side'] },
+  polished_basalt: { t:['polished_basalt_top'], s:['polished_basalt_side'] },
+  deepslate: { t:['deepslate_top'], s:['deepslate'] },
+  hay_block: { t:['hay_block_top'], s:['hay_block_side'] },
+  bookshelf: { t:['oak_planks'], s:['bookshelf'], b:['oak_planks'] },
+  crafting_table: { t:['crafting_table_top'], s:['crafting_table_side'] },
+  furnace: { t:['furnace_top'], s:['furnace_side'] },
+  smoker: { t:['smoker_top'], s:['smoker_side'] },
+  blast_furnace: { t:['blast_furnace_top'], s:['blast_furnace_side'] },
+  barrel: { t:['barrel_top'], s:['barrel_side'], b:['barrel_bottom'] },
+  tnt: { t:['tnt_top'], s:['tnt_side'], b:['tnt_bottom'] },
+  melon: { t:['melon_top'], s:['melon_side'] },
+  pumpkin: { t:['pumpkin_top'], s:['pumpkin_side'] },
+  carved_pumpkin: { t:['pumpkin_top'], s:['carved_pumpkin'] },
+  jack_o_lantern: { t:['pumpkin_top'], s:['jack_o_lantern'] },
+  snow_block: { all:['snow'] },
+  dried_kelp_block: { t:['dried_kelp_top'], s:['dried_kelp_side'], b:['dried_kelp_bottom'] },
+  water: { all:['water_still', TINT_WATER] },
+  lava: { all:['lava_still'] },
+  fire: { all:['fire_0'] },
+  campfire: { all:['campfire_fire'] },
+  soul_campfire: { all:['soul_campfire_fire'] },
+  redstone_lamp: { all:['redstone_lamp_on'] },
+  tall_grass: { all:['tall_grass_top', TINT_GRASS] },
+  large_fern: { all:['large_fern_top', TINT_GRASS] },
+  brick: { all:['bricks'] },
+  piston: { t:['piston_top'], s:['piston_side'], b:['piston_bottom'] },
+  lodestone: { t:['lodestone_top'], s:['lodestone_side'] },
+  stonecutter: { t:['stonecutter_top'], s:['stonecutter_side'], b:['stonecutter_bottom'] },
+  cauldron: { t:['cauldron_top'], s:['cauldron_side'], b:['cauldron_bottom'] },
+  water_cauldron: { t:['cauldron_top'], s:['cauldron_side'], b:['cauldron_bottom'] },
+  respawn_anchor: { t:['respawn_anchor_top'], s:['respawn_anchor_side'], b:['respawn_anchor_bottom'] },
+  end_portal_frame: { t:['end_portal_frame_top'], s:['end_portal_frame_side'], b:['end_stone'] },
+  target: { t:['target_top'], s:['target_side'] },
+  beehive: { t:['beehive_end'], s:['beehive_side'] },
+  bee_nest: { t:['bee_nest_top'], s:['bee_nest_side'], b:['bee_nest_bottom'] },
+  jukebox: { t:['jukebox_top'], s:['jukebox_side'] },
+  loom: { t:['loom_top'], s:['loom_side'], b:['loom_bottom'] },
+  smithing_table: { t:['smithing_table_top'], s:['smithing_table_side'], b:['smithing_table_bottom'] },
+  fletching_table: { t:['fletching_table_top'], s:['fletching_table_side'] },
+  cartography_table: { t:['cartography_table_top'], s:['cartography_table_side3'] },
+  lectern: { t:['lectern_top'], s:['lectern_sides'] },
+  grindstone: { all:['grindstone_side'] },
+  composter: { t:['composter_top'], s:['composter_side'], b:['composter_bottom'] },
+  scaffolding: { t:['scaffolding_top'], s:['scaffolding_side'] },
+  observer: { t:['observer_top'], s:['observer_side'] },
+  dispenser: { t:['furnace_top'], s:['furnace_side'] },
+  dropper: { t:['furnace_top'], s:['furnace_side'] },
+};
+
+function resolveSpec(base, props, depth) {
+  if (depth > 3 || !ATL.img) return null;
+  const T = ATL.tiles;
+  const sameAll = e => ({ t: e, s: e, b: e });
+  const sp = SPECIAL_TEX[base];
+  if (sp) return sp.all ? sameAll(sp.all) : { t: sp.t, s: sp.s, b: sp.b || sp.t };
+  if (base.endsWith('_door')) {
+    const n = base + ((props && props.half === 'upper') ? '_top' : '_bottom');
+    return T[n] !== undefined ? sameAll([n]) : null;
+  }
+  if (/_log$|_stem$/.test(base) && T[base] !== undefined && T[base + '_top'] !== undefined)
+    return { t: [base + '_top'], s: [base], b: [base + '_top'] };
+  if (/_wood$|_hyphae$/.test(base)) {
+    const log = base.replace('_wood', '_log').replace('_hyphae', '_stem');
+    if (T[log] !== undefined) return sameAll([log]);
+  }
+  if (T[base] !== undefined) {
+    let tint = null;
+    if (base.endsWith('_leaves'))
+      tint = base.startsWith('spruce') ? TINT_SPRUCE : base.startsWith('birch') ? TINT_BIRCH
+           : (base.startsWith('azalea') || base.startsWith('flowering')) ? null : TINT_FOLIAGE;
+    else if (base === 'grass' || base === 'fern') tint = TINT_GRASS;
+    else if (base === 'vine' || base === 'sugar_cane' || base === 'lily_pad') tint = TINT_FOLIAGE;
+    return sameAll([base, tint]);
+  }
+  for (const suf of ['_stairs','_slab','_wall','_fence_gate','_fence','_trapdoor','_pane',
+                     '_pressure_plate','_button','_carpet','_sign']) {
+    if (base.endsWith(suf)) {
+      const stem = base.slice(0, -suf.length);
+      const cands = suf === '_carpet' ? [stem + '_wool'] : [stem, stem + 's', stem + '_planks', stem + '_block'];
+      for (const c of cands) { const r = resolveSpec(c, props, depth + 1); if (r) return r; }
+      return null;
+    }
+  }
+  if (T[base + '_top'] !== undefined) return sameAll([base + '_top']);
+  return null;
+}
+
+// -> {t:[tileIdx,tint,名], s:..., b:...} | null (null=回退纯色)
+function texFacesFor(base, props) {
+  const R = resolveSpec(base, props, 0);
+  if (!R) return null;
+  const conv = e => (e && ATL.tiles[e[0]] !== undefined) ? [ATL.tiles[e[0]], e[1] || null, e[0]] : null;
+  const t = conv(R.t), s = conv(R.s), b = conv(R.b);
+  return (t && s && b) ? { t, s, b } : null;
+}
+
+async function loadAtlas() {
+  const baseURL = new URL('../../external/viewer-assets/', location.href);
+  try {
+    const meta = await (await fetch(baseURL + 'atlas.json')).json();
+    // 注意: HTMLImageElement.decode() 在后台/无头标签页会被无限推迟, 用 createImageBitmap
+    const blob = await (await fetch(baseURL + 'atlas.png')).blob();
+    const img = await createImageBitmap(blob);
+    ATL.img = img; ATL.cols = meta.cols; ATL.rows = meta.rows;
+    ATL.tiles = meta.tiles; ATL.avg = meta.avg || {};
+    uploadAtlasTexture();
+    recompileAll();
+  } catch (e) {
+    console.warn('贴图图集不可用, 回退纯色:', e.message);
+    document.getElementById('btnTex').classList.remove('on');
+    document.getElementById('btnTex').title = '贴图图集不可用(file:// 打开或 external/viewer-assets 缺失): ' + e.message;
+    texOn = false;
+  }
+}
+
+/* 每个调色板条目预编译渲染信息 */
+function compilePalette(palette) {
+  return palette.map(state => {
+    const bi = state.indexOf('[');
+    const full = bi < 0 ? state : state.slice(0, bi);
+    const base = full.replace(/^minecraft:/, '');
+    const props = {};
+    if (bi >= 0) for (const kv of state.slice(bi + 1, -1).split(',')) {
+      const [k, v] = kv.split('='); props[k] = v;
+    }
+    const isAir = base === 'air' || base === 'cave_air' || base === 'void_air' ||
+                  base === 'structure_void' || base === 'light';
+    const rgb = isAir ? [0,0,0] : resolveColor(base);
+    const transparent = TRANSPARENT(base);
+    const alpha = isAir ? 0 : (base === 'tinted_glass' ? 0.72 : transparent ? 0.5 : 1);
+    let shape = 'full';
+    if (isAir) shape = 'air';
+    else if (base.endsWith('_stairs')) shape = 'stairs';
+    else if (base.endsWith('_slab') || base === 'stone_slab') shape = 'slab';
+    else if (base.endsWith('_door')) shape = 'door';
+    else if (base.endsWith('_trapdoor')) shape = 'trapdoor';
+    else if (base.endsWith('_fence') || base.endsWith('_wall') || base === 'iron_bars' ||
+             base.endsWith('_pane') || base === 'chain' || base === 'end_rod' || base === 'lightning_rod') shape = 'post';
+    else if (base === 'torch' || base === 'wall_torch' || base.endsWith('_torch') ||
+             base === 'lantern' || base === 'soul_lantern' || base.endsWith('_candle') ||
+             base === 'sea_pickle' || base === 'turtle_egg' || base === 'flower_pot' ||
+             base.endsWith('_skull') || base.endsWith('_head')) shape = 'small';
+    else if (base === 'vine' || base === 'cave_vines' || base === 'ladder' || base === 'cobweb') shape = 'sheet';
+    else if (base === 'rail' || base.endsWith('_rail') || base.endsWith('_carpet') ||
+             base.endsWith('_pressure_plate') || base === 'snow' || base === 'moss_carpet' ||
+             base === 'lily_pad') shape = 'flat';
+    else if (base === 'grass' || base === 'tall_grass' || base === 'fern' || base === 'large_fern' ||
+             base === 'dead_bush' || base === 'sweet_berry_bush' || base === 'nether_wart' ||
+             base === 'wheat' || base.endsWith('_sapling') || base.endsWith('_fungus') ||
+             base.endsWith('_roots') || base === 'bamboo' || base === 'sugar_cane' ||
+             base === 'pointed_dripstone' || base === 'small_amethyst_bud' ||
+             base === 'medium_amethyst_bud' || base === 'large_amethyst_bud' ||
+             base === 'amethyst_cluster' || base === 'chorus_flower' || base === 'chorus_plant' ||
+             base === 'big_dripleaf' || base === 'big_dripleaf_stem' || base === 'spore_blossom' ||
+             /tulip|poppy|dandelion|orchid|allium|bluet|daisy|cornflower|lilac|peony|rose|sunflower|lily_of|blossom/.test(base))
+      shape = 'plant';
+    else if (base === 'water') shape = 'fluid';
+    const opaqueFull = shape === 'full' && alpha === 1;
+    const emissive = EMISSIVE(base);
+    const faces = isAir ? null : texFacesFor(base, props);
+    // 贴图模式下的顶点透明度: 玻璃系交给贴图 alpha, 水保持半透
+    const alphaTex = base === 'water' ? 0.68 : 1.0;
+    // 光追烘焙信息: 颜色优先取贴图均色, 类别 0空气/1漫反射/3水玻璃/6发光/7金属
+    const rtRgb = (faces && ATL.avg[faces.s[2]]) ? ATL.avg[faces.s[2]] : rgb;
+    const rtCls = isAir ? 0 : emissive ? 6 : METAL_RT(base) ? 7 : (transparent || base === 'ice') ? 3 : 1;
+    return { state, base, props, rgb, alpha, alphaTex, shape, opaqueFull,
+             emissive, isAir, faces, rt: { rgb: rtRgb, cls: rtCls } };
+  });
+}
+
+/* ============================== 网格构建 ============================== */
+class GeoBuf {
+  constructor() { this.cap = 1 << 16; this.n = 0;
+    this.pos = new Float32Array(this.cap * 3); this.col = new Uint8Array(this.cap * 4);
+    this.uv = new Float32Array(this.cap * 2); }
+  ensure(add) {
+    if (this.n + add <= this.cap) return;
+    while (this.cap < this.n + add) this.cap *= 2;
+    const p = new Float32Array(this.cap * 3); p.set(this.pos.subarray(0, this.n * 3)); this.pos = p;
+    const c = new Uint8Array(this.cap * 4); c.set(this.col.subarray(0, this.n * 4)); this.col = c;
+    const u = new Float32Array(this.cap * 2); u.set(this.uv.subarray(0, this.n * 2)); this.uv = u;
+  }
+  vert(x, y, z, r, g, b, a, u, v) {
+    const i = this.n++;
+    this.pos[i*3] = x; this.pos[i*3+1] = y; this.pos[i*3+2] = z;
+    this.col[i*4] = r; this.col[i*4+1] = g; this.col[i*4+2] = b; this.col[i*4+3] = a;
+    this.uv[i*2] = u; this.uv[i*2+1] = v;
+  }
+}
+// 6 个面: 0=+Y顶 1=-Y底 2=+X 3=-X 4=+Z 5=-Z
+const FACES = [
+  { l: 1.00, q: [[0,1,0],[0,1,1],[1,1,1],[1,1,0]] },
+  { l: 0.45, q: [[0,0,0],[1,0,0],[1,0,1],[0,0,1]] },
+  { l: 0.62, q: [[1,0,0],[1,1,0],[1,1,1],[1,0,1]] },
+  { l: 0.62, q: [[0,0,0],[0,0,1],[0,1,1],[0,1,0]] },
+  { l: 0.80, q: [[0,0,1],[1,0,1],[1,1,1],[0,1,1]] },
+  { l: 0.80, q: [[0,0,0],[0,1,0],[1,1,0],[1,0,0]] },
+];
+function jitter(x, y, z) {
+  let h = (x * 374761393 + y * 668265263 + z * 2147483647) | 0;
+  h = Math.imul(h ^ (h >>> 13), 1274126177);
+  return 0.95 + ((h >>> 16) & 255) / 255 * 0.10;
+}
+const WHITE_UV = 0; // tile 0 = 纯白
+
+function buildMesh(model, pinfo, hidden) {
+  const { W, H, L, data } = model;
+  const WL = W * L;
+  const opaque = new GeoBuf(), trans = new GeoBuf();
+  const at = (x, y, z) => (x < 0 || y < 0 || z < 0 || x >= W || y >= H || z >= L)
+      ? -1 : data[x + z * W + y * WL];
+  const useTex = texOn && ATL.img;
+
+  function emitBox(buf, x, y, z, x0, y0, z0, x1, y1, z1, info, cullMask) {
+    const j = jitter(x, y, z);
+    const textured = useTex && info.faces;
+    const a = Math.round((textured ? info.alphaTex : info.alpha) * 255);
+    const lx = [x0 - x, x1 - x], ly = [y0 - y, y1 - y], lz = [z0 - z, z1 - z];
+    for (let f = 0; f < 6; f++) {
+      if (cullMask & (1 << f)) continue;
+      const F = FACES[f], li = (info.emissive ? 1.0 : F.l) * j;
+      let tile = WHITE_UV, tr = info.rgb[0], tg = info.rgb[1], tb = info.rgb[2];
+      if (textured) {
+        const fc = f === 0 ? info.faces.t : f === 1 ? info.faces.b : info.faces.s;
+        tile = fc[0];
+        if (fc[1]) { tr = fc[1][0]; tg = fc[1][1]; tb = fc[1][2]; }
+        else { tr = tg = tb = 255; }
+      }
+      const r = Math.min(255, tr * li), g = Math.min(255, tg * li), b = Math.min(255, tb * li);
+      const tc = tile % ATL.cols, trow = (tile / ATL.cols) | 0;
+      buf.ensure(6);
+      const q = F.q, px = [x0, x1], py = [y0, y1], pz = [z0, z1];
+      const v = k => {
+        const s = q[k];
+        let u, w;
+        if (f < 2) { u = lx[s[0]]; w = lz[s[2]]; }
+        else if (f < 4) { u = lz[s[2]]; w = 1 - ly[s[1]]; }
+        else { u = lx[s[0]]; w = 1 - ly[s[1]]; }
+        u = Math.min(0.985, Math.max(0.015, u)); w = Math.min(0.985, Math.max(0.015, w));
+        buf.vert(px[s[0]], py[s[1]], pz[s[2]], r, g, b, a, (tc + u) / ATL.cols, (trow + w) / ATL.rows);
+      };
+      v(0); v(1); v(2); v(0); v(2); v(3);
+    }
+  }
+
+  for (let y = 0; y < H; y++) for (let z = 0; z < L; z++) for (let x = 0; x < W; x++) {
+    const pi = data[x + z * W + y * WL];
+    const info = pinfo[pi];
+    if (info.isAir || hidden.has(pi)) continue;
+    const buf = info.alpha < 1 ? trans : opaque;
+    const X = x, Y = y, Z = z;
+
+    if (info.shape === 'full' || info.shape === 'fluid') {
+      let cull = 0;
+      const h1 = info.shape === 'fluid' ? Y + 0.88 : Y + 1;
+      const nb = [at(x, y+1, z), at(x, y-1, z), at(x+1, y, z), at(x-1, y, z), at(x, y, z+1), at(x, y, z-1)];
+      for (let f = 0; f < 6; f++) {
+        const n = nb[f];
+        if (n >= 0 && !hidden.has(n)) {
+          const ni = pinfo[n];
+          if (ni.opaqueFull || (info.alpha < 1 && ni.alpha < 1)) cull |= 1 << f;
+        }
+      }
+      emitBox(buf, x, y, z, X, Y, Z, X + 1, h1, Z + 1, info, cull);
+      continue;
+    }
+    const p = info.props;
+    switch (info.shape) {
+      case 'slab': {
+        const t = p.type || 'bottom';
+        if (t === 'double') emitBox(buf, x, y, z, X, Y, Z, X+1, Y+1, Z+1, info, 0);
+        else if (t === 'top') emitBox(buf, x, y, z, X, Y+0.5, Z, X+1, Y+1, Z+1, info, 0);
+        else emitBox(buf, x, y, z, X, Y, Z, X+1, Y+0.5, Z+1, info, 0);
+        break;
+      }
+      case 'stairs': {
+        const top = p.half === 'top', f = p.facing || 'north';
+        if (top) emitBox(buf, x, y, z, X, Y+0.5, Z, X+1, Y+1, Z+1, info, 0);
+        else emitBox(buf, x, y, z, X, Y, Z, X+1, Y+0.5, Z+1, info, 0);
+        const y0 = top ? Y : Y+0.5, y1 = top ? Y+0.5 : Y+1;
+        if (f === 'east')  emitBox(buf, x, y, z, X+0.5, y0, Z, X+1, y1, Z+1, info, 0);
+        else if (f === 'west')  emitBox(buf, x, y, z, X, y0, Z, X+0.5, y1, Z+1, info, 0);
+        else if (f === 'south') emitBox(buf, x, y, z, X, y0, Z+0.5, X+1, y1, Z+1, info, 0);
+        else emitBox(buf, x, y, z, X, y0, Z, X+1, y1, Z+0.5, info, 0);
+        break;
+      }
+      case 'door': {
+        const f = p.facing || 'north', t = 3/16;
+        if (f === 'east') emitBox(buf, x, y, z, X, Y, Z, X+t, Y+1, Z+1, info, 0);
+        else if (f === 'west') emitBox(buf, x, y, z, X+1-t, Y, Z, X+1, Y+1, Z+1, info, 0);
+        else if (f === 'south') emitBox(buf, x, y, z, X, Y, Z, X+1, Y+1, Z+t, info, 0);
+        else emitBox(buf, x, y, z, X, Y, Z+1-t, X+1, Y+1, Z+1, info, 0);
+        break;
+      }
+      case 'trapdoor':
+        emitBox(buf, x, y, z, X, Y, Z, X+1, Y+3/16, Z+1, info, 0); break;
+      case 'post': {
+        const w = info.base.endsWith('_wall') ? 0.25 : info.base.endsWith('_pane') || info.base === 'iron_bars' ? 0.0625 : 0.125;
+        const c0 = 0.5 - w, c1 = 0.5 + w;
+        emitBox(buf, x, y, z, X+c0, Y, Z+c0, X+c1, Y+1, Z+c1, info, 0);
+        const conn = s => p[s] === 'true' || (p[s] && p[s] !== 'false' && p[s] !== 'none');
+        if (conn('north')) emitBox(buf, x, y, z, X+c0, Y, Z, X+c1, Y+0.94, Z+c0, info, 0);
+        if (conn('south')) emitBox(buf, x, y, z, X+c0, Y, Z+c1, X+c1, Y+0.94, Z+1, info, 0);
+        if (conn('west'))  emitBox(buf, x, y, z, X, Y, Z+c0, X+c0, Y+0.94, Z+c1, info, 0);
+        if (conn('east'))  emitBox(buf, x, y, z, X+c1, Y, Z+c0, X+1, Y+0.94, Z+c1, info, 0);
+        break;
+      }
+      case 'small':
+        emitBox(buf, x, y, z, X+0.3, Y, Z+0.3, X+0.7, Y+0.6, Z+0.7, info, 0); break;
+      case 'plant':
+        emitBox(buf, x, y, z, X+0.25, Y, Z+0.25, X+0.75, Y+0.8, Z+0.75, info, 0); break;
+      case 'sheet': {
+        const t = 1/16; let any = false;
+        if (p.north === 'true') { emitBox(buf, x, y, z, X, Y, Z, X+1, Y+1, Z+t, info, 0); any = true; }
+        if (p.south === 'true') { emitBox(buf, x, y, z, X, Y, Z+1-t, X+1, Y+1, Z+1, info, 0); any = true; }
+        if (p.west === 'true')  { emitBox(buf, x, y, z, X, Y, Z, X+t, Y+1, Z+1, info, 0); any = true; }
+        if (p.east === 'true')  { emitBox(buf, x, y, z, X+1-t, Y, Z, X+1, Y+1, Z+1, info, 0); any = true; }
+        if (p.facing) { any = true;
+          const f = p.facing;
+          if (f === 'north') emitBox(buf, x, y, z, X, Y, Z+1-t, X+1, Y+1, Z+1, info, 0);
+          else if (f === 'south') emitBox(buf, x, y, z, X, Y, Z, X+1, Y+1, Z+t, info, 0);
+          else if (f === 'west') emitBox(buf, x, y, z, X+1-t, Y, Z, X+1, Y+1, Z+1, info, 0);
+          else emitBox(buf, x, y, z, X, Y, Z, X+t, Y+1, Z+1, info, 0);
+        }
+        if (!any) emitBox(buf, x, y, z, X+0.45, Y, Z+0.45, X+0.55, Y+1, Z+0.55, info, 0);
+        break;
+      }
+      case 'flat':
+        emitBox(buf, x, y, z, X, Y, Z, X+1, Y+1/16, Z+1, info, 0); break;
+      default:
+        emitBox(buf, x, y, z, X, Y, Z, X+1, Y+1, Z+1, info, 0);
+    }
+  }
+  return { opaque, trans };
+}
+
+/* ============================== 光栅渲染器 ============================== */
+const canvas = document.getElementById('gl');
+const gl = canvas.getContext('webgl', { antialias: true, preserveDrawingBuffer: true });
+if (!gl) showToast('WebGL 初始化失败');
+
+const VS = `
+attribute vec3 aPos; attribute vec4 aCol; attribute vec2 aUV;
+uniform mat4 uMVP; varying vec4 vCol; varying vec3 vPos; varying vec2 vUV;
+void main() { vCol = aCol; vPos = aPos; vUV = aUV; gl_Position = uMVP * vec4(aPos, 1.0); }`;
+const FS = `
+precision mediump float;
+varying vec4 vCol; varying vec3 vPos; varying vec2 vUV;
+uniform vec3 uClip; uniform sampler2D uTex; uniform float uCutout;
+void main() {
+  if (vPos.x > uClip.x || vPos.y > uClip.y || vPos.z > uClip.z) discard;
+  vec4 c = texture2D(uTex, vUV) * vCol;
+  if (uCutout > 0.5 && c.a < 0.5) discard;
+  gl_FragColor = c;
+}`;
+function makeProgram(vs, fs) {
+  const c = (t, s) => { const sh = gl.createShader(t); gl.shaderSource(sh, s); gl.compileShader(sh);
+    if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(sh)); return sh; };
+  const pr = gl.createProgram();
+  gl.attachShader(pr, c(gl.VERTEX_SHADER, vs)); gl.attachShader(pr, c(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(pr);
+  if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(pr));
+  return pr;
+}
+const prog = makeProgram(VS, FS);
+const loc = { aPos: gl.getAttribLocation(prog, 'aPos'), aCol: gl.getAttribLocation(prog, 'aCol'),
+              aUV: gl.getAttribLocation(prog, 'aUV'),
+              uMVP: gl.getUniformLocation(prog, 'uMVP'), uClip: gl.getUniformLocation(prog, 'uClip'),
+              uTex: gl.getUniformLocation(prog, 'uTex'), uCutout: gl.getUniformLocation(prog, 'uCutout') };
+
+// 默认贴图 = 1x1 纯白(等价于无贴图); 图集就绪后替换
+let atlasTex = gl.createTexture();
+gl.bindTexture(gl.TEXTURE_2D, atlasTex);
+gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([255,255,255,255]));
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+function uploadAtlasTexture() {
+  gl.bindTexture(gl.TEXTURE_2D, atlasTex);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, ATL.img);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+}
+
+function makeVBO(geo, mode) {
+  const posB = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, posB);
+  gl.bufferData(gl.ARRAY_BUFFER, geo.pos.subarray(0, geo.n * 3), gl.STATIC_DRAW);
+  const colB = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, colB);
+  gl.bufferData(gl.ARRAY_BUFFER, geo.col.subarray(0, geo.n * 4), gl.STATIC_DRAW);
+  const uvB = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, uvB);
+  gl.bufferData(gl.ARRAY_BUFFER, geo.uv.subarray(0, geo.n * 2), gl.STATIC_DRAW);
+  return { posB, colB, uvB, n: geo.n, mode };
+}
+function freeVBO(v) { if (v) { gl.deleteBuffer(v.posB); gl.deleteBuffer(v.colB); gl.deleteBuffer(v.uvB); } }
+function drawVBO(v) {
+  if (!v || !v.n) return;
+  gl.bindBuffer(gl.ARRAY_BUFFER, v.posB);
+  gl.vertexAttribPointer(loc.aPos, 3, gl.FLOAT, false, 0, 0);
+  gl.bindBuffer(gl.ARRAY_BUFFER, v.colB);
+  gl.vertexAttribPointer(loc.aCol, 4, gl.UNSIGNED_BYTE, true, 0, 0);
+  gl.bindBuffer(gl.ARRAY_BUFFER, v.uvB);
+  gl.vertexAttribPointer(loc.aUV, 2, gl.FLOAT, false, 0, 0);
+  gl.drawArrays(v.mode, 0, v.n);
+}
+
+/* --- 极简 mat4 --- */
+function perspective(fovy, asp, near, far) {
+  const f = 1 / Math.tan(fovy / 2), nf = 1 / (near - far);
+  return [f/asp,0,0,0, 0,f,0,0, 0,0,(far+near)*nf,-1, 0,0,2*far*near*nf,0];
+}
+function lookAt(eye, ctr, up) {
+  let zx = eye[0]-ctr[0], zy = eye[1]-ctr[1], zz = eye[2]-ctr[2];
+  let l = Math.hypot(zx, zy, zz); zx/=l; zy/=l; zz/=l;
+  let xx = up[1]*zz - up[2]*zy, xy = up[2]*zx - up[0]*zz, xz = up[0]*zy - up[1]*zx;
+  l = Math.hypot(xx, xy, xz) || 1; xx/=l; xy/=l; xz/=l;
+  const yx = zy*xz - zz*xy, yy = zz*xx - zx*xz, yz = zx*xy - zy*xx;
+  return [xx,yx,zx,0, xy,yy,zy,0, xz,yz,zz,0,
+    -(xx*eye[0]+xy*eye[1]+xz*eye[2]), -(yx*eye[0]+yy*eye[1]+yz*eye[2]), -(zx*eye[0]+zy*eye[1]+zz*eye[2]), 1];
+}
+function mat4mul(a, b) {
+  const o = new Array(16);
+  for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) {
+    let s = 0; for (let k = 0; k < 4; k++) s += a[k*4+j] * b[i*4+k];
+    o[i*4+j] = s;
+  }
+  return o;
+}
+
+/* ============================== 状态 & 主循环 ============================== */
+const models = [];      // {model, pinfo, hidden:Set, vboO, vboT, vboG, tris}
+let cur = -1;
+const cam = { yaw: -Math.PI/4, pitch: -0.5, dist: 60, target: [0, 8, 0] };
+let autoSpin = false;
+const clip = { x: 1, y: 1, z: 1 };
+
+/* --- 光追(外置 Mini-HRR) --- */
+const rtCanvas = document.getElementById('rtgl');
+let rt = null, rtActive = false, rtLoading = false, sunAngle = 140 * Math.PI / 180;
+
+function camEye(m) {
+  const cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch);
+  return [
+    cam.target[0] + cam.dist * cp * Math.sin(cam.yaw),
+    cam.target[1] - cam.dist * sp,
+    cam.target[2] + cam.dist * cp * Math.cos(cam.yaw)];
+}
+function clipVox(m) {
+  return [clip.x >= 1 ? 1e9 : clip.x * m.W,
+          clip.y >= 1 ? 1e9 : clip.y * m.H,
+          clip.z >= 1 ? 1e9 : clip.z * m.L];
+}
+function rtUpload() {
+  if (!rt || cur < 0) return;
+  const e = models[cur];
+  rt.uploadModel(e.model, pi => {
+    const p = e.pinfo[pi];
+    return (p.isAir || e.hidden.has(pi)) ? { rgb: [0, 0, 0], cls: 0 } : p.rt;
+  });
+}
+async function toggleRT() {
+  const btn = document.getElementById('btnRT');
+  if (rtActive) {
+    rtActive = false;
+    btn.classList.remove('on');
+    rtCanvas.style.display = 'none'; canvas.style.display = 'block';
+    drawFrame();
+    return;
+  }
+  if (rtLoading) return;
+  if (!rt) {
+    rtLoading = true;
+    try {
+      const mod = await import('./schem_viewer_rt.js');
+      rt = await mod.createRT(rtCanvas);
+    } catch (e) {
+      console.error(e);
+      showToast('光追模块加载失败(需 http 打开且 external/mini-hrr junction 存在): ' + e.message);
+      rtLoading = false;
+      return;
+    }
+    rtLoading = false;
+  }
+  rtUpload();
+  rtActive = true;
+  btn.classList.add('on');
+  rtCanvas.style.display = 'block'; canvas.style.display = 'none';
+  drawFrame();
+}
+
+function fitCamera(m) {
+  const d = Math.hypot(m.W, m.H, m.L);
+  cam.dist = d * 1.5;
+  cam.target = [m.W/2, m.H*0.38, m.L/2];
+  cam.yaw = -Math.PI/4; cam.pitch = -0.46;
+}
+function setView(name) {
+  if (cur < 0) return;
+  const m = models[cur].model;
+  cam.target = [m.W/2, m.H*0.38, m.L/2];
+  if (name === 'iso')   { cam.yaw = -Math.PI/4; cam.pitch = -0.46; }
+  if (name === 'front') { cam.yaw = 0;          cam.pitch = -0.05; }
+  if (name === 'side')  { cam.yaw = Math.PI/2;  cam.pitch = -0.05; }
+  if (name === 'top')   { cam.yaw = -Math.PI/4; cam.pitch = -1.55; }
+}
+
+function buildGrid(m) {
+  const g = new GeoBuf();
+  const step = Math.max(1, Math.round(Math.max(m.W, m.L) / 24)), pad = 4;
+  const y = -0.02, a = 70, u = 0.5 / ATL.cols, w = 0.5 / ATL.rows;
+  for (let x = -pad; x <= m.W + pad; x += step) {
+    g.ensure(2); g.vert(x, y, -pad, 120,130,145, a, u, w); g.vert(x, y, m.L + pad, 120,130,145, a, u, w);
+  }
+  for (let z = -pad; z <= m.L + pad; z += step) {
+    g.ensure(2); g.vert(-pad, y, z, 120,130,145, a, u, w); g.vert(m.W + pad, y, z, 120,130,145, a, u, w);
+  }
+  g.ensure(6);
+  g.vert(0,0.02,0, 235,90,90,200, u, w);  g.vert(m.W/3,0.02,0, 235,90,90,200, u, w);
+  g.vert(0,0.02,0, 110,220,120,200, u, w); g.vert(0,m.H/3,0, 110,220,120,200, u, w);
+  g.vert(0,0.02,0, 100,160,255,200, u, w); g.vert(0,0.02,m.L/3, 100,160,255,200, u, w);
+  return g;
+}
+
+function rebuildCurrent() {
+  if (cur < 0) return;
+  const e = models[cur];
+  freeVBO(e.vboO); freeVBO(e.vboT); freeVBO(e.vboG);
+  const t0 = performance.now();
+  const { opaque, trans } = buildMesh(e.model, e.pinfo, e.hidden);
+  e.vboO = makeVBO(opaque, gl.TRIANGLES);
+  e.vboT = makeVBO(trans, gl.TRIANGLES);
+  e.vboG = makeVBO(buildGrid(e.model), gl.LINES);
+  e.tris = ((opaque.n + trans.n) / 3) | 0;
+  updateStats(performance.now() - t0);
+  drawFrame(); // 不依赖 RAF(后台标签页会被节流), 立即出一帧
+}
+
+function recompileAll() {
+  for (const e of models) e.pinfo = compilePalette(e.model.palette);
+  if (cur >= 0) { rebuildCurrent(); refreshPalettePanel(); if (rtActive) rtUpload(); }
+}
+
+function updateStats(meshMs) {
+  const el = document.getElementById('stats');
+  if (cur < 0) { el.textContent = ''; return; }
+  const e = models[cur], m = e.model;
+  let blocks = 0;
+  for (let i = 0; i < e.model.counts.length; i++)
+    if (!e.pinfo[i].isAir) blocks += e.model.counts[i];
+  el.textContent = `${m.W}×${m.H}×${m.L} · ${blocks.toLocaleString()} 方块 · ${e.tris.toLocaleString()} 三角形` +
+    (meshMs !== undefined ? ` · 网格 ${meshMs.toFixed(0)}ms` : '');
+}
+
+function drawFrame() {
+  if (cur < 0) {                       // 空状态: 清掉残留画面
+    gl.clearColor(0, 0, 0, 0);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    return;
+  }
+  const e = models[cur], m = e.model;
+
+  if (rtActive && rt) {
+    rt.render(camEye(m), cam.target, clipVox(m), sunAngle);
+    return;
+  }
+
+  const w = canvas.clientWidth, h = canvas.clientHeight, dpr = window.devicePixelRatio || 1;
+  if (!w || !h) return;
+  if (canvas.width !== (w*dpr|0) || canvas.height !== (h*dpr|0)) {
+    canvas.width = w*dpr|0; canvas.height = h*dpr|0;
+  }
+  gl.viewport(0, 0, canvas.width, canvas.height);
+  gl.clearColor(0, 0, 0, 0);
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+  const eye = camEye(m);
+  const diag = Math.hypot(m.W, m.H, m.L);
+  const proj = perspective(50 * Math.PI/180, w/h, Math.max(0.1, cam.dist*0.01), cam.dist + diag*3);
+  const mvp = mat4mul(proj, lookAt(eye, cam.target, [0,1,0]));
+
+  gl.useProgram(prog);
+  gl.enableVertexAttribArray(loc.aPos); gl.enableVertexAttribArray(loc.aCol);
+  gl.enableVertexAttribArray(loc.aUV);
+  gl.uniformMatrix4fv(loc.uMVP, false, mvp);
+  const cv = clipVox(m);
+  gl.uniform3f(loc.uClip, cv[0], cv[1], cv[2]);
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, atlasTex);
+  gl.uniform1i(loc.uTex, 0);
+
+  gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.CULL_FACE);
+  gl.disable(gl.BLEND);
+  gl.uniform1f(loc.uCutout, 1);
+  drawVBO(e.vboO);
+  gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+  gl.uniform1f(loc.uCutout, 0);
+  drawVBO(e.vboG);
+  gl.depthMask(false);
+  drawVBO(e.vboT);
+  gl.depthMask(true);
+}
+(function loop() { requestAnimationFrame(loop); if (autoSpin) cam.yaw += 0.004; drawFrame(); })();
+
+/* ============================== 文件加载 ============================== */
+async function loadBuffer(arrayBuf, fileName) {
+  const loadingEl = document.getElementById('loading');
+  loadingEl.style.display = 'block';
+  try {
+    const raw = await maybeGunzip(arrayBuf);
+    const { rootName, root } = parseNBT(raw);
+    const model = normalizeSchematic(rootName, root, fileName);
+    model.counts = new Array(model.palette.length).fill(0);
+    for (let i = 0; i < model.data.length; i++) model.counts[model.data[i]]++;
+    const pinfo = compilePalette(model.palette);
+    const entry = { model, pinfo, hidden: new Set(), vboO: null, vboT: null, vboG: null, tris: 0 };
+    models.push(entry);
+    cur = models.length - 1;
+    fitCamera(model);
+    rebuildCurrent();
+    refreshModelSelect();
+    refreshPalettePanel();
+    if (rtActive) rtUpload();
+    document.getElementById('empty').style.display = 'none';
+  } catch (err) {
+    console.error(err);
+    showToast('加载失败: ' + err.message);
+  } finally {
+    loadingEl.style.display = 'none';
+  }
+}
+async function loadFiles(fileList) {
+  for (const f of fileList) {
+    if (f.name.endsWith('.litematic')) { showToast('.litematic 暂不支持, 请用 WorldEdit 转成 .schem'); continue; }
+    await loadBuffer(await f.arrayBuffer(), f.name);
+  }
+}
+
+function refreshModelSelect() {
+  const sel = document.getElementById('modelSel');
+  sel.innerHTML = '';
+  models.forEach((e, i) => {
+    const o = document.createElement('option');
+    o.value = i; o.textContent = e.model.name;
+    sel.appendChild(o);
+  });
+  sel.value = cur;
+  sel.style.display = models.length ? '' : 'none';
+  document.getElementById('btnRemove').style.display = models.length ? '' : 'none';
+}
+
+function removeCurrentModel() {
+  if (cur < 0) return;
+  const e = models[cur];
+  freeVBO(e.vboO); freeVBO(e.vboT); freeVBO(e.vboG);
+  models.splice(cur, 1);
+  cur = models.length ? Math.min(cur, models.length - 1) : -1;
+  refreshModelSelect();
+  if (cur >= 0) {
+    const en = models[cur];
+    if (!en.vboO) rebuildCurrent(); else updateStats();
+    fitCamera(en.model);
+    refreshPalettePanel();
+    if (rtActive) rtUpload();
+  } else {
+    if (rtActive) toggleRT();          // 删空了: 退出光追, 回到空状态
+    updateStats();
+    refreshPalettePanel();
+    document.getElementById('empty').style.display = 'flex';
+  }
+  drawFrame();
+}
+function refreshPalettePanel() {
+  const list = document.getElementById('palList');
+  list.innerHTML = '';
+  if (cur < 0) {
+    list.innerHTML = '<span style="color:var(--dim);font-size:12px">(加载模型后显示)</span>';
+    return;
+  }
+  const e = models[cur];
+  const idx = e.model.palette.map((_, i) => i)
+    .filter(i => !e.pinfo[i].isAir && e.model.counts[i] > 0)
+    .sort((a, b) => e.model.counts[b] - e.model.counts[a]);
+  for (const i of idx) {
+    const p = e.pinfo[i];
+    const row = document.createElement('label'); row.className = 'palRow';
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !e.hidden.has(i);
+    cb.onchange = () => {
+      cb.checked ? e.hidden.delete(i) : e.hidden.add(i);
+      rebuildCurrent(); if (rtActive) { rtUpload(); drawFrame(); }
+    };
+    let sw;
+    if (texOn && ATL.img && p.faces) {                 // 图例直接显示贴图
+      sw = document.createElement('canvas'); sw.className = 'sw';
+      sw.width = 14; sw.height = 14;
+      const ctx = sw.getContext('2d');
+      ctx.imageSmoothingEnabled = false;
+      const tile = p.faces.s[0], tc = tile % ATL.cols, trow = (tile / ATL.cols) | 0;
+      if (p.faces.s[1]) {                              // 染色(草/叶/水)
+        ctx.fillStyle = `rgb(${p.faces.s[1].join(',')})`;
+        ctx.fillRect(0, 0, 14, 14);
+        ctx.globalCompositeOperation = 'multiply';
+      }
+      ctx.drawImage(ATL.img, tc * 16, trow * 16, 16, 16, 0, 0, 14, 14);
+    } else {
+      sw = document.createElement('span'); sw.className = 'sw';
+      sw.style.background = `rgb(${p.rgb.map(v => v|0).join(',')})`;
+    }
+    const nm = document.createElement('span'); nm.className = 'nm';
+    nm.textContent = p.base + (Object.keys(p.props).length ? ' [' + Object.entries(p.props).map(kv => kv.join('=')).join(' ') + ']' : '');
+    nm.title = p.state;
+    const ct = document.createElement('span'); ct.className = 'ct';
+    ct.textContent = e.model.counts[i].toLocaleString();
+    row.append(cb, sw, nm, ct);
+    list.appendChild(row);
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.display = 'block';
+  clearTimeout(t._h); t._h = setTimeout(() => t.style.display = 'none', 6000);
+}
+
+/* ============================== 交互 ============================== */
+const vp = document.getElementById('viewport');
+let drag = null;
+vp.addEventListener('mousedown', e => {
+  if (e.target.closest('button')) return;
+  drag = { x: e.clientX, y: e.clientY, pan: e.button === 2 || e.shiftKey };
+});
+window.addEventListener('mousemove', e => {
+  if (!drag) return;
+  const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+  drag.x = e.clientX; drag.y = e.clientY;
+  if (drag.pan) {
+    const k = cam.dist * 0.0016;
+    const cy = Math.cos(cam.yaw), sy = Math.sin(cam.yaw);
+    cam.target[0] += (-cy * dx) * k; cam.target[2] += (sy * dx) * k;
+    cam.target[1] += dy * k * Math.cos(cam.pitch);
+  } else {
+    cam.yaw   -= dx * 0.0055;
+    cam.pitch = Math.max(-1.55, Math.min(1.55, cam.pitch - dy * 0.0055));
+  }
+});
+window.addEventListener('mouseup', () => drag = null);
+vp.addEventListener('contextmenu', e => e.preventDefault());
+vp.addEventListener('wheel', e => {
+  e.preventDefault();
+  cam.dist *= Math.pow(1.0015, e.deltaY);
+  cam.dist = Math.max(2, Math.min(cam.dist, 5000));
+}, { passive: false });
+window.addEventListener('keydown', e => {
+  if (e.key === 'r' || e.key === 'R') { if (cur >= 0) fitCamera(models[cur].model); }
+});
+/* 触屏 */
+let touches = new Map();
+vp.addEventListener('touchstart', e => { for (const t of e.changedTouches) touches.set(t.identifier, { x: t.clientX, y: t.clientY }); }, { passive: true });
+vp.addEventListener('touchmove', e => {
+  e.preventDefault();
+  const ts = [...e.touches];
+  if (ts.length === 1) {
+    const o = touches.get(ts[0].identifier); if (!o) return;
+    cam.yaw -= (ts[0].clientX - o.x) * 0.006;
+    cam.pitch = Math.max(-1.55, Math.min(1.55, cam.pitch - (ts[0].clientY - o.y) * 0.006));
+    touches.set(ts[0].identifier, { x: ts[0].clientX, y: ts[0].clientY });
+  } else if (ts.length === 2) {
+    const o0 = touches.get(ts[0].identifier), o1 = touches.get(ts[1].identifier);
+    if (o0 && o1) {
+      const d0 = Math.hypot(o0.x - o1.x, o0.y - o1.y), d1 = Math.hypot(ts[0].clientX - ts[1].clientX, ts[0].clientY - ts[1].clientY);
+      if (d0 > 0) cam.dist *= d0 / d1;
+    }
+    touches.set(ts[0].identifier, { x: ts[0].clientX, y: ts[0].clientY });
+    touches.set(ts[1].identifier, { x: ts[1].clientX, y: ts[1].clientY });
+  }
+}, { passive: false });
+vp.addEventListener('touchend', e => { for (const t of e.changedTouches) touches.delete(t.identifier); }, { passive: true });
+
+/* 拖放 */
+let dragDepth = 0;
+window.addEventListener('dragenter', e => { e.preventDefault(); if (++dragDepth) document.getElementById('dropMask').style.display = 'flex'; });
+window.addEventListener('dragleave', e => { e.preventDefault(); if (--dragDepth <= 0) { dragDepth = 0; document.getElementById('dropMask').style.display = 'none'; } });
+window.addEventListener('dragover', e => e.preventDefault());
+window.addEventListener('drop', e => {
+  e.preventDefault(); dragDepth = 0;
+  document.getElementById('dropMask').style.display = 'none';
+  if (e.dataTransfer.files.length) loadFiles(e.dataTransfer.files);
+});
+
+/* 控件 */
+document.getElementById('btnOpen').onclick = () => document.getElementById('fileInput').click();
+document.getElementById('fileInput').onchange = e => { loadFiles(e.target.files); e.target.value = ''; };
+document.getElementById('modelSel').onchange = e => {
+  cur = +e.target.value;
+  const en = models[cur];
+  if (!en.vboO) rebuildCurrent(); else updateStats();
+  fitCamera(en.model);
+  refreshPalettePanel();
+  if (rtActive) { rtUpload(); drawFrame(); }
+};
+for (const b of document.querySelectorAll('[data-view]')) b.onclick = () => { setView(b.dataset.view); drawFrame(); };
+document.getElementById('btnSpin').onclick = function () { autoSpin = !autoSpin; this.classList.toggle('on', autoSpin); };
+document.getElementById('btnTex').onclick = function () {
+  if (!ATL.img) { showToast('贴图图集不可用(需 http 方式打开, 且 external/viewer-assets 存在)'); return; }
+  texOn = !texOn; this.classList.toggle('on', texOn);
+  rebuildCurrent(); refreshPalettePanel();
+};
+document.getElementById('btnRT').onclick = toggleRT;
+document.getElementById('btnRemove').onclick = removeCurrentModel;
+document.getElementById('btnShot').onclick = () => {
+  if (cur < 0) return;
+  const a = document.createElement('a');
+  a.download = models[cur].model.name.replace(/\.[^.]+$/, '') + '_预览.png';
+  if (rtActive && rt) { drawFrame(); a.href = rtCanvas.toDataURL('image/png'); }
+  else { drawFrame(); a.href = canvas.toDataURL('image/png'); }
+  a.click();
+};
+for (const ax of ['X', 'Y', 'Z']) {
+  const sl = document.getElementById('clip' + ax), out = document.getElementById('clip' + ax + 'o');
+  sl.oninput = () => { clip[ax.toLowerCase()] = sl.value / 100; out.textContent = sl.value + '%'; drawFrame(); };
+}
+document.getElementById('btnClipReset').onclick = () => {
+  for (const ax of ['X', 'Y', 'Z']) {
+    document.getElementById('clip' + ax).value = 100;
+    document.getElementById('clip' + ax + 'o').textContent = '100%';
+    clip[ax.toLowerCase()] = 1;
+  }
+  drawFrame();
+};
+document.getElementById('btnPalAll').onclick = () => {
+  if (cur < 0) return;
+  models[cur].hidden.clear(); rebuildCurrent(); refreshPalettePanel();
+  if (rtActive) { rtUpload(); drawFrame(); }
+};
+{
+  const sl = document.getElementById('sunA'), out = document.getElementById('sunAo');
+  sl.oninput = () => { sunAngle = sl.value * Math.PI / 180; out.textContent = sl.value + '°'; drawFrame(); };
+}
+
+/* 启动: 贴图图集 + ?file= 自动加载(均需以 http 服务方式打开) */
+loadAtlas();
+(async () => {
+  const q = new URLSearchParams(location.search).get('file');
+  if (!q) return;
+  try {
+    const resp = await fetch(q);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    await loadBuffer(await resp.arrayBuffer(), q.split('/').pop());
+  } catch (err) { showToast('?file= 加载失败: ' + err.message); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+:root {
+  --af-lock-bg: #f5f4ef;
+  --af-lock-ink: #111;
+  --af-lock-muted: #676767;
+  --af-lock-line: #c9c7bf;
+}
+
+html.archflow-locked body > *:not(#archflow-lock) {
+  visibility: hidden !important;
+}
+
+html.archflow-locked,
+html.archflow-locked body {
+  min-height: 100%;
+  overflow: hidden !important;
+}
+
+#archflow-lock {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: var(--af-lock-bg);
+  color: var(--af-lock-ink);
+  font-family: Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  visibility: visible !important;
+}
+
+.archflow-lock-card {
+  width: min(460px, 100%);
+  border-top: 2px solid var(--af-lock-ink);
+  border-bottom: 1px solid var(--af-lock-line);
+  padding: 28px 0 30px;
+}
+
+.archflow-lock-kicker {
+  margin: 0 0 28px;
+  font: 700 11px/1.2 "Space Mono", Consolas, monospace;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.archflow-lock-card h1 {
+  margin: 0;
+  font-size: clamp(30px, 7vw, 48px);
+  line-height: .98;
+  letter-spacing: -.04em;
+}
+
+.archflow-lock-copy {
+  margin: 18px 0 24px;
+  color: var(--af-lock-muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.archflow-lock-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+.archflow-lock-form input,
+.archflow-lock-form button {
+  min-height: 46px;
+  border-radius: 0;
+  font: inherit;
+}
+
+.archflow-lock-form input {
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--af-lock-line);
+  background: #fff;
+  color: var(--af-lock-ink);
+  outline: none;
+}
+
+.archflow-lock-form input:focus {
+  border-color: var(--af-lock-ink);
+}
+
+.archflow-lock-form button {
+  padding: 10px 18px;
+  border: 1px solid var(--af-lock-ink);
+  background: var(--af-lock-ink);
+  color: #fff;
+  cursor: pointer;
+}
+
+.archflow-lock-error {
+  min-height: 20px;
+  margin: 9px 0 0;
+  color: #a12c23;
+  font-size: 12px;
+}
+
+.archflow-lock-back {
+  display: inline-block;
+  margin-top: 22px;
+  color: var(--af-lock-muted);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+@media (max-width: 520px) {
+  .archflow-lock-form { grid-template-columns: 1fr; }
+  .archflow-lock-form button { width: 100%; }
+}
