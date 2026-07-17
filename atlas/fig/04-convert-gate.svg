@@ -33,17 +33,17 @@
 <marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahr"/></marker>
 </defs>
 
-<text x="40" y="34" class="t3">表示空间转换 REPRESENTATION CROSSING — 全部几何只经一个门口进入交付空间</text>
+<text x="40" y="34" class="t3">表示空间转换 REPRESENTATION CROSSING — 所有几何都必须经过同一个门口进入交付空间</text>
 
 <!-- 浮点世界 -->
 <rect x="40" y="64" width="330" height="220" class="bx"/>
 <text x="56" y="90" class="t1">浮点 bbox 世界</text>
 <text x="56" y="106" class="t3">FLOAT BBOX WORLD · 推导空间</text>
-<text x="56" y="132" class="t2">决策链与义务账本在此推导</text>
+<text x="56" y="132" class="t2">决策链与义务账本都在此处推导</text>
 <text x="56" y="152" class="t2">构件 = 浮点包围盒 bbox</text>
 <text x="56" y="172" class="t2">几何 recipe → solids</text>
-<text x="56" y="204" class="rk-t">判例·幽灵柱:小模数柱被银行家舍入</text>
-<text x="56" y="222" class="rk-t">塌成零块,bbox 侧 load_trace 全过 = 假阴性</text>
+<text x="56" y="204" class="rk-t">判例·幽灵柱:小模数柱经银行家舍入后</text>
+<text x="56" y="222" class="rk-t">体素数量归零,但 bbox 侧 load_trace 全过 = 假阴性</text>
 <text x="56" y="246" class="t2s">账对、图不对——验的空间 ≠ 交付的空间</text>
 
 <path d="M370,174 L458,174" class="ln" marker-end="url(#ah)"/>
@@ -59,7 +59,7 @@
 <text x="486" y="183" class="t4">existence — 构件必须成块</text>
 <rect x="476" y="198" width="208" height="26" class="bx"/>
 <text x="486" y="215" class="t4">bearing — 承托块级成立</text>
-<text x="476" y="242" class="t2s">两法在交付空间执法</text>
+<text x="476" y="242" class="t2s">existence 与 bearing 两条法都在交付空间执法</text>
 <text x="476" y="266" class="gt-m">铁律16候选:验收在交付空间</text>
 
 <path d="M700,174 L788,174" class="ln" marker-end="url(#ah)"/>
@@ -79,7 +79,7 @@
 <text x="810" y="222" class="t2s">compliance 主张可锐利证伪(域框定判决 2026-07-15)</text>
 
 <!-- 消费者 -->
-<text x="180" y="340" class="t3">消费者全部过门 ALL CONSUMERS PASS THE DOOR</text>
+<text x="180" y="340" class="t3">所有消费者都必须过门 ALL CONSUMERS PASS THE DOOR</text>
 <rect x="180" y="352" width="200" height="46" class="bx"/>
 <text x="196" y="372" class="t4">结构链坐标门</text>
 <text x="196" y="388" class="t3">coordinate gate</text>
@@ -93,9 +93,9 @@
 <path d="M560,352 L578,300" class="ln" marker-end="url(#ah)"/>
 <path d="M840,352 L604,300" class="ln" marker-end="url(#ah)"/>
 
-<text x="180" y="432" class="ok-t">三门证字节零漂移:pytest 1134 · doctor 0 · selfcheck 16(2026-07-16 收口)</text>
-<text x="180" y="456" class="t2">修法两条(幽灵柱案):① _ints 非塌缩法(实厚&gt;0.5 不得舍空)② 结构链第6步坐标检验门(构件成块+块级承托,否则整组拒绝)</text>
-<text x="180" y="478" class="t2s">排队:voxelize 本体物理迁入 convert/(P1.5 垫片模式)</text>
+<text x="180" y="432" class="ok-t">三门共同证明字节零漂移:pytest 1134 · doctor 0 · selfcheck 16(2026-07-16 收口)</text>
+<text x="180" y="456" class="t2">幽灵柱案形成两条法级修复:① _ints 非塌缩法(实厚&gt;0.5 不得舍空)② 结构链第6步坐标检验门(构件成块+块级承托,否则整组拒绝)</text>
+<text x="180" y="478" class="t2s">待办:将 voxelize 本体物理迁入 convert/(P1.5 垫片模式)</text>
 
 <text x="40" y="524" class="t3">真源:看板 08 Glossary「convert 唯一门口」 · 地图 已清账 2026-07-16(convert / 幽灵柱+坐标检验门) · §7.2 域框定</text>
 </svg>

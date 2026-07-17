@@ -45,14 +45,15 @@
 <rect x="440" y="54" width="180" height="44" class="bx"/>
 <text x="530" y="72" class="t4" text-anchor="middle">人席 human</text>
 <text x="530" y="88" class="t2s" text-anchor="middle">否决 = 合法推导</text>
-<text x="660" y="68" class="t2">同一原子同一套门;谁应答记 seat 上账,回退留 fallback 痕</text>
-<text x="660" y="88" class="t2s">席位分工:schema 承诺=qwen3 独座 · 批判=deepseek(翻面在批判角色无害) · glm=挖数字外接解析,永不直接入账</text>
+<text x="660" y="68" class="t2">同一原子使用同一套门;谁作答,就将 seat 上账;发生回退,就留下 fallback 记录</text>
+<text x="660" y="86" class="t2s">席位分工:schema 承诺由 qwen3 独立作答 · deepseek 负责批判</text>
+<text x="660" y="102" class="t2s">glm 只提取数字,经外部解析后使用,永不直接入账</text>
 
 <!-- 调度席 -->
 <rect x="40" y="126" width="1080" height="60" class="bx2"/>
 <text x="56" y="150" class="t1">调度席 DISPATCHER(Claude)</text>
-<text x="300" y="150" class="t2">发子项:每子项 = 编译态 + 掩码单问,永不滚动上下文</text>
-<text x="300" y="172" class="gt-m">调度席的门也要被审——S1 门三处松(portico 形状 / 天空体块 / basis 质量)= 判例</text>
+<text x="300" y="150" class="t2">调度席逐项下发任务:每个子项只包含编译态与一条掩码单问,不携带滚动上下文</text>
+<text x="300" y="172" class="gt-m">调度席的门也要接受审查——S1 门有三处松动(portico 形状 / 天空体块 / basis 质量)</text>
 
 <path d="M138,186 L138,218" class="lnf"/>
 <path d="M354,186 L354,218" class="lnf"/>
@@ -64,8 +65,8 @@
 <rect x="40" y="220" width="196" height="100" class="bx"/>
 <text x="52" y="242" class="t3">S1 · qwen3:30b</text>
 <text x="52" y="262" class="t4">体块构成</text>
-<text x="52" y="282" class="t2s">过门,但答案变薄</text>
-<text x="52" y="298" class="t2s">(门太松没拦)</text>
+<text x="52" y="282" class="t2s">通过门,但答案信息不足</text>
+<text x="52" y="298" class="t2s">(门过松,未能拦截)</text>
 <text x="52" y="314" class="t5">4.2s</text>
 <rect x="256" y="220" width="196" height="100" class="bx"/>
 <text x="268" y="242" class="t3">S2 · glm-4.7-flash</text>
@@ -77,19 +78,19 @@
 <text x="484" y="242" class="t3">S3 · qwen3:30b</text>
 <text x="484" y="262" class="t4">开口承诺</text>
 <text x="484" y="282" class="t2s">oculus=4m 过门</text>
-<text x="484" y="298" class="rk-t">门带太宽(2–12)没拦</text>
+<text x="484" y="298" class="rk-t">允许范围过宽(2–12),未能拦截</text>
 <text x="484" y="314" class="t5">12.0s</text>
 <rect x="688" y="220" width="196" height="100" class="bx2"/>
 <text x="700" y="242" class="t3">S4 · deepseek-r1</text>
 <text x="700" y="262" class="t4">批判席 CRITIC</text>
 <text x="700" y="282" class="t2s">① portico 柱列缺失(note)</text>
 <text x="700" y="298" class="t2s">② oculus 4 vs 史实 8.9(hard)</text>
-<text x="700" y="314" class="t5">35.9s · 两发全中</text>
+<text x="700" y="314" class="t5">35.9s · 两项批判均命中</text>
 <rect x="904" y="220" width="196" height="100" class="bx"/>
 <text x="916" y="242" class="t3">S5 · 零 LLM</text>
 <text x="916" y="262" class="t4">实现 + 视觉轮</text>
 <text x="916" y="282" class="t2s">鼓+穹圆厅成立</text>
-<text x="916" y="298" class="t2s">真 annulus 环墙托分级半球</text>
+<text x="916" y="298" class="t2s">真实 annulus 环墙承托分级半球</text>
 <text x="916" y="314" class="t5">—</text>
 
 <path d="M236,270 L255,270" class="ln" marker-end="url(#ah)"/>
@@ -112,14 +113,14 @@
 <!-- 三硬结论 -->
 <rect x="40" y="546" width="346" height="88" class="bx"/>
 <text x="52" y="568" class="t4">① 多席冗余 = 纵深防御</text>
-<text x="52" y="588" class="t2s">我的门漏的(oculus 4m),批判席逮住;</text>
-<text x="52" y="604" class="t2s">批判席逮不住的格式病,效度门逮住</text>
+<text x="52" y="588" class="t2s">效度门漏掉 oculus 4m,批判席将它捕获;</text>
+<text x="52" y="604" class="t2s">批判席难以发现的格式问题,则由效度门捕获</text>
 <text x="52" y="620" class="t2s">(glm ids 全空)</text>
 <rect x="407" y="546" width="346" height="88" class="bx"/>
 <text x="419" y="568" class="t4">② 调度席的门也要被审</text>
-<text x="419" y="588" class="t2s">门的质量决定状态的质量;「闸口全绿</text>
-<text x="419" y="604" class="t2s">内容不对」在调度层重演;D2.5 接线时</text>
-<text x="419" y="620" class="t2s">S1 门按清单硬化</text>
+<text x="419" y="588" class="t2s">门的质量决定状态的质量;「闸口全绿,</text>
+<text x="419" y="604" class="t2s">内容仍不对」已在调度层重演;D2.5 接线时</text>
+<text x="419" y="620" class="t2s">必须按清单硬化 S1 门</text>
 <rect x="774" y="546" width="346" height="88" class="bx"/>
 <text x="786" y="568" class="t4">③ 同席跨轮采样漂移真实存在</text>
 <text x="786" y="588" class="t2s">MDP 单问防上下文漂移,防不了采样漂移;</text>

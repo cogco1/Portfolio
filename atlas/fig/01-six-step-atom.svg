@@ -34,8 +34,8 @@
 <marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahr"/></marker>
 </defs>
 
-<text x="40" y="34" class="t3">每个决策 DXX = 六步原子 SIX-STEP ATOM · 观察→菜单→掩码→策略→应用→门</text>
-<text x="1120" y="34" text-anchor="end" class="gt-m">判别刀:法可写死 · 选择必过席(铁律15候选)</text>
+<text x="40" y="34" class="t3">每个决策 DXX 都采用六步原子 SIX-STEP ATOM · 观察→菜单→掩码→策略→应用→门</text>
+<text x="1120" y="34" text-anchor="end" class="gt-m">判别刀:法可以写死 · 选择必须经过席位(铁律15候选)</text>
 
 <!-- 策略步上方注 -->
 <text x="633" y="57" text-anchor="middle" class="t2s">只答「合法集里选哪个」· LLM 只提议</text>
@@ -67,16 +67,16 @@
 <path d="M874,96 L919,96" class="ln" marker-end="url(#ah)"/>
 
 <!-- 每步注解 -->
-<text x="105" y="150" class="t2s" text-anchor="middle">读编译态 S_t</text>
+<text x="105" y="150" class="t2s" text-anchor="middle">读取编译态 S_t</text>
 <text x="105" y="166" class="t2s" text-anchor="middle">黑板槽位 + 前提</text>
 <text x="281" y="150" class="t2s" text-anchor="middle">生成候选菜单</text>
 <text x="281" y="166" class="t5" text-anchor="middle">MenuSpec 槽位选项</text>
-<text x="457" y="150" class="t2s" text-anchor="middle">缩到合法集,切除非法未来</text>
+<text x="457" y="150" class="t2s" text-anchor="middle">将菜单缩到合法集,切除非法未来</text>
 <text x="457" y="166" class="t5" text-anchor="middle">A_valid(S_t) ⊆ A</text>
 <text x="457" y="182" class="t5" text-anchor="middle">H(A_t|S_t)≈log₂|A_valid|</text>
 <text x="809" y="150" class="t2s" text-anchor="middle">提交增量</text>
 <text x="809" y="166" class="t5" text-anchor="middle">S_t+1 = S_t ⊕ Δ_t</text>
-<text x="985" y="150" class="t2s" text-anchor="middle">只记录不裁决</text>
+<text x="985" y="150" class="t2s" text-anchor="middle">只记录,不裁决</text>
 <text x="985" y="166" class="t2s" text-anchor="middle">findings 上账</text>
 
 <!-- 策略席插拔点 -->
@@ -100,7 +100,7 @@
 <text x="633" y="326" class="t2s" text-anchor="middle">掩码内提议 · 模型无关</text>
 <text x="843" y="326" class="t2s" text-anchor="middle">否决 = 一次合法推导</text>
 
-<text x="633" y="362" class="t2" text-anchor="middle">策略席可插拔:谁应答记 seat 上账;换席不换门——同一原子、同一套掩码与门</text>
+<text x="633" y="362" class="t2" text-anchor="middle">策略席可插拔:谁作答,就将 seat 上账;换席不换门——同一原子、同一套掩码与门</text>
 <text x="633" y="380" class="t2s" text-anchor="middle">有效性席(掩码 / 门 / grounder)永不换手</text>
 
 <!-- 账本 -->
@@ -109,7 +109,7 @@
 <rect x="40" y="412" width="1080" height="52" class="bx"/>
 <text x="56" y="434" class="t1">账本 LEDGER</text>
 <text x="56" y="452" class="t3">自问自答 QUESTION-DRIVEN AGENDA</text>
-<text x="300" y="434" class="t2">每步上账:question 问句 · menu 合法菜单 · action 提交动作 · seat 席位 · reply 原始回复 · obligations 义务</text>
+<text x="300" y="434" class="t2">每一步都上账:question 问句 · menu 合法菜单 · action 提交动作 · seat 席位 · reply 原始回复 · obligations 义务</text>
 <text x="300" y="452" class="t2s">议程 = 问题清单;repair = 重新问某一个问题</text>
 
 <!-- 图例 -->
@@ -118,6 +118,6 @@
 <path d="M300,500 L330,500" class="lnf" stroke-dasharray="4 3"/>
 <text x="338" y="504" class="t2">插拔连线</text>
 <rect x="470" y="491" width="24" height="16" class="bx2"/>
-<text x="502" y="504" class="t2">强调框 = 判断席(选择必过席)</text>
+<text x="502" y="504" class="t2">强调框 = 判断席(所有选择必须经过席位)</text>
 <text x="40" y="540" class="t3">真源:看板 08 Glossary「六步原子 / 真菜单·席位 / 法·判别刀」 · 地图 §0.5/§1.3 · 理论卷 §2</text>
 </svg>

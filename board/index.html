@@ -389,61 +389,61 @@ footer a:hover{color:var(--ink)}
 <!-- ================= 01 SITREP 战报 ================= -->
 <section id="sitrep" class="view">
 <section class="blk">
-  <div class="sec-head"><span class="no">01</span><h2>今日战报 Sitrep · 2026-07-17</h2><span class="hint">hover 行尾 files ▾ 下拉 · 点击文件用 VSCode 打开</span></div>
+  <div class="sec-head"><span class="no">01</span><h2>今日战报 Sitrep · 2026-07-17</h2><span class="hint">悬停行尾的 files ▾ 可展开文件列表 · 点击文件可用 VSCode 打开</span></div>
 
   <h3 class="sub-label">Engine 架构与代码 — 引擎今天实际改了什么</h3>
   <div class="row arch"><span class="hash">7d310d6</span><span class="tag">退役第一案</span>
-    <p><b>决策路径万神殿 v0</b>:compose_mode 旋钮(D11 composer 让位)+ 盖谱席 dome 入菜单 + 环律归位编译器(稀疏环声明仍被拒,铁律6 不破)。hall 32m 穹 + 60 环柱,义务 10/10 全清,坐标门块级验收;视觉席当场抓到闸E(天空双答)。</p>
+    <p><b>决策路径万神殿 v0</b>:compose_mode 旋钮让 D11 composer 让位;盖谱席把 dome 纳入菜单;环律归位编译器负责结构环,但仍会拒绝稀疏环声明,因此铁律6保持不变。结果生成 32m hall 穹顶与 60 根环柱,10 项义务全部清偿,并通过坐标门的块级验收;视觉席随后发现闸E存在「天空被回答两次」的问题。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
       <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/decision/v2_stages.py">archflow/decision/v2_stages.py</a></li>
       <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/brain/solving/structure_graph.py">archflow/brain/solving/structure_graph.py</a></li>
       <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/core/orchestrator/context_knobs.py">archflow/core/orchestrator/context_knobs.py</a></li>
     </ul></span></div>
   <div class="row fix"><span class="hash">5ac4dbb</span><span class="tag">闸E 修复</span>
-    <p><b>天空只答一次</b>:三个抢答者逐一剥离——自适应屋顶对已答 cover 让位(answered_covers)/ roof_truss 不再裹接地壳 / 穹渲染方言桥(roof_form 元数据直达体素器)。四视图全过:穹顶显形、穹下无柱、剖面剪影成立;三门 1143/0/16。</p>
+    <p><b>天空只答一次</b>:逐一消除三个重复回答者——自适应屋顶对已经回答的 cover 让位(answered_covers);roof_truss 不再包裹接地壳;穹顶通过渲染方言桥,将 roof_form 元数据直接传给体素器。四视图均符合预期:穹顶显形、穹下无柱、剖面剪影成立;三门结果为 1143/0/16。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
       <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/brain/making/geometry/__init__.py">archflow/brain/making/geometry/__init__.py</a></li>
       <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/brain/making/voxelize/__init__.py">archflow/brain/making/voxelize/__init__.py</a></li>
       <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/tests/test_p1_obligation_structure.py">archflow/tests/test_p1_obligation_structure.py</a></li>
     </ul></span></div>
   <div class="row arch"><span class="hash">44627ae</span><span class="tag">熵钩子</span>
-    <p><b>E2 落地</b>:<code>Ledger.entropy_trace()</code> 从上账菜单直读 <code>H(A_t|S_t)=Σlog₂|options|</code>——熵预算从"声称"变"测量",与 token-per-building 同一张图。</p>
+    <p><b>E2 落地</b>:<code>Ledger.entropy_trace()</code> 直接从上账菜单计算 <code>H(A_t|S_t)=Σlog₂|options|</code>。熵预算因此从概念性主张变成可测指标,并可与 token-per-building 绘制在同一张图中。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
       <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/blackboard/__init__.py">archflow/blackboard/__init__.py</a></li>
     </ul></span></div>
   <div class="row arch"><span class="hash">76330b8</span><span class="tag">理论A/B</span>
-    <p><b>"理论有没有影响生成本身"——有,且可导出对照</b>:同 prompt 旋钮全关(V2)= 20 构件平顶盒、零结构件;义务模式 = <b>97 构件 · 44 柱 22 梁 12 板</b>、天花 5/7/10、16 义务全清。</p>
+    <p><b>理论确实改变了生成结果,并且可以导出对照</b>:同一 prompt 在旋钮全关的 V2 路径中只生成 20 个构件、一个平顶盒和零结构件;开启义务模式后,结果变为 <b>97 个构件 · 44 柱 · 22 梁 · 12 板</b>,天花高度分为 5/7/10,16 项义务全部清偿。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
       <li><a href="vscode://file/D:/ARCHFLOW_V3/training_records/probes">training_records/probes/(theory_ab)</a></li>
     </ul></span></div>
 
-  <h3 class="sub-label">Probes 头部问句战役 — 本地三模型上岗一日(全零 API 成本)</h3>
+  <h3 class="sub-label">Probes 头部问句战役 — 三个本地模型完成首日实验(API 成本为零)</h3>
   <div class="row arch"><span class="hash">3f9bf03</span><span class="tag">头部问句</span>
-    <p><b>Kevin 论点实证</b>:"第一步就该定体块搭配、各多高"。qwen3:30b 本地答出 <b>鼓高 16m = 内半径(Pantheon 依据)</b>效度 PASS——昨日闸F(鼓座矮)不是体量 bug,是头部问句从未被问;五缺口清单(D2.5 问句/状态槽/SolidRegion 形状/commitment 义务/RAD 注入点)。</p>
+    <p><b>Kevin 论点得到实证</b>:「第一步就应该确定体块如何搭配、各自多高」。本地 qwen3:30b 给出 <b>鼓高 16m = 内半径(依据 Pantheon)</b>,并通过效度门。由此确认昨日闸F的鼓座过矮并非体量算法错误,而是头部问句从未被提出。实验同时列出五个缺口:D2.5 问句、状态槽、SolidRegion 形状、commitment 义务与 RAD 注入点。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
       <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/REPORT.md">probes/20260717_头部问句/REPORT.md</a></li>
       <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/probe_type_massing.py">probe_type_massing.py</a></li>
     </ul></span></div>
   <div class="row arch"><span class="hash">5f286a3</span><span class="tag">席位基准</span>
-    <p><b>三模型 × 三类型 × 4 维基准</b>:qwen3=体块席主力(热身 5s/问,鼓高 16=16 稳);deepseek 知识在但<b>承诺翻面</b>(16↔32)只留批判席;glm 词汇/依据全崩出局承诺席。巴西利卡层级题(中厅必须高于侧廊)qwen+ds 双满分 = <b>真类型推理,非背书</b>。</p>
+    <p><b>三模型 × 三类型 × 4 维基准</b>:qwen3 是体块席主力,热身后约 5 秒完成一问,并能稳定给出鼓高 16m;deepseek 掌握相关知识,但会在 16 与 32 之间发生<b>承诺翻面</b>,因此只保留在批判席;glm 的词汇与依据均不稳定,退出承诺席。在巴西利卡层级题中,qwen 与 deepseek 都能判断「中厅必须高于侧廊」,说明模型进行了类型推理,而非简单背诵。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
       <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/bench_massing_models.py">bench_massing_models.py</a></li>
       <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/bench_results.json">bench_results.json</a></li>
     </ul></span></div>
   <div class="row arch"><span class="hash">77fd81d</span><span class="tag">调度席</span>
-    <p><b>Claude 调度、本地模型执行子项</b>:qwen 构成 / glm 被效度门拒→确定性回退上账 / deepseek 批判两发全中(柱列缺失 + oculus 4 vs 史实 8.9 hard)。<b>修复环:重答恰好一个问题</b>,oculus 4→8.9(11.7s)= Selective Uncommit 微缩活体。三硬结论:多席纵深 / 调度门也要审 / 采样漂移双保险。</p>
+    <p><b>Claude 负责调度,本地模型分别执行子项</b>:qwen 回答体块构成;glm 的回复被效度门拒收后,系统执行确定性回退并上账;deepseek 批判席准确指出柱列缺失与 oculus 4m 偏离史实 8.9m 两项问题。<b>修复环只重答 oculus 这一问</b>,用 11.7 秒将 4m 修订为 8.9m,构成 Selective Uncommit 的微缩实例。实验形成三点结论:多席提供纵深防御;调度门本身也要接受审查;采样漂移需要门与批判席双重保险。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
       <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/agent_dispatch.py">agent_dispatch.py</a></li>
       <li><a href="vscode://file/D:/ARCHFLOW_V3/training_records/probes/20260717_头部问句">training_records/…/agent_dispatch_pantheon/</a></li>
     </ul></span></div>
   <div class="row fix"><span class="hash">eeaa276</span><span class="tag">标准答案考</span>
-    <p><b>先查资料立标(43.3/21.65/8.9/11.9 + 中介体块 + 五拓扑),三模型盲考亲判</b>:中介块 <b>0/3 全漏 = 明信片偏差</b>(图纸级知识在文本语料结构性缺席,RAD 必要性最硬实证);glm 数字 5/5 但 schema 三连犯(出局承诺席、不出局知识源);qwen 几何矛盾(穹 86.6 坐鼓 43.3)→ 跨体量一致门入债;判卷器 v1 压分 = 错门静默错判决第三例。</p>
+    <p><b>先查资料建立标准答案,再让三个模型盲考</b>:标准包含 43.3/21.65/8.9/11.9 四组数值、中介体块和五类拓扑关系。三个模型都遗漏中介块,形成 <b>0/3 的明信片偏差</b>:文本语料结构性缺少图纸级知识,成为 RAD 必要性的直接证据。glm 的数字达到 5/5,但连续三次违反 schema,因此退出承诺席、保留为知识源;qwen 则产生「86.6m 穹顶承托在 43.3m 鼓座上」的几何矛盾,促使跨体量一致门记入债务。判卷器 v1 还出现压分,构成第三个「错误门导致静默错判」的案例。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
       <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/standard_answer_pantheon.json">standard_answer_pantheon.json</a></li>
       <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/compare_to_standard.py">compare_to_standard.py</a></li>
     </ul></span></div>
   <div class="row arch"><span class="hash">9c85363</span><span class="tag">RAD 三方</span>
-    <p><b>盲考 vs 朴素 RAD vs 结构化 RAD 收官</b>:整段灌注<b>净变差</b>(字面性劫持:"壁厚6.4"被造成 6.4m 高的板;引源满分内容崩=引用≠理解);结构化 RAD(逐源掩码单问→带单位事实账本→律层推导→一致门)<b>三轮拒→拒→过</b>,oculus 8.9 与 30 罗马尺换算互证合并。判词:<b>检索喂事实账本,不喂 prompt;LLM 答知识问句,后果问句全归律</b>——边界即白盒论点。</p>
+    <p><b>盲考、朴素 RAD 与结构化 RAD 的三方对照完成</b>:把整段资料直接灌入 prompt 后,整体表现反而下降——例如「壁厚 6.4」被误造为 6.4m 高的板;即使引用来源完整,内容仍然崩坏,说明引用不等于理解。结构化 RAD 按「逐源掩码单问 → 带单位事实账本 → 律层推导 → 一致门」运行,三轮依次拒绝、拒绝、通过,并将 oculus 8.9m 与 30 罗马尺的换算结果互证合并。结论是:<b>检索结果进入事实账本,不直接灌入 prompt;LLM 回答知识问句,结果性问题全部交给律层</b>。这条边界正是白盒论点。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
       <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/rad_v2_structured.py">rad_v2_structured.py</a></li>
       <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/rad_results.json">rad_results.json</a></li>
@@ -452,17 +452,17 @@ footer a:hover{color:var(--ink)}
 
   <h3 class="sub-label">Rulings &amp; Paper 判决与论文 — 今天定了什么</h3>
   <div class="row ruling"><span class="hash">cba69bf</span><span class="tag">铁则入宪</span>
-    <p><b>视觉轮铁则(Kevin 指示)</b>:凡产出/改变几何的轮,收口前<b>四视图全读</b>(iso+双剖+立面),不是只看轴测+账本。判例 = 万神殿 v0 账全清但剖面是矮棚子(+32ef7ae 试点结论降格:账对楼错)。</p>
+    <p><b>视觉轮铁则(Kevin 指示)</b>:凡是产出或改变几何的轮次,收口前都必须<b>完整检查四视图</b>(iso+双剖+立面),不能只看轴测图与账本。万神殿 v0 虽然账本全部清偿,剖面却仍像矮棚;32ef7ae 试点也因此降格为「账对、楼错」。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
       <li><a href="vscode://file/D:/ARCHFLOW_V3/CLAUDE.md">CLAUDE.md</a></li>
     </ul></span></div>
   <div class="row paper"><span class="hash">387d872</span><span class="tag">假阴性立论</span>
-    <p><b>"闸口为何全绿但内容不对"的工程答案</b>:三机制——命题缺失(律法落后于现象)/ 空间错位(验的和交付的不是一个空间)/ 局部真≠整体真;三派生门入债(天空唯一性 / 全楼重叠 / 方言统一)。</p>
+    <p><b>「闸口为什么全绿,内容却仍然不对」的工程答案</b>:存在三种机制——命题缺失,即律法落后于现象;空间错位,即验证空间与交付空间不同;局部为真并不保证整体为真。由此产生的三道派生门已经记入债务:天空唯一性、全楼重叠与方言统一。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
       <li><a href="vscode://file/D:/ARCHFLOW_V3/docs/项目动态地图_V3.md">docs/项目动态地图_V3.md</a></li>
     </ul></span></div>
   <div class="row ruling"><span class="hash">9c85363</span><span class="tag">空间 MDP</span>
-    <p><b>Kevin 判词:"原点只存在于实现层——柱子的位置只和台基的大小有关,推算时只看这一部分"</b>= 局部马尔可夫性从决策序列推广到空间:关系图=依赖 DAG,落位=拓扑序前向推算,每步只看父集;非局部约束(重叠/越界)不做父节点、做全局门。推论:编译态小=漂移面小 · Selective Uncommit 便宜的理论保票(父未动子树不动)· 父集小⇒菜单小⇒熵低。<b>落位求解器立项(LLM 永不答坐标)</b>。</p>
+    <p><b>Kevin 判词:「原点只存在于实现层——柱子的位置只与台基大小有关,推算时只读取这一部分」</b>。这把局部马尔可夫性从决策序列推广到空间:关系图是一张依赖 DAG,落位按拓扑序前向推算,每一步只读取父集;重叠与越界等非局部约束不进入父节点,而由全局门处理。由此得到三项推论:编译态越小,漂移面越小;父节点不变时子树保持不动,为 Selective Uncommit 提供理论依据;父集越小,菜单越小,条件熵也越低。<b>落位求解器已立项,LLM 永不回答坐标</b>。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
       <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/REPORT.md">REPORT.md 追加五</a></li>
     </ul></span></div>
@@ -493,7 +493,7 @@ footer a:hover{color:var(--ink)}
       <span class="pi done">LLM 原始回复上账</span>
       <span class="pi gate">义务升 dataclass — 形状待 Kevin 批</span>
     </div>
-    <p class="pnote">两级义务(legality / commitment)是链三冲突·豁免语义的唯一来源——形状拍板即开工。convert 唯一门口(633dbd2)已为交付空间执法打好地基;voxelize 本体物理迁入 convert/ 已排队(垫片模式)。</p>
+    <p class="pnote">两级义务(legality / commitment)是链三表达冲突与豁免语义的唯一来源;形状一经拍板即可开工。convert 唯一门口(633dbd2)已经为交付空间执法建立基础;voxelize 本体迁入 convert/ 的工作也已进入队列(垫片模式)。</p>
   </div>
 
   <div class="phase" data-bench="arch">
@@ -504,7 +504,7 @@ footer a:hover{color:var(--ink)}
       <span class="pi">view_corridor 义务</span>
       <span class="pi">朝向偏置</span>
     </div>
-    <p class="pnote">Codex 独立认定:三链中唯一带冲突 / 协商 / 豁免的链 = 全文可信度最高杠杆。</p>
+    <p class="pnote">Codex 独立判断:在三条链中,只有这一条同时包含冲突、协商与豁免,因此它是提升全文可信度最有力的杠杆。</p>
   </div>
 
   <div class="phase" data-bench="arch">
@@ -514,7 +514,7 @@ footer a:hover{color:var(--ink)}
       <span class="pi">invalidate(D⁺(X)) + 局部重规划</span>
       <span class="pi">downstream_of WAW 收紧(随建)</span>
     </div>
-    <p class="pnote">9 月检查点:若悬,退路 = v5 冲突修订句降级"框架支持、实验见 ACADIA"。</p>
+    <p class="pnote">9 月检查点:如果进展仍不确定,退路是将 v5 的冲突修订表述降级为「框架支持,实验留待 ACADIA」。</p>
   </div>
 
   <div class="phase">
@@ -565,7 +565,7 @@ footer a:hover{color:var(--ink)}
     {"label":"2624add","passed":1136},
     {"label":"07-17","passed":1136}
   ]</script>
-  <p class="pnote" style="border-bottom:1px solid var(--line);padding-bottom:16px">doctor 0 findings · selfcheck 16/16 + 废墟门 PASS(2026-07-16 实测)· 曲线只升不降 = 每块建造都带自己的回归网。</p>
+  <p class="pnote" style="border-bottom:1px solid var(--line);padding-bottom:16px">doctor 0 findings · selfcheck 16/16 + 废墟门 PASS(2026-07-16 实测)· 曲线持续上升,说明每个新建模块都带有自己的回归网。</p>
 
   <h3 class="sub-label">Benchmark 明细 — 素材 Materials(主页第二格的算法:● 1 · ◐ 0.5 · ○ 0)</h3>
   <div class="pitems" data-bench="assets" style="padding-bottom:16px;border-bottom:1px solid var(--line)">
@@ -618,7 +618,7 @@ footer a:hover{color:var(--ink)}
   </div>
   <div style="padding:20px 0 6px;border-bottom:1px solid var(--line)"><img src="看板万神殿.svg" alt="Pantheon elevation and plan line diagram 万神殿立面与平面线图" style="width:100%;max-width:760px;display:block"></div>
   <h3 class="sub-label">Critic 今日一问 · 2026-07-17(每日一位 critic,问题必须扎在当日数据/图像上)</h3>
-  <div class="row fix" style="grid-template-columns:1fr"><p><b>两天零漂移,账本也两天全零。</b>Day 2 指纹 2aaca5e6d336 未动(稳定本身是好消息),但 obligation 账仍 <b>0 / 0 / 0</b>——"a large pantheon" 走 composer 类型学,333 构件里 249 装饰、32 柱、18 梁没有一笔上账。今晨 <b>76330b8</b> 的理论 A/B 对照给了最锋利的反例:同为帕拉第奥体量,旋钮全关(A)只有 20 构件、天花一刀平 5.0、零结构件;义务模式(B)长出 <b>97 构件 · 44 柱 22 梁 12 板</b>、天花按房间比例 5/7/10、<b>16 义务创建全清</b>。剖面我亲验过——A 是一只平顶盒子,B 的横剖里楼板各就其位、没切穿高厅。问:B 已证明通用义务路径能把这类建筑真正"扛"起来,"a large pantheon" 何时改道走 B、让它的账本不再读 0?退役试点第①步(composer 冻结为 V2 参照)今日是否落子?<span class="src" style="color:var(--faint)">(周五性能一瞥:B 的 97 构件对 A 的 20,渲染/导出成本随义务展开上抬——token-per-building 该把这条曲线纳进 N30 指标。)</span></p></div>
+  <div class="row fix" style="grid-template-columns:1fr"><p><b>连续两天没有漂移,但账本也连续两天保持全零。</b>Day 2 指纹 2aaca5e6d336 没有变化,稳定本身是好消息;然而 obligation 账仍为 <b>0 / 0 / 0</b>。原因是「a large pantheon」仍走 composer 类型学:333 个构件中包含 249 个装饰、32 根柱和 18 根梁,却没有任何一项上账。今晨 <b>76330b8</b> 的理论 A/B 对照提供了直接反例:面对同一个帕拉第奥体量,旋钮全关的 A 路径只有 20 个构件、5.0m 的统一天花和零结构件;义务模式 B 则生成 <b>97 个构件 · 44 柱 · 22 梁 · 12 板</b>,天花按房间比例分为 5/7/10,并且 <b>16 项义务全部清偿</b>。剖面检查确认:A 是一个平顶盒子,B 的横剖中楼板各就其位,没有切穿高厅。由此产生今日问题:B 已经证明通用义务路径能够真正承托这类建筑,那么「a large pantheon」何时转入 B 路径,让账本不再为零?退役试点的第一步——将 composer 冻结为 V2 参照——是否应在今天启动?<span class="src" style="color:var(--faint)">(性能补充:B 有 97 个构件,A 有 20 个;渲染与导出成本会随义务展开而上升,因此 N30 指标应同时记录 token-per-building。)</span></p></div>
 </section>
 </section>
 
@@ -627,10 +627,10 @@ footer a:hover{color:var(--ink)}
 <section class="blk">
   <div class="sec-head"><span class="no">05</span><h2>明日方向 Next · 2026-07-17 晚(手动轮)</h2><span class="hint">每日 00:02 自动更新本段</span></div>
   <ol class="next">
-    <li><span><b>落位求解器 v0</b>(空间 MDP 判决落地):轴+关系→坐标的确定性前向推算(基准=鼓心+入口轴),替换调度实验里问错席的 S2 门;关系不可满足=求解器直接拒(一致门升级)。</span></li>
-    <li><span><b>D2.5 类型体块席接线</b>(待义务 dataclass 拍板):结构化 RAD 流水线(事实账本+律层)即原型;S1 门硬化清单 + 跨体量一致门 + 抽取方言两处(object enum / qualitative 通道)一并收。</span></li>
-    <li><span><b>voxelize 本体迁入 convert/</b>(P1.5 垫片模式,已排队):表示空间转换的物理归位。</span></li>
-    <li><span><b>闸F 鼓座起拱</b>:头部问句接线后顺带解(体量承诺 h=半径进状态);porch 穹荒谬留盖谱席细化。</span></li>
+    <li><span><b>落位求解器 v0</b>(落实空间 MDP 判决):以鼓心和入口轴为基准,根据轴与关系确定性地前向推算坐标,替换调度实验中问错席的 S2 门;如果关系不可满足,求解器直接拒绝,同时升级一致门。</span></li>
+    <li><span><b>D2.5 类型体块席接线</b>(等待义务 dataclass 拍板):以事实账本与律层组成的结构化 RAD 流水线作为原型;同步完成 S1 门硬化清单、跨体量一致门,并收敛 object enum 与 qualitative 通道两种抽取方言。</span></li>
+    <li><span><b>voxelize 本体迁入 convert/</b>(P1.5 垫片模式,已排队):完成表示空间转换模块的物理归位。</span></li>
+    <li><span><b>闸F 鼓座起拱</b>:头部问句接线后同步解决,将「体量承诺 h=半径」写入状态;porch 穹顶的不合理结果留给盖谱席继续细化。</span></li>
   </ol>
   <div class="gatebox">
     <span class="label">Awaiting Ruling 待 Kevin 拍 — 拍完即开大块</span>
@@ -675,43 +675,43 @@ footer a:hover{color:var(--ink)}
 
   <h3 class="sub-label">理论框架 Theory — 论文的骨头(记法以理论卷为准)</h3>
   <div class="gl"><span class="term">MDP · 马尔可夫决策过程<small>Markov Decision Process</small></span>
-    <p>全项目的理论底座:建筑构成 = 一串决策的轨迹 <code>p(τ)=p(a₀…a_T|s₀)</code>,建筑只是轨迹终点 <code>B=f(τ)</code>。与其学"条件 C 下采样成品 B",不如构造能稳定推进、限制组合爆炸、记录承诺、允许局部修订的<b>设计状态系统</b>。"建筑不是被采样出来的,而是在连续承诺中成为现实。" <span class="src">理论卷 §0</span></p></div>
+    <p>全项目的理论底座:建筑构成是一条决策轨迹 <code>p(τ)=p(a₀…a_T|s₀)</code>,建筑只是这条轨迹的终点 <code>B=f(τ)</code>。与其只学习「在条件 C 下采样成品 B」,不如构造一个能够稳定推进、限制组合爆炸、记录承诺并支持局部修订的<b>设计状态系统</b>。「建筑不是被采样出来的,而是在连续承诺中成为现实。」 <span class="src">理论卷 §0</span></p></div>
   <div class="gl"><span class="term">POMDP · 部分可观测 MDP<small>Partially Observable MDP</small></span>
-    <p>真实设计天然有隐藏意图——"这里不能放柱子"的真正原因可能是没说出口的视线、仪式序列或未来立面构想,所以天然是部分可观测的。ArchFlow 的对策不是硬学,而是把意图显式化 → 见「构造马尔可夫性」。 <span class="src">理论卷 §3.3</span></p></div>
+    <p>真实设计天然包含隐藏意图。例如,「这里不能放柱子」背后的原因可能是尚未表达的视线要求、仪式序列或未来立面构想,因此设计过程天然是部分可观测的。ArchFlow 的对策不是要求模型自行猜测,而是把这些意图逐步显式化,见「构造马尔可夫性」。 <span class="src">理论卷 §3.3</span></p></div>
   <div class="gl"><span class="term">构造马尔可夫性<small>Constructed Markovianity</small></span>
-    <p>不是<b>发现</b>设计过程是马尔可夫的,而是<b>把它构造成</b>马尔可夫的:隐藏意图编译为显式状态变量(前提 premises:<code>parti</code> / <code>function_intent</code> / <code>tradition</code>,铁律11 强制每个决策必读),让"只看当前状态就能走下一步"成为工程事实。 <span class="src">premises.py · 理论卷 §3</span></p></div>
+    <p>这不是<b>发现</b>设计过程天然符合马尔可夫性,而是主动<b>把它构造成</b>可操作的马尔可夫过程:将隐藏意图编译为显式状态变量,包括前提 premises:<code>parti</code> / <code>function_intent</code> / <code>tradition</code>;铁律11要求每个决策都必须读取这些前提,从而让「只看当前状态就能走下一步」成为工程事实。 <span class="src">premises.py · 理论卷 §3</span></p></div>
   <div class="gl"><span class="term">状态编译 S_t<small>State Compiler</small></span>
-    <p>把历史、提案、验证结果编译成<b>最小充分状态</b> <code>S_t=(G,C,L,O,U)</code> + 义务账本 <code>𝒪_t</code>;完整思考历史反而引发漂移,编译态才可控。代码 = 黑板(槽位读写集+前提)。 <span class="src">blackboard/ · 谱系:Hayes-Roth 1985 · Hearsay-II</span></p></div>
+    <p>将历史、提案与验证结果编译成<b>最小充分状态</b> <code>S_t=(G,C,L,O,U)</code>,并纳入义务账本 <code>𝒪_t</code>。完整思考历史容易重新激活噪声与过期假设,编译态则只保留会影响未来合法动作的信息。代码中的对应实体是黑板,包含槽位读写集与前提。 <span class="src">blackboard/ · 谱系:Hayes-Roth 1985 · Hearsay-II</span></p></div>
   <div class="gl"><span class="term">熵预算<small>Action Budgeter</small></span>
-    <p>每步条件熵 <code>H(A_t|S_t)≈log₂|A_valid|</code> 压在预算带 <code>[H_min,H_max]</code> 内:掩码先把菜单缩到合法集 A_valid,策略只在合法项里选。代码 = MenuSpec(预掩码菜单,三真菜单已通)。 <span class="src">policy.py · 谱系:SPRING(AIJ 2024) · shielded RL</span></p></div>
+    <p>将每一步的条件熵 <code>H(A_t|S_t)≈log₂|A_valid|</code> 控制在预算区间 <code>[H_min,H_max]</code> 内:掩码先把菜单缩到合法集 A_valid,策略再从合法项中选择。代码中的对应实体是 MenuSpec;目前已有三个真菜单通电。 <span class="src">policy.py · 谱系:SPRING(AIJ 2024) · shielded RL</span></p></div>
   <div class="gl"><span class="term">D⁺(X) · 依赖闭包<small>Dependency Graph</small></span>
     <p>决策 X 的全部下游 <code>D⁺(X)={Y|X⤳Y}</code>;修订成本 <code>C_revision ∝ |D⁺(X)|</code>——改一个决策的代价由<b>依赖闭包</b>决定,不由结果规模决定(repair locality 的测量面)。代码 = 读写集 + <code>downstream_of()</code>。 <span class="src">谱系:TMS(Doyle 1979) · de Kleer 1986</span></p></div>
   <div class="gl"><span class="term">Selective Uncommit<small>选择性修订 · P3.1</small></span>
-    <p><code>invalidate(D⁺(X))</code> → 局部重规划,而非整图重生:只解除被波及的承诺,其余照旧。修改不可逆的三个原因(下游扩散/编译丢史/路径依赖)正是它要绕开的。施工序 P3.1 在建,全案最紧赌注(9 月检查点)。 <span class="src">理论卷 §5–6</span></p></div>
+    <p><code>invalidate(D⁺(X))</code> → 局部重规划,而不是整图重生:只解除受影响的承诺,其余部分保持不变。它针对修改难以逆转的三个原因——下游扩散、编译丢史与路径依赖。施工序 P3.1 正在推进,这是全案风险最高的赌注,9 月设置检查点。 <span class="src">理论卷 §5–6</span></p></div>
   <div class="gl"><span class="term">RAD · 检索增强决策<small>Retrieval-Augmented Decision-making</small></span>
-    <p>不叫 RAG:<b>RAG 接地 token,RAD 接地决策</b>。三件套:① 检索进掩码文法——先例只影响"合法项里选哪个",不可能引入违法;② 溯源上账——哪个先例影响了哪个决策,进合法史可回放;③ 忠实度 = 确定性重放审计——删掉检索重放一遍,看选择变不变(引用忠实度全场无人能审计,我们的重放基建正好能)。状态:待 Kevin 三拍(入宪方式/语料池/指标),P2.5 桩。 <span class="src">提案_检索增强决策 · precedent.py · 谱系:CBR 三祖 · LeanDojo · LayoutGPT</span></p></div>
+    <p>这里使用 RAD 而非 RAG:<b>RAG 接地 token,RAD 接地决策</b>。它包含三部分:① 检索进入掩码文法,先例只影响「在合法项中选哪个」,不会引入非法动作;② 溯源上账,记录哪个先例影响了哪个决策,使其进入可回放的合法史;③ 通过确定性重放审计忠实度——删除检索信息后重放一次,观察选择是否改变。现有系统通常难以审计引用是否真正影响决策,而 ArchFlow 的重放基础设施提供了这一条件。当前仍待 Kevin 拍板入宪方式、语料池与指标,P2.5 已有接口桩。 <span class="src">提案_检索增强决策 · precedent.py · 谱系:CBR 三祖 · LeanDojo · LayoutGPT</span></p></div>
   <div class="gl"><span class="term">义务 ⊕<small>Obligation</small></span>
-    <p>前向债:<code>created → discharged</code>,未清 = debt 留账。义务跨决策创建与清偿(D05 隐私义务 → D09 楼板检查;cover→bear 级联召唤),清偿逐项对账(多重集差)。词汇桥:形式方法的 proof obligation。 <span class="src">ledger · ⊕=比理论卷多出的增补件</span></p></div>
+    <p>义务是一种前向债:<code>created → discharged</code>,未清部分以 debt 留账。义务可以跨决策创建与清偿,例如 D05 创建隐私义务,D09 通过楼板检查清偿;cover→bear 则形成级联召唤。清偿按多重集差逐项对账,对应形式方法中的 proof obligation。 <span class="src">ledger · ⊕=比理论卷多出的增补件</span></p></div>
   <div class="gl"><span class="term">自问自答 ⊕<small>Question-Driven Agenda</small></span>
-    <p>议程 = 问题清单:每个决策带 <code>question</code> 字段,<code>transcript()</code> 把推导渲染成"问/答"笔录;repair = 重问一个问题(而非重画一块几何)。 <span class="src">decision/ · blackboard/</span></p></div>
+    <p>议程就是问题清单:每个决策都带有 <code>question</code> 字段,<code>transcript()</code> 将推导渲染成「问/答」笔录;repair 表示重新询问一个问题,而不是直接重画一块几何。 <span class="src">decision/ · blackboard/</span></p></div>
 
   <h3 class="sub-label">工程词汇 Engineering — 门与纪律(动态地图口径)</h3>
   <div class="gl"><span class="term">六步原子<small>Six-Step Atom</small></span>
-    <p>每个决策单元的内部结构:<code>observe 观察 → menu 菜单 → mask 掩码 → policy 策略 → apply 应用 → gate 门</code>。菜单先被掩码缩到合法集,策略只答"选哪个",门只记录不裁决。 <span class="src">decision/ · 地图 §P0.1</span></p></div>
+    <p>每个决策单元都采用同一内部结构:<code>observe 观察 → menu 菜单 → mask 掩码 → policy 策略 → apply 应用 → gate 门</code>。掩码先把菜单缩到合法集,策略只回答「选哪个」,门只记录、不裁决。 <span class="src">decision/ · 地图 §P0.1</span></p></div>
   <div class="gl"><span class="term">真菜单 / 席位<small>Menu · Seat</small></span>
-    <p>有真实选择集(MenuSpec)的决策称真菜单;策略席可插拔——确定性 / LLM / 人,谁答的记在 <code>seat</code> 字段上账。当前三席:D05 行为 · D07 传统 · D10 结构;确定性默认 = 字节锚不破。 <span class="src">policy.py · v2_stages.py</span></p></div>
+    <p>拥有真实选择集(MenuSpec)的决策称为真菜单。策略席可以在确定性 / LLM / 人之间插拔;谁作答,就把相应身份写入 <code>seat</code> 字段并上账。当前三个席位分别是 D05 行为、D07 传统与 D10 结构;确定性策略仍为默认值,因此字节锚保持不变。 <span class="src">policy.py · v2_stages.py</span></p></div>
   <div class="gl"><span class="term">法 / 判别刀<small>Laws · The Discriminator</small></span>
-    <p>常量先问它是<b>法</b>还是<b>选择</b>:法(词汇/掩码/canon 比例锁)可写死;选择(对单个设计的判断)必过策略席——否则就是又一个参数化 CityEngine。扩展对:复用可入 pack,配方必过流。 <span class="src">铁律15候选(判决 2026-07-16)</span></p></div>
+    <p>面对一个常量,先判断它属于<b>法</b>还是<b>选择</b>:法,例如词汇、掩码和 canon 比例锁,可以写死;选择,即针对单个设计的判断,必须经过策略席,否则系统会退化为另一个参数化 CityEngine。进一步说,可复用的内容可以进入 pack,而具体配方必须经过推导流。 <span class="src">铁律15候选(判决 2026-07-16)</span></p></div>
   <div class="gl"><span class="term">三门<small>Three Gates</small></span>
-    <p><code>pytest</code> · <code>doctor</code> · <code>selfcheck</code>(16 金样+废墟门):任何提交必须三门全绿;碰默认路径字节的修复必须显式声明金样影响。 <span class="src">CLAUDE.md 工作协议</span></p></div>
+    <p><code>pytest</code> · <code>doctor</code> · <code>selfcheck</code>(16 金样+废墟门)共同组成三门。任何提交都必须三门全绿;如果修复会改变默认路径的字节结果,必须明确说明它对金样的影响。 <span class="src">CLAUDE.md 工作协议</span></p></div>
   <div class="gl"><span class="term">字节锚 / 金样<small>Byte Anchor · Golden</small></span>
-    <p>旋钮全关 = V2 <code>Pipeline.run</code> 字节等价(参照系本体不动);金样 = 冻结的基准产物,字节漂移即报警。双向防作弊:禁"凑金样"(结果侧塞特判),禁"自改考卷"(悄悄重生成金样)——换代必过 Kevin 拍板。 <span class="src">CLAUDE.md · selfcheck</span></p></div>
+    <p>旋钮全关时,结果必须与 V2 <code>Pipeline.run</code> 字节等价,参照系本体保持不动。金样是冻结的基准产物,任何字节漂移都会触发报警。双向防作弊同时禁止「凑金样」——在结果侧加入特判,以及「自改考卷」——悄悄重生成金样;金样换代必须由 Kevin 拍板。 <span class="src">CLAUDE.md · selfcheck</span></p></div>
   <div class="gl"><span class="term">鹈鹕模式<small>Probe-and-Repair</small></span>
-    <p>主动构造对抗建筑案例,猎"<b>验证通过但建筑错误</b>"的假阴性(幽灵柱判例:账对图不对);第一原理 = <b>修法不修果</b>,修复落在架构(律法/掩码/canon/义务链)而非生成结果,同案例 A/B 重跑取证。 <span class="src">CLAUDE.md 鹈鹕协议(判决 2026-07-16)</span></p></div>
+    <p>主动构造对抗性建筑案例,寻找「<b>验证通过,但建筑错误</b>」的假阴性;幽灵柱就是「账对、图不对」的判例。第一原理是<b>修法不修果</b>:修复必须落在律法、掩码、canon 或义务链上,而不是直接修改生成结果;随后用同一案例进行 A/B 重跑取证。 <span class="src">CLAUDE.md 鹈鹕协议(判决 2026-07-16)</span></p></div>
   <div class="gl"><span class="term">convert 唯一门口<small>The Only Doorway</small></span>
-    <p>浮点 bbox 世界 → 离散体素<b>交付空间</b>的单一转换点:<code>to_voxels()</code> + <code>conversion_findings()</code>,existence / bearing 两法在交付空间执法(承托判定从 bbox 升到体素,"离散可判定"主张自家兑现)。 <span class="src">archflow/convert/ · 铁律16候选</span></p></div>
+    <p>convert 唯一门口是浮点 bbox 世界进入离散体素<b>交付空间</b>的单一转换点,由 <code>to_voxels()</code> 与 <code>conversion_findings()</code> 组成。existence / bearing 两条法都在交付空间执法,使承托判定从 bbox 层升级到体素层,也让「离散可判定」这一主张在系统内部得到兑现。 <span class="src">archflow/convert/ · 铁律16候选</span></p></div>
   <div class="gl"><span class="term">诚实拒绝<small>Honest Refusal</small></span>
-    <p>能力不够时拒绝并把债留在账上(法院石梁柱盖不了 20m 厅 → 4 债挂账),绝不用漂亮几何硬盖;未清义务绝不进 ValidationResult。拒绝是特性,不是缺陷——失败分类学从这里长出来。 <span class="src">ledger · 地图 §1.4</span></p></div>
+    <p>当系统能力不足时,它会拒绝生成并把债留在账上。例如,法院的石梁柱体系无法覆盖 20m 大厅,因此留下 4 项债务,而不是用表面漂亮的几何强行遮盖问题;未清义务绝不进入 ValidationResult。拒绝是特性,不是缺陷,失败分类学也由此建立。 <span class="src">ledger · 地图 §1.4</span></p></div>
 </section>
 </section>
 

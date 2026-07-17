@@ -34,7 +34,7 @@
 <marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahr"/></marker>
 </defs>
 
-<text x="40" y="34" class="t3">三门 + 鹈鹕回路 THREE GATES + PROBE-AND-REPAIR — 猎物:验证通过但建筑错误(假阴性)</text>
+<text x="40" y="34" class="t3">三门 + 鹈鹕回路 THREE GATES + PROBE-AND-REPAIR — 目标:验证通过但建筑错误的假阴性</text>
 
 <!-- 法 -->
 <rect x="40" y="70" width="250" height="120" class="bx2"/>
@@ -65,9 +65,9 @@
 <text x="776" y="276" class="t1">鹈鹕探针 PROBE</text>
 <text x="776" y="298" class="t2">对抗建筑案例:优先只变一个维度</text>
 <text x="776" y="316" class="t2">亲读四视图(视觉轮铁则 2026-07-17)</text>
-<text x="776" y="334" class="t2s">数字账与图像不一致处 = 假阴性藏身处</text>
+<text x="776" y="334" class="t2s">数字账与图像不一致的地方,往往藏着假阴性</text>
 <text x="776" y="360" class="rk-t">判例:幽灵柱——账对、图不对</text>
-<text x="776" y="378" class="rk-t">万神殿 v0——账全清,剖面是矮棚子</text>
+<text x="776" y="378" class="rk-t">万神殿 v0——账本全部清偿,但剖面仍像矮棚</text>
 
 <!-- 修法回路 -->
 <path d="M760,325 L560,325" class="rk-l"/>
@@ -75,7 +75,7 @@
 <text x="430" y="322" class="rk-t" text-anchor="middle" style="font-weight:700">修法,不修果</text>
 <text x="430" y="340" class="rk-s" text-anchor="middle">FIX THE LAW, NOT THE RESULT</text>
 <path d="M300,325 L165,325 L165,192" class="rk-l" marker-end="url(#ahr)"/>
-<text x="152" y="290" class="rk-t" text-anchor="middle" transform="rotate(-90 152 290)">根因复现后才许改</text>
+<text x="152" y="290" class="rk-t" text-anchor="middle" transform="rotate(-90 152 290)">只有复现根因后才能修改</text>
 <text x="430" y="374" class="rk-t" text-anchor="middle">最小 diff · 同案例 A/B 重跑 · 重放推导出新结果</text>
 
 <!-- 修果禁行 -->
@@ -83,7 +83,7 @@
 <text x="640" y="234" class="rk-t">✗ 手改结果 = 在结果空间打补丁(禁)</text>
 
 <!-- 三门 -->
-<text x="40" y="452" class="t3">守回归 REGRESSION NET — 修后只跑相关测试;campaign 收口至多一次全量</text>
+<text x="40" y="452" class="t3">回归网 REGRESSION NET — 修复后只跑相关测试;campaign 收口时至多运行一次全量</text>
 <rect x="40" y="466" width="620" height="94" class="bx"/>
 <text x="56" y="492" class="t1">三门 GATES</text>
 <text x="200" y="492" class="gt-m">字节锚:旋钮全关 = V2 Pipeline.run 字节等价</text>
@@ -94,7 +94,7 @@
 <rect x="700" y="466" width="420" height="94" class="gt-l"/>
 <text x="716" y="492" class="gt-m">双向防作弊 ANTI-CHEAT(判决 2026-07-16)</text>
 <text x="716" y="518" class="t2">① 禁「凑金样」:结果侧塞特判对齐金样</text>
-<text x="716" y="540" class="t2">② 禁「自改考卷」:字节变必须显式摆出,金样换代 = Kevin 拍板</text>
+<text x="716" y="540" class="t2">② 禁「自改考卷」:必须明确说明字节变化,金样换代由 Kevin 拍板</text>
 
 <text x="40" y="604" class="t3">真源:CLAUDE.md 鹈鹕协议(修法不修果 / 双向防作弊 / 视觉轮铁则) · 看板 08 Glossary「三门 / 字节锚·金样 / 鹈鹕模式」</text>
 </svg>

@@ -46,15 +46,15 @@
 <text x="56" y="190" class="t2">推理草稿</text>
 <text x="56" y="210" class="t2">自我修正</text>
 <text x="56" y="230" class="t2">尚未确认的模糊意图</text>
-<text x="56" y="262" class="rk-t">历史越长,噪声与冲突越易被重新激活</text>
-<text x="56" y="284" class="rk-t">直接读史 A_t~P(A_t|H_t) → 漂移 ✗</text>
+<text x="56" y="262" class="rk-t">历史越长,噪声与冲突越容易被重新激活</text>
+<text x="56" y="284" class="rk-t">直接读取历史记录 A_t~P(A_t|H_t) → 漂移 ✗</text>
 
 <!-- φ 编译 -->
 <path d="M340,180 L558,180" class="ln" marker-end="url(#ah)"/>
 <text x="450" y="146" class="t1" text-anchor="middle">状态编译 STATE COMPILER</text>
 <text x="450" y="168" class="t1m" text-anchor="middle">H_t → φ → S_t</text>
 <text x="450" y="202" class="t2" text-anchor="middle">面向未来的最小充分表示</text>
-<text x="450" y="218" class="t2s" text-anchor="middle">删无关历史,不删会改变未来合法动作的信息</text>
+<text x="450" y="218" class="t2s" text-anchor="middle">删除无关历史,保留会改变未来合法动作的信息</text>
 
 <!-- 编译态 -->
 <rect x="560" y="48" width="560" height="336" class="bx2"/>
@@ -74,9 +74,9 @@
 <text x="590" y="294" class="t4">前提 premises:parti · function_intent · tradition</text>
 <text x="1092" y="294" class="gt-m" text-anchor="end">铁律11:每个决策必读</text>
 <rect x="576" y="310" width="528" height="30" class="bx2"/>
-<text x="590" y="330" class="t4">义务账本 𝒪_t:created → discharged · 未清 = 债</text>
-<text x="1092" y="330" class="gt-m" text-anchor="end">骑跨 L / S 两面(合议)</text>
-<text x="576" y="366" class="t2s">理想状态不是完整生成日志——尽可能删除无关历史,同时不能删除任何会改变未来合法动作的信息</text>
+<text x="590" y="330" class="t4">义务账本 𝒪_t:created → discharged · 未清即为债</text>
+<text x="1092" y="330" class="gt-m" text-anchor="end">同时连接 L / S 两个平面(合议)</text>
+<text x="576" y="366" class="t2s">理想状态不是完整生成日志——它删除无关历史,但保留所有会改变未来合法动作的信息</text>
 
 <!-- 决策只读编译态 -->
 <path d="M840,384 L840,432" class="ln" marker-end="url(#ah)"/>
@@ -88,9 +88,9 @@
 <!-- 双轨 L/S -->
 <rect x="40" y="420" width="560" height="112" class="bx"/>
 <text x="56" y="444" class="t3">双轨记法 L / S(合议 2026-07-16 · Codex 双轨形式化)</text>
-<text x="56" y="468" class="t2">L 面 · 账本:L_t+1 = L_t ⊕ e_t —— 只进不出、可回放证据,不参与日常决策</text>
-<text x="56" y="490" class="t2">S 面 · 运行态:S_t = φ(L_≤t) —— 压缩、可操作马尔可夫、被决策读</text>
-<text x="56" y="514" class="t2s">三层:原始推理史 H(乱、被忘)→ 干净账本 L(留、可放)→ 编译态 S(马尔可夫、被读)</text>
+<text x="56" y="468" class="t2">L 面 · 账本:L_t+1 = L_t ⊕ e_t —— 只增不删,保存可回放证据,不参与日常决策</text>
+<text x="56" y="490" class="t2">S 面 · 运行态:S_t = φ(L_≤t) —— 压缩成可操作的马尔可夫状态,供决策读取</text>
+<text x="56" y="514" class="t2s">三层:原始推理史 H(混杂、可遗忘)→ 干净账本 L(保留、可回放)→ 编译态 S(马尔可夫、供决策读取)</text>
 
 <text x="40" y="568" class="t3">真源:理论卷 §3(状态编译 / 构造马尔可夫性) · 合议 §1(双轨 L/S) · 看板 08 Glossary「状态编译 S_t」</text>
 </svg>

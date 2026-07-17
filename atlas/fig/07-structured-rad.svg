@@ -33,7 +33,7 @@
 <marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahr"/></marker>
 </defs>
 
-<text x="40" y="34" class="t3">结构化 RAD · 检索增强决策 STRUCTURED RETRIEVAL-AUGMENTED DECISION — 检索喂事实账本,不喂 prompt</text>
+<text x="40" y="34" class="t3">结构化 RAD · 检索增强决策 STRUCTURED RETRIEVAL-AUGMENTED DECISION — 检索结果进入事实账本,不直接灌入 prompt</text>
 
 <!-- 流水线 -->
 <rect x="40" y="60" width="160" height="100" class="bx"/>
@@ -42,8 +42,8 @@
 <text x="52" y="122" class="t2s">六源测绘文献</text>
 <rect x="224" y="60" width="160" height="100" class="bx"/>
 <text x="236" y="82" class="t3">EXTRACT</text>
-<text x="236" y="102" class="t4">逐源掩码单问抽取</text>
-<text x="236" y="122" class="t2s">槽位 + 单位钉死</text>
+<text x="236" y="102" class="t4">按来源隔离,以掩码单问抽取</text>
+<text x="236" y="122" class="t2s">固定槽位与单位</text>
 <text x="236" y="138" class="t2s">逐源隔离 = MDP 单问</text>
 <rect x="408" y="60" width="160" height="100" class="bx"/>
 <text x="420" y="82" class="t3">FACT LEDGER</text>
@@ -63,8 +63,8 @@
 <rect x="960" y="60" width="160" height="100" class="bx2"/>
 <text x="972" y="82" class="t3">CONSISTENCY</text>
 <text x="972" y="102" class="t4">一致门</text>
-<text x="972" y="122" class="t2s">三轮:拒 → 拒 → 过</text>
-<text x="972" y="138" class="ok-t">门在全实验零漏放</text>
+<text x="972" y="122" class="t2s">三轮依次为:拒绝 → 拒绝 → 通过</text>
+<text x="972" y="138" class="ok-t">整个实验中,一致门没有漏放</text>
 
 <path d="M200,110 L223,110" class="ln" marker-end="url(#ah)"/>
 <path d="M384,110 L407,110" class="ln" marker-end="url(#ah)"/>
@@ -82,11 +82,11 @@
 <!-- 判词 -->
 <rect x="40" y="292" width="1080" height="66" class="bx2"/>
 <text x="56" y="318" class="t1">判词</text>
-<text x="150" y="318" class="t2">检索喂事实账本,不喂 prompt;LLM 只答知识问句(有什么 · 谁托谁)</text>
-<text x="150" y="340" class="t2">后果问句(等于几 · 在哪里 · 自洽否)全归律——边界即白盒论点本身</text>
+<text x="150" y="318" class="t2">检索结果进入事实账本,不直接灌入 prompt;LLM 只回答知识问句(有什么 · 谁托谁)</text>
+<text x="150" y="340" class="t2">结果性问题(数值是多少 · 位于何处 · 是否自洽)全部交给律层——这条边界就是白盒论点本身</text>
 
 <!-- 朴素 RAD 对照 -->
-<text x="40" y="398" class="t3">对照:朴素 RAD NAIVE INJECTION — 整段灌注 = 净变差 ✗</text>
+<text x="40" y="398" class="t3">对照:朴素 RAD NAIVE INJECTION — 整段灌入后,整体效果反而变差 ✗</text>
 <rect x="40" y="414" width="180" height="56" class="bx"/>
 <text x="52" y="438" class="t4">检索段落</text>
 <text x="52" y="456" class="t2s">同样六源</text>
@@ -95,15 +95,15 @@
 <path d="M305,427 L335,457" class="rk-l"/>
 <path d="M335,427 L305,457" class="rk-l"/>
 <rect x="420" y="414" width="180" height="56" class="bx"/>
-<text x="432" y="438" class="t4">LLM 一把出</text>
+<text x="432" y="438" class="t4">LLM 一次性生成</text>
 <text x="432" y="456" class="t2s">散文事实无槽位语义</text>
 <path d="M600,442 L798,442" class="rk-l" marker-end="url(#ahr)"/>
 <rect x="800" y="414" width="320" height="56" class="rk-l"/>
-<text x="812" y="438" class="rk-t">净变差:比盲考更糟</text>
-<text x="812" y="456" class="t2s">引源满分(cited=5)内容崩 = 引用 ≠ 理解</text>
+<text x="812" y="438" class="rk-t">整体效果反而比盲考更差</text>
+<text x="812" y="456" class="t2s">引用来源完整(cited=5),但内容仍然崩坏 = 引用 ≠ 理解</text>
 
 <text x="40" y="502" class="t2">· 字面性劫持:「壁厚 6.4」被造成 6.4m 高的板 / 6.4×6.4×43.3 的柱(槽位语义不在散文里)</text>
-<text x="40" y="524" class="t2">· 六源同灌 = 变相滚动上下文,违反自家 MDP 单问纪律;检索淹没先验(盲考会的 bears_on 链在 RAD 下丢失)</text>
+<text x="40" y="524" class="t2">· 六个来源一次性灌入 = 变相滚动上下文,违反 MDP 单问纪律;检索淹没先验(盲考时成立的 bears_on 链反而丢失)</text>
 <text x="40" y="546" class="t2">· 盲考基线也不可用:明信片偏差——中介体块 0/3 全漏,图纸级知识在文本语料结构性缺席(RAD 必要性最硬实证)</text>
 
 <text x="40" y="604" class="t3">真源:REPORT.md 追加五(RAD 三方对照 / 修复三轮 / 判词) · 追加四(标准答案考 · 明信片偏差) · 看板 08 Glossary「RAD」</text>

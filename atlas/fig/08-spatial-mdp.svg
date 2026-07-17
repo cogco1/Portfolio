@@ -43,10 +43,10 @@
 <path d="M320,112 L320,156" class="ln" marker-end="url(#ah)"/>
 <rect x="240" y="158" width="160" height="48" class="bx"/>
 <text x="252" y="180" class="t4">鼓 drum</text>
-<text x="252" y="196" class="t5">cylinder · d=跨</text>
+<text x="252" y="196" class="t5">cylinder · d=跨度</text>
 
 <path d="M320,206 L320,250" class="ln" marker-end="url(#ah)"/>
-<text x="330" y="232" class="t5">bears_on(穹坐鼓)</text>
+<text x="330" y="232" class="t5">bears_on(穹顶承托于鼓座)</text>
 <rect x="240" y="252" width="160" height="48" class="bx"/>
 <text x="252" y="274" class="t4">穹 dome</text>
 <text x="252" y="290" class="t5">hemisphere · rise=半径</text>
@@ -74,7 +74,7 @@
 <rect x="230" y="150" width="180" height="64" class="gt-l" stroke-dasharray="5 4"/>
 <text x="40" y="170" class="gt-m">父集 PARENT SET</text>
 <text x="40" y="188" class="t2s">推算 dome 只看 {drum}</text>
-<text x="40" y="204" class="t2s">其他不管</text>
+<text x="40" y="204" class="t2s">无需读取其他节点</text>
 <path d="M150,184 L226,180" class="lnf" stroke-dasharray="3 3"/>
 
 <!-- 局部马尔可夫 inset -->
@@ -89,7 +89,7 @@
 <text x="722" y="318" class="t2s">台基 stylobate(父)</text>
 <text x="940" y="318" class="t1m">P(柱位 | 台基)</text>
 <text x="716" y="352" class="t2">「原点只存在于实现层,设计层无坐标——柱子的位置</text>
-<text x="716" y="372" class="t2">只和台基的大小有关,推算时只看这一部分,其他不管。」</text>
+<text x="716" y="372" class="t2">只与台基的大小有关;推算时只读取这一部分,无需读取其他节点。」</text>
 <text x="716" y="396" class="t3">KEVIN 判词 2026-07-17 · 空间 MDP 入论文素材</text>
 <text x="716" y="418" class="t2s">推论:局部马尔可夫性从决策序列推广到空间依赖</text>
 
@@ -99,12 +99,12 @@
 <text x="332" y="440" class="t5">全部体量合并后整体检查</text>
 <rect x="140" y="468" width="500" height="72" class="bx2"/>
 <text x="156" y="492" class="t1">全局门 GLOBAL GATE</text>
-<text x="156" y="514" class="t2">非局部约束不做父节点:重叠 overlap · 越界 out-of-bounds</text>
-<text x="156" y="532" class="t2s">推导局部化,验证全局化 ·(全楼重叠门 = 假阴性派生门入债)</text>
+<text x="156" y="514" class="t2">非局部约束不进入父节点:重叠 overlap · 越界 out-of-bounds</text>
+<text x="156" y="532" class="t2s">推导局部化,验证全局化 · 全楼重叠门尚未完成,已作为假阴性派生门记入债务</text>
 
 <!-- 三推论 -->
 <text x="40" y="576" class="t3">三推论 COROLLARIES(REPORT 追加五)</text>
-<text x="40" y="598" class="t2">① 编译态小 = 漂移面小 ② 父未动子树不动 = Selective Uncommit 便宜的理论保票(P3.1) ③ 父集小 ⇒ 菜单小 ⇒ H(A_t|S_t) 低(熵预算)</text>
-<text x="40" y="620" class="gt-m">落位求解器(立项):轴 + 关系 → 坐标的确定性前向推算 —— LLM 永不答坐标</text>
+<text x="40" y="598" class="t2">① 编译态越小,漂移面越小 ② 父节点未变,子树保持不动,为 Selective Uncommit 提供理论依据(P3.1) ③ 父集越小,菜单越小,H(A_t|S_t) 越低</text>
+<text x="40" y="620" class="gt-m">落位求解器(已立项):轴 + 关系 → 坐标的确定性前向推算 —— LLM 永不回答坐标</text>
 <text x="40" y="644" class="t3">真源:REPORT.md 追加五(Kevin 空间 MDP 判词) · 追加四(标准答案五拓扑) · 看板 05 明日(落位求解器 v0)</text>
 </svg>

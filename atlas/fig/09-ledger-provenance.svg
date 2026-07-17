@@ -33,13 +33,13 @@
 <marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahr"/></marker>
 </defs>
 
-<text x="40" y="34" class="t3">溯源上账 PROVENANCE LEDGER — LedgerEntry 七账(P1 Spine · 2026-07-16 全落)</text>
+<text x="40" y="34" class="t3">溯源上账 PROVENANCE LEDGER — LedgerEntry 七账(P1 Spine · 已于 2026-07-16 全部落地)</text>
 
 <!-- LedgerEntry 卡 -->
 <rect x="40" y="56" width="520" height="510" class="bx2"/>
 <text x="56" y="84" class="t1">LedgerEntry</text>
 <text x="56" y="100" class="t3">一步决策的完整账 ONE DECISION, FULL ACCOUNT</text>
-<text x="56" y="124" class="t3">基座 BASE FIELDS</text>
+<text x="56" y="124" class="t3">基础字段 BASE FIELDS</text>
 <rect x="56" y="132" width="488" height="26" class="bx"/>
 <text x="66" y="149" class="t5">decision_id</text><text x="200" y="149" class="t2s">决策编号</text>
 <rect x="56" y="164" width="488" height="26" class="bx"/>
@@ -58,31 +58,31 @@
 <rect x="56" y="386" width="488" height="28" class="bx2"/>
 <text x="66" y="404" class="t1m">③ versions</text><text x="200" y="404" class="t2s">规则 / 构造器版本指纹(engine + canon)</text>
 <rect x="56" y="420" width="488" height="28" class="bx2"/>
-<text x="66" y="438" class="t1m">④ fallbacks</text><text x="200" y="438" class="t2s">逐槽回退痕(回退不再静默)</text>
+<text x="66" y="438" class="t1m">④ fallbacks</text><text x="200" y="438" class="t2s">逐槽回退记录(回退不再静默)</text>
 <rect x="56" y="454" width="488" height="28" class="bx2"/>
 <text x="66" y="472" class="t1m">⑤ menu</text><text x="200" y="472" class="t2s">合法菜单(逐槽选项 + 锁定槽)</text>
 <rect x="56" y="488" width="488" height="28" class="bx2"/>
 <text x="66" y="506" class="t1m">⑥ action</text><text x="200" y="506" class="t2s">提交动作(选中值)</text>
 <rect x="56" y="522" width="488" height="28" class="bx2"/>
-<text x="66" y="540" class="t1m">⑦ reply</text><text x="200" y="540" class="t2s">LLM 原始回复(验证前逐字)</text>
+<text x="66" y="540" class="t1m">⑦ reply</text><text x="200" y="540" class="t2s">LLM 原始回复(验证前的逐字原文)</text>
 
 <!-- 重放 -->
 <rect x="620" y="56" width="500" height="122" class="bx2"/>
 <text x="636" y="82" class="t1">确定性重放 DETERMINISTIC REPLAY</text>
-<text x="636" y="106" class="t2">trace() 全序列化 → 同法 + 同种子 + 同菜单下重推导,逐字节对照</text>
-<text x="636" y="126" class="t2s">reply 上账 = LLM 占席 build 可复现的最后一块</text>
-<text x="636" y="154" class="ok-t">「同 trace 异 rules 不再能冒充重放」—— versions 指纹钉死规则世代</text>
+<text x="636" y="106" class="t2">trace() 全序列化 → 在同法 + 同种子 + 同菜单下重新推导,再逐字节对照</text>
+<text x="636" y="126" class="t2s">reply 上账补齐了 LLM 占席 build 可复现的最后一个缺口</text>
+<text x="636" y="154" class="ok-t">「同一 trace、不同 rules 不再能冒充重放」—— versions 指纹钉死规则世代</text>
 
 <rect x="620" y="200" width="500" height="92" class="bx"/>
 <text x="636" y="222" class="t3">PROVENANCE ≠ REPLAY(合议 §1④ · Codex 与内部审计撞同一洞)</text>
-<text x="636" y="246" class="t2">动作值 · 构造器/规则版本 · 种子 · 模型回复——缺一不配叫 deterministic replay</text>
+<text x="636" y="246" class="t2">动作值 · 构造器/规则版本 · 种子 · 模型回复——缺少任何一项,都不能称为 deterministic replay</text>
 <text x="636" y="266" class="t2s">席位不记则「谁答的」事后不可考(LLMPolicy 静默回退旧病,已修)</text>
 
 <text x="636" y="330" class="t4">七账 → 三种能力</text>
 <path d="M636,350 L652,350" class="ok-l" marker-end="url(#ahk)"/>
 <text x="660" y="354" class="t2">seat + reply + fallbacks → 作者性可审计(「谁答的」永远在账上)</text>
 <path d="M636,378 L652,378" class="ok-l" marker-end="url(#ahk)"/>
-<text x="660" y="382" class="t2">seed + versions → 重放可信(同 trace 异 rules 即现形)</text>
+<text x="660" y="382" class="t2">seed + versions → 重放可信(同一 trace、不同 rules 会立即显现)</text>
 <path d="M636,406 L652,406" class="ok-l" marker-end="url(#ahk)"/>
 <text x="660" y="410" class="t2">menu + action → 掩码内选择可复核(逐槽留档)</text>
 
@@ -91,7 +91,7 @@
 <text x="636" y="480" class="t2s">"the ledger records the question, the legal action menu, the proposer,</text>
 <text x="636" y="496" class="t2s">the committed action, …, the rule version"</text>
 
-<text x="620" y="548" class="gt-m">剩最后一块:义务升 dataclass(状态枚举 + 两级 legality/commitment)——形状待 Kevin 拍</text>
+<text x="620" y="548" class="gt-m">最后一块:将义务升级为 dataclass(状态枚举 + 两级 legality/commitment)——形状尚待 Kevin 拍板</text>
 
 <text x="40" y="600" class="t3">真源:地图 §3 P1 Spine(席位身份 / 溯源上账 二·三) · 合议 §1④(provenance ≠ replay) · 看板 02 施工序 P1</text>
 </svg>
