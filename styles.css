@@ -168,15 +168,32 @@ img{max-width:100%;display:block}
 .about-grid{max-width:var(--max);margin:0 auto;padding:clamp(44px,6vw,80px) var(--pad);display:grid;grid-template-columns:1fr 2.1fr;gap:clamp(32px,6vw,96px)}
 .about-grid h2{font-size:12px;font-family:var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--faint);font-weight:400}
 .about-block{margin-bottom:52px}
+.about-block h2{margin-bottom:18px}
 .about-block h3{font-size:15.5px;font-weight:700;letter-spacing:0}
 .about-block .when{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--faint);margin-bottom:3px}
 .about-block ul{list-style:none;margin-top:7px}
 .about-block li{font-size:14px;color:#3a3a3a;padding-left:16px;position:relative;margin-bottom:5px;line-height:1.6}
 .about-block li::before{content:"—";position:absolute;left:0;color:var(--faint)}
 .entry{margin-bottom:30px}
+.entry.compact{margin-bottom:20px}
+.entry .role{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--muted);margin-top:4px}
 .lead{font-size:clamp(18px,2.3vw,25px);line-height:1.55;max-width:800px;font-weight:400}
 .cv-btn{display:inline-block;margin-top:30px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);border:1px solid var(--ink);padding:13px 24px;transition:background .2s,color .2s}
 .cv-btn:hover{background:var(--ink);color:#fff}
+.resume-intro{position:relative;padding-bottom:0}
+.resume-tools{display:flex;align-items:center;gap:9px;margin-bottom:28px;font-family:var(--mono);font-size:11px;color:var(--faint)}
+.lang-toggle{border:0;background:none;padding:4px 0;color:var(--faint);font:inherit;letter-spacing:.12em;cursor:pointer}
+.lang-toggle:hover,.lang-toggle.is-active{color:var(--ink)}
+.lang-toggle.is-active{border-bottom:1px solid var(--ink)}
+.resume-kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-bottom:14px}
+.resume-lang[hidden]{display:none!important}
+.resume-aside{align-self:start;position:sticky;top:96px}
+.resume-contact{font-size:14px;color:var(--muted);margin-top:8px;line-height:1.7}
+.resume-contact a{border-bottom:1px solid var(--line-strong)}
+.resume-aside .resume-lang{font-size:13px;color:var(--muted);margin-top:28px;line-height:1.75}
+.resume-aside-label{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+.featured-block{border-left:2px solid var(--ink);padding-left:24px}
+.skills-list b{color:var(--ink)}
 
 /* ---- contact page — clean standalone card ---- */
 .contact-wrap{min-height:62vh;display:flex;align-items:center;justify-content:center;padding:clamp(48px,9vw,120px) var(--pad)}
@@ -207,6 +224,8 @@ img{max-width:100%;display:block}
 /* ---- responsive ---- */
 @media(max-width:760px){
   .about-grid{grid-template-columns:1fr;padding-top:28px;gap:8px}
+  .resume-aside{position:static;margin-bottom:28px}
+  .featured-block{padding-left:18px}
   .imgcol.two{grid-template-columns:1fr}
   .nav ul{gap:18px}
   /* Work dropdown: anchor to nav (not the li) so it can't overflow the screen edge */

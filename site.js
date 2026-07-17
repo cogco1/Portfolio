@@ -14,6 +14,7 @@
     trimNavForMobile();
     heroCarousel();
     heroScroll();
+    resumeLanguage();
   });
 
   var imgEl = lb.querySelector('#lb-img');
@@ -159,5 +160,27 @@
       if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
     }, { passive: true });
     update();
+  }
+
+  /* ---- Résumé language: one reading layer at a time ---- */
+  function resumeLanguage() {
+    var switches = document.querySelectorAll('[data-lang-switch]');
+    var layers = document.querySelectorAll('[data-lang]');
+    if (!switches.length || !layers.length) return;
+    function show(lang) {
+      document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+      for (var i = 0; i < layers.length; i++) {
+        layers[i].hidden = layers[i].getAttribute('data-lang') !== lang;
+      }
+      for (var j = 0; j < switches.length; j++) {
+        var active = switches[j].getAttribute('data-lang-switch') === lang;
+        switches[j].classList.toggle('is-active', active);
+        switches[j].setAttribute('aria-pressed', active ? 'true' : 'false');
+      }
+    }
+    for (var k = 0; k < switches.length; k++) {
+      switches[k].addEventListener('click', function () { show(this.getAttribute('data-lang-switch')); });
+    }
+    show('en');
   }
 })();
