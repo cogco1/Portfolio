@@ -99,8 +99,8 @@
 <text x="332" y="440" class="t5">全部体量合并后整体检查</text>
 <rect x="140" y="468" width="500" height="72" class="bx2"/>
 <text x="156" y="492" class="t1">全局门 GLOBAL GATE</text>
-<text x="156" y="514" class="t2">非局部约束不进入父节点:重叠 overlap · 越界 out-of-bounds</text>
-<text x="156" y="532" class="t2s">推导局部化,验证全局化 · 全楼重叠门尚未完成,已作为假阴性派生门记入债务</text>
+<text x="156" y="514" class="t2">非局部约束不纳入父节点集合:重叠 overlap · 越界 out-of-bounds</text>
+<text x="156" y="532" class="t2s">推导局部化,验证全局化 · 全楼重叠校验尚未完成,已作为假阴性问题列入待办</text>
 
 <!-- 三推论 -->
 <text x="40" y="576" class="t3">三推论 COROLLARIES(REPORT 追加五)</text>

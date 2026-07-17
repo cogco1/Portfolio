@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="560" viewBox="0 0 1160 560" role="img" aria-label="convert 唯一门口:浮点 bbox 世界经 to_voxels 与 conversion_findings 进入体素交付空间,existence 与 bearing 在交付空间执法;消费者全部过门">
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="560" viewBox="0 0 1160 560" role="img" aria-label="convert 唯一通道:浮点 bbox 世界经 to_voxels 与 conversion_findings 进入体素交付空间,existence 与 bearing 在交付空间执行校验;所有下游模块统一经过 convert">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=Space+Mono:wght@400;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap');
 :root{--ink:#1a1a1a;--muted:#737373;--faint:#a6a6a6;--line:#ededed;--line-strong:#dcdcdc;--bg:#ffffff;--ok:#3f7350;--gate:#a3822f;--risk:#a4453a;
@@ -33,7 +33,7 @@
 <marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahr"/></marker>
 </defs>
 
-<text x="40" y="34" class="t3">表示空间转换 REPRESENTATION CROSSING — 所有几何都必须经过同一个门口进入交付空间</text>
+<text x="40" y="34" class="t3">表示空间转换 REPRESENTATION CROSSING — 所有几何都必须经由同一通道进入交付空间</text>
 
 <!-- 浮点世界 -->
 <rect x="40" y="64" width="330" height="220" class="bx"/>
@@ -51,7 +51,7 @@
 <!-- convert 门 -->
 <rect x="460" y="44" width="240" height="252" class="bx2"/>
 <text x="476" y="68" class="t3">CONVERT</text>
-<text x="476" y="90" class="t1">唯一门口 The Only Doorway</text>
+<text x="476" y="90" class="t1">唯一通道 SINGLE CONVERSION CHANNEL</text>
 <text x="476" y="116" class="t5">to_voxels()</text>
 <text x="476" y="132" class="t2s">网格化 + 逐件归属</text>
 <text x="476" y="156" class="t5">conversion_findings()</text>
@@ -59,7 +59,7 @@
 <text x="486" y="183" class="t4">existence — 构件必须成块</text>
 <rect x="476" y="198" width="208" height="26" class="bx"/>
 <text x="486" y="215" class="t4">bearing — 承托块级成立</text>
-<text x="476" y="242" class="t2s">existence 与 bearing 两条法都在交付空间执法</text>
+<text x="476" y="242" class="t2s">existence 与 bearing 两条规则都在交付空间执行校验</text>
 <text x="476" y="266" class="gt-m">铁律16候选:验收在交付空间</text>
 
 <path d="M700,174 L788,174" class="ln" marker-end="url(#ah)"/>
@@ -79,7 +79,7 @@
 <text x="810" y="222" class="t2s">compliance 主张可锐利证伪(域框定判决 2026-07-15)</text>
 
 <!-- 消费者 -->
-<text x="180" y="340" class="t3">所有消费者都必须过门 ALL CONSUMERS PASS THE DOOR</text>
+<text x="180" y="340" class="t3">所有下游模块统一经过 convert ALL CONSUMERS PASS THROUGH CONVERT</text>
 <rect x="180" y="352" width="200" height="46" class="bx"/>
 <text x="196" y="372" class="t4">结构链坐标门</text>
 <text x="196" y="388" class="t3">coordinate gate</text>
@@ -97,5 +97,5 @@
 <text x="180" y="456" class="t2">幽灵柱案形成两条法级修复:① _ints 非塌缩法(实厚&gt;0.5 不得舍空)② 结构链第6步坐标检验门(构件成块+块级承托,否则整组拒绝)</text>
 <text x="180" y="478" class="t2s">待办:将 voxelize 本体物理迁入 convert/(P1.5 垫片模式)</text>
 
-<text x="40" y="524" class="t3">真源:看板 08 Glossary「convert 唯一门口」 · 地图 已清账 2026-07-16(convert / 幽灵柱+坐标检验门) · §7.2 域框定</text>
+<text x="40" y="524" class="t3">真源:看板 08 Glossary「convert 唯一通道」 · 地图 已清账 2026-07-16(convert / 幽灵柱+坐标检验门) · §7.2 域框定</text>
 </svg>

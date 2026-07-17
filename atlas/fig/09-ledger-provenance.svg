@@ -70,7 +70,7 @@
 <rect x="620" y="56" width="500" height="122" class="bx2"/>
 <text x="636" y="82" class="t1">确定性重放 DETERMINISTIC REPLAY</text>
 <text x="636" y="106" class="t2">trace() 全序列化 → 在同法 + 同种子 + 同菜单下重新推导,再逐字节对照</text>
-<text x="636" y="126" class="t2s">reply 上账补齐了 LLM 占席 build 可复现的最后一个缺口</text>
+<text x="636" y="126" class="t2s">记录 reply 后,LLM 参与的构建过程才具备完整的重放条件</text>
 <text x="636" y="154" class="ok-t">「同一 trace、不同 rules 不再能冒充重放」—— versions 指纹钉死规则世代</text>
 
 <rect x="620" y="200" width="500" height="92" class="bx"/>

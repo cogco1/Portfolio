@@ -211,7 +211,7 @@ footer a:hover{color:var(--ink)}
     <div class="sec-head"><span class="no">00</span><h2>原理 The Principle · 一图</h2><span class="hint">法 → 决策 → 账本 → 交付空间 → 探针,一条回路</span></div>
     <figure>
       <div class="figwrap">
-      <svg class="pr" viewBox="0 0 1160 590" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ArchFlow V3 原理图:法通过掩码进入十四步决策链,决策读写黑板与义务账本,几何经 convert 唯一门口进入体素交付空间,三门与鹈鹕探针把修复送回法而非结果">
+      <svg class="pr" viewBox="0 0 1160 590" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ArchFlow V3 原理图:法通过掩码进入十四步决策链,决策读写黑板与义务账本,几何经 convert 唯一通道进入体素交付空间,三门与鹈鹕探针把修复送回法而非结果">
         <defs>
           <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ah"/></marker>
           <marker id="ahk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahk"/></marker>
@@ -306,11 +306,11 @@ footer a:hover{color:var(--ink)}
         <text x="162" y="396" class="t2">清偿逐项对账(多重集差)</text>
         <text x="340" y="396" class="rk-t">未清 = 债务留账 = 诚实拒绝(绝不进 ValidationResult)</text>
 
-        <!-- ⑦ convert 唯一门口 → 体素交付空间 -->
+        <!-- ⑦ convert 唯一通道 → 体素交付空间 -->
         <path d="M790.6,199 L813,199" class="ln" marker-end="url(#ah)"/>
         <rect x="815" y="150" width="140" height="110" class="bx2"/>
         <text x="827" y="170" class="t3">CONVERT</text>
-        <text x="827" y="189" class="t1">唯一门口</text>
+        <text x="827" y="189" class="t1">唯一通道</text>
         <text x="827" y="208" class="t5">to_voxels()</text>
         <text x="827" y="224" class="t5">conversion_findings</text>
         <text x="827" y="242" class="t2s">existence · bearing</text>
@@ -356,7 +356,7 @@ footer a:hover{color:var(--ink)}
         <text x="658" y="570" class="rk-t">留债 / 修法回路</text>
       </svg>
       </div>
-      <figcaption><b>读法</b>:法(可写死)以掩码进入每个决策;14 步决策各走六步原子,读写黑板并逐步上账;义务跨决策创建与清偿,未清=债务留账=诚实拒绝;几何只经 convert 唯一门口进入交付空间成体素;三门守回归,鹈鹕探针猎假阴性——修复永远落在法上,重放推导出新结果,从不手改几何。MDP / RAD / 六步原子等术语解释见<a href="#glossary" style="border-bottom:1px solid var(--line-strong)">「术语 Glossary」</a>。</figcaption>
+      <figcaption><b>读法</b>:法(可写死)通过掩码约束每个决策;14 步决策都采用六步原子,读写黑板并逐步记录到账本。义务可以跨决策创建与清偿,未清部分以债务留账,形成诚实拒绝。几何统一经由 convert 通道进入交付空间并转为体素;三门负责守住回归,鹈鹕探针负责寻找假阴性。修复始终落在法上,再通过重放推导出新结果,不直接手改几何。MDP / RAD / 六步原子等术语解释见<a href="#glossary" style="border-bottom:1px solid var(--line-strong)">「术语 Glossary」</a>。</figcaption>
     </figure>
   </section>
 
@@ -425,25 +425,25 @@ footer a:hover{color:var(--ink)}
       <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/probe_type_massing.py">probe_type_massing.py</a></li>
     </ul></span></div>
   <div class="row arch"><span class="hash">5f286a3</span><span class="tag">席位基准</span>
-    <p><b>三模型 × 三类型 × 4 维基准</b>:qwen3 是体块席主力,热身后约 5 秒完成一问,并能稳定给出鼓高 16m;deepseek 掌握相关知识,但会在 16 与 32 之间发生<b>承诺翻面</b>,因此只保留在批判席;glm 的词汇与依据均不稳定,退出承诺席。在巴西利卡层级题中,qwen 与 deepseek 都能判断「中厅必须高于侧廊」,说明模型进行了类型推理,而非简单背诵。</p>
+    <p><b>三模型 × 三类型 × 4 维基准</b>:qwen3 是体块席主力,热身后约 5 秒完成一问,并能稳定给出鼓高 16m;deepseek 掌握相关知识,但承诺值会在 16 与 32 之间反复变化,因此只保留在批判席;glm 的词汇与依据均不稳定,退出承诺席。在巴西利卡层级题中,qwen 与 deepseek 都能判断「中厅必须高于侧廊」,说明模型进行了类型推理,而非简单背诵。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
       <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/bench_massing_models.py">bench_massing_models.py</a></li>
       <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/bench_results.json">bench_results.json</a></li>
     </ul></span></div>
   <div class="row arch"><span class="hash">77fd81d</span><span class="tag">调度席</span>
-    <p><b>Claude 负责调度,本地模型分别执行子项</b>:qwen 回答体块构成;glm 的回复被效度门拒收后,系统执行确定性回退并上账;deepseek 批判席准确指出柱列缺失与 oculus 4m 偏离史实 8.9m 两项问题。<b>修复环只重答 oculus 这一问</b>,用 11.7 秒将 4m 修订为 8.9m,构成 Selective Uncommit 的微缩实例。实验形成三点结论:多席提供纵深防御;调度门本身也要接受审查;采样漂移需要门与批判席双重保险。</p>
+    <p><b>Claude 负责调度,本地模型分别执行子项</b>:qwen 回答体块构成;glm 的回复被效度门拒收后,系统采用确定性结果,并把回退过程写入账本;deepseek 批判席准确指出柱列缺失与 oculus 4m 偏离史实 8.9m 两项问题。<b>修复环只重答 oculus 这一问</b>,用 11.7 秒将 4m 修订为 8.9m,构成 Selective Uncommit 的小型实例。实验形成三点结论:多个席位能够提供纵深防御;调度席的校验规则本身也要接受审查;采样漂移需要门与批判席双重保险。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
       <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/agent_dispatch.py">agent_dispatch.py</a></li>
       <li><a href="vscode://file/D:/ARCHFLOW_V3/training_records/probes/20260717_头部问句">training_records/…/agent_dispatch_pantheon/</a></li>
     </ul></span></div>
   <div class="row fix"><span class="hash">eeaa276</span><span class="tag">标准答案考</span>
-    <p><b>先查资料建立标准答案,再让三个模型盲考</b>:标准包含 43.3/21.65/8.9/11.9 四组数值、中介体块和五类拓扑关系。三个模型都遗漏中介块,形成 <b>0/3 的明信片偏差</b>:文本语料结构性缺少图纸级知识,成为 RAD 必要性的直接证据。glm 的数字达到 5/5,但连续三次违反 schema,因此退出承诺席、保留为知识源;qwen 则产生「86.6m 穹顶承托在 43.3m 鼓座上」的几何矛盾,促使跨体量一致门记入债务。判卷器 v1 还出现压分,构成第三个「错误门导致静默错判」的案例。</p>
+    <p><b>先查资料建立标准答案,再让三个模型盲考</b>:标准包含 43.3/21.65/8.9/11.9 四组数值、中介体块和五类拓扑关系。三个模型都遗漏中介块,形成 <b>0/3 的明信片偏差</b>:文本语料普遍缺少图纸层级知识,成为采用 RAD 的直接依据。glm 的数字达到 5/5,但连续三次违反 schema,因此退出承诺席、保留为知识源;qwen 则产生「86.6m 穹顶承托在 43.3m 鼓座上」的几何矛盾,因此跨体量一致性校验被列入待办。判卷器 v1 还出现评分偏低的问题,构成第三个「校验规则有误导致静默误判」的案例。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
       <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/standard_answer_pantheon.json">standard_answer_pantheon.json</a></li>
       <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/compare_to_standard.py">compare_to_standard.py</a></li>
     </ul></span></div>
   <div class="row arch"><span class="hash">9c85363</span><span class="tag">RAD 三方</span>
-    <p><b>盲考、朴素 RAD 与结构化 RAD 的三方对照完成</b>:把整段资料直接灌入 prompt 后,整体表现反而下降——例如「壁厚 6.4」被误造为 6.4m 高的板;即使引用来源完整,内容仍然崩坏,说明引用不等于理解。结构化 RAD 按「逐源掩码单问 → 带单位事实账本 → 律层推导 → 一致门」运行,三轮依次拒绝、拒绝、通过,并将 oculus 8.9m 与 30 罗马尺的换算结果互证合并。结论是:<b>检索结果进入事实账本,不直接灌入 prompt;LLM 回答知识问句,结果性问题全部交给律层</b>。这条边界正是白盒论点。</p>
+    <p><b>盲考、朴素 RAD 与结构化 RAD 的三方对照完成</b>:把整段资料直接灌入 prompt 后,整体表现反而下降——例如「壁厚 6.4」被误造为 6.4m 高的板;即使引用来源完整,内容仍然崩坏,说明引用不等于理解。结构化 RAD 按「逐源掩码单问 → 带单位事实账本 → 律层推导 → 一致门」运行,三轮依次拒绝、拒绝、通过,并将 oculus 8.9m 与 30 罗马尺的换算结果互证合并。结论是:<b>检索结果进入事实账本,不直接灌入 prompt;LLM 回答知识问句,结果性问题全部交给律层</b>。这条边界正是白盒机制的核心原则。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
       <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/rad_v2_structured.py">rad_v2_structured.py</a></li>
       <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/rad_results.json">rad_results.json</a></li>
@@ -457,12 +457,12 @@ footer a:hover{color:var(--ink)}
       <li><a href="vscode://file/D:/ARCHFLOW_V3/CLAUDE.md">CLAUDE.md</a></li>
     </ul></span></div>
   <div class="row paper"><span class="hash">387d872</span><span class="tag">假阴性立论</span>
-    <p><b>「闸口为什么全绿,内容却仍然不对」的工程答案</b>:存在三种机制——命题缺失,即律法落后于现象;空间错位,即验证空间与交付空间不同;局部为真并不保证整体为真。由此产生的三道派生门已经记入债务:天空唯一性、全楼重叠与方言统一。</p>
+    <p><b>为什么所有校验都通过了,内容仍然可能出错</b>:存在三种机制——命题缺失,即现有规则尚未覆盖新现象;空间错位,即验证空间与交付空间不同;局部成立并不保证整体成立。因此新增三项待建校验:天空唯一性、全楼重叠与方言统一。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
       <li><a href="vscode://file/D:/ARCHFLOW_V3/docs/项目动态地图_V3.md">docs/项目动态地图_V3.md</a></li>
     </ul></span></div>
   <div class="row ruling"><span class="hash">9c85363</span><span class="tag">空间 MDP</span>
-    <p><b>Kevin 判词:「原点只存在于实现层——柱子的位置只与台基大小有关,推算时只读取这一部分」</b>。这把局部马尔可夫性从决策序列推广到空间:关系图是一张依赖 DAG,落位按拓扑序前向推算,每一步只读取父集;重叠与越界等非局部约束不进入父节点,而由全局门处理。由此得到三项推论:编译态越小,漂移面越小;父节点不变时子树保持不动,为 Selective Uncommit 提供理论依据;父集越小,菜单越小,条件熵也越低。<b>落位求解器已立项,LLM 永不回答坐标</b>。</p>
+    <p><b>Kevin 判词:「原点只存在于实现层——柱子的位置只与台基大小有关,推算时只读取这一部分」</b>。这把局部马尔可夫性从决策序列推广到空间:关系图是一张依赖 DAG,落位按拓扑序前向推算,每一步只读取父节点集合;重叠与越界等非局部约束不纳入父节点集合,而由全局门处理。由此得到三项推论:编译态越小,漂移面越小;父节点不变时子树保持不动,为 Selective Uncommit 提供理论依据;父节点越少,菜单越小,条件熵也越低。<b>落位求解器已立项,坐标始终由确定性规则计算,不交给 LLM 回答</b>。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
       <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260717_头部问句/REPORT.md">REPORT.md 追加五</a></li>
     </ul></span></div>
@@ -493,7 +493,7 @@ footer a:hover{color:var(--ink)}
       <span class="pi done">LLM 原始回复上账</span>
       <span class="pi gate">义务升 dataclass — 形状待 Kevin 批</span>
     </div>
-    <p class="pnote">两级义务(legality / commitment)是链三表达冲突与豁免语义的唯一来源;形状一经拍板即可开工。convert 唯一门口(633dbd2)已经为交付空间执法建立基础;voxelize 本体迁入 convert/ 的工作也已进入队列(垫片模式)。</p>
+    <p class="pnote">两级义务(legality / commitment)是链三表达冲突与豁免语义的唯一来源;形状一经拍板即可开工。convert 唯一通道(633dbd2)已经为交付空间校验建立基础;voxelize 本体迁入 convert/ 的工作也已进入队列(垫片模式)。</p>
   </div>
 
   <div class="phase" data-bench="arch">
@@ -645,7 +645,7 @@ footer a:hover{color:var(--ink)}
   <div class="sec-head"><span class="no">06</span><h2>风险雷达 Risks</h2></div>
   <div class="risks">
     <div class="riskcard"><b>P3.1 上移 = 最紧赌注</b>repair 机器从零建 + N≥30 出数,3 个月内。9 月检查点定去留;退路已备。</div>
-    <div class="riskcard"><b>LLM 占席 build 暂不可复现</b>LLMPolicy 弃回复 → 重放只对确定性席成立。回复上账(P1)后解除。</div>
+    <div class="riskcard"><b>LLM 参与的构建过程暂时无法完整重放</b>LLMPolicy 尚未保存原始回复,因此目前只有确定性席可以重放。P1 将回复写入账本后即可补齐。</div>
     <div class="riskcard"><b>渲染眼验剩 1 件</b>eyeball_p12(P1.2 柱网)。deck 修复已由战役卡#1 剖面亲验清账(2026-07-16)。</div>
   </div>
 </section>
@@ -661,7 +661,7 @@ footer a:hover{color:var(--ink)}
       摘要 v2→v5 四迭代收官(619 词可投)· 三方合议归档 · 判决 A=加速建造,施工序 P0→P4 立项<br>
       首条跨决策义务链(D05→D09)· 自问自答入代码 · 理论卷成记法真源 · 席位身份 seat 上账<br>
       两修复 HIGH:obligation_completion 按身份 / deck 穿层 per-zone 接地(战役卡#1 四拓扑 CLEAN 证普适+眼验清账)<br>
-      鹈鹕模式入宪(修法不修果+双向防作弊)· 幽灵柱+坐标检验门(成果A)· convert 表示空间唯一门口(铁律16候选)<br>
+      鹈鹕模式入宪(修法不修果+双向防作弊)· 幽灵柱+坐标检验门(成果A)· convert 表示空间唯一通道(铁律16候选)<br>
       composer 类型学分级退役判决(万神殿第一案)· 探针产物导出制度 · 看板重构(主页=原理图+Benchmark,内容入模块)
     </div>
   </details>
@@ -683,13 +683,13 @@ footer a:hover{color:var(--ink)}
   <div class="gl"><span class="term">状态编译 S_t<small>State Compiler</small></span>
     <p>将历史、提案与验证结果编译成<b>最小充分状态</b> <code>S_t=(G,C,L,O,U)</code>,并纳入义务账本 <code>𝒪_t</code>。完整思考历史容易重新激活噪声与过期假设,编译态则只保留会影响未来合法动作的信息。代码中的对应实体是黑板,包含槽位读写集与前提。 <span class="src">blackboard/ · 谱系:Hayes-Roth 1985 · Hearsay-II</span></p></div>
   <div class="gl"><span class="term">熵预算<small>Action Budgeter</small></span>
-    <p>将每一步的条件熵 <code>H(A_t|S_t)≈log₂|A_valid|</code> 控制在预算区间 <code>[H_min,H_max]</code> 内:掩码先把菜单缩到合法集 A_valid,策略再从合法项中选择。代码中的对应实体是 MenuSpec;目前已有三个真菜单通电。 <span class="src">policy.py · 谱系:SPRING(AIJ 2024) · shielded RL</span></p></div>
+    <p>将每一步的条件熵 <code>H(A_t|S_t)≈log₂|A_valid|</code> 控制在预算区间 <code>[H_min,H_max]</code> 内:掩码先把菜单缩到合法集 A_valid,策略再从合法项中选择。代码中的对应实体是 MenuSpec;目前已有三个真菜单接入流程。 <span class="src">policy.py · 谱系:SPRING(AIJ 2024) · shielded RL</span></p></div>
   <div class="gl"><span class="term">D⁺(X) · 依赖闭包<small>Dependency Graph</small></span>
     <p>决策 X 的全部下游 <code>D⁺(X)={Y|X⤳Y}</code>;修订成本 <code>C_revision ∝ |D⁺(X)|</code>——改一个决策的代价由<b>依赖闭包</b>决定,不由结果规模决定(repair locality 的测量面)。代码 = 读写集 + <code>downstream_of()</code>。 <span class="src">谱系:TMS(Doyle 1979) · de Kleer 1986</span></p></div>
   <div class="gl"><span class="term">Selective Uncommit<small>选择性修订 · P3.1</small></span>
     <p><code>invalidate(D⁺(X))</code> → 局部重规划,而不是整图重生:只解除受影响的承诺,其余部分保持不变。它针对修改难以逆转的三个原因——下游扩散、编译丢史与路径依赖。施工序 P3.1 正在推进,这是全案风险最高的赌注,9 月设置检查点。 <span class="src">理论卷 §5–6</span></p></div>
   <div class="gl"><span class="term">RAD · 检索增强决策<small>Retrieval-Augmented Decision-making</small></span>
-    <p>这里使用 RAD 而非 RAG:<b>RAG 接地 token,RAD 接地决策</b>。它包含三部分:① 检索进入掩码文法,先例只影响「在合法项中选哪个」,不会引入非法动作;② 溯源上账,记录哪个先例影响了哪个决策,使其进入可回放的合法史;③ 通过确定性重放审计忠实度——删除检索信息后重放一次,观察选择是否改变。现有系统通常难以审计引用是否真正影响决策,而 ArchFlow 的重放基础设施提供了这一条件。当前仍待 Kevin 拍板入宪方式、语料池与指标,P2.5 已有接口桩。 <span class="src">提案_检索增强决策 · precedent.py · 谱系:CBR 三祖 · LeanDojo · LayoutGPT</span></p></div>
+    <p>这里使用 RAD 而非 RAG:<b>RAG 把检索结果用于生成 token,RAD 把检索结果用于约束决策</b>。它包含三部分:① 检索进入掩码文法,先例只影响「在合法项中选哪个」,不会引入非法动作;② 溯源记录,把影响每个决策的先例写入可回放的合法史;③ 通过确定性重放审计忠实度——删除检索信息后重放一次,观察选择是否改变。现有系统通常难以审计引用是否真正影响决策,而 ArchFlow 的重放基础设施提供了这一条件。当前仍待 Kevin 拍板入宪方式、语料池与指标,P2.5 已有接口桩。 <span class="src">提案_检索增强决策 · precedent.py · 谱系:CBR 三祖 · LeanDojo · LayoutGPT</span></p></div>
   <div class="gl"><span class="term">义务 ⊕<small>Obligation</small></span>
     <p>义务是一种前向债:<code>created → discharged</code>,未清部分以 debt 留账。义务可以跨决策创建与清偿,例如 D05 创建隐私义务,D09 通过楼板检查清偿;cover→bear 则形成级联召唤。清偿按多重集差逐项对账,对应形式方法中的 proof obligation。 <span class="src">ledger · ⊕=比理论卷多出的增补件</span></p></div>
   <div class="gl"><span class="term">自问自答 ⊕<small>Question-Driven Agenda</small></span>
@@ -708,8 +708,8 @@ footer a:hover{color:var(--ink)}
     <p>旋钮全关时,结果必须与 V2 <code>Pipeline.run</code> 字节等价,参照系本体保持不动。金样是冻结的基准产物,任何字节漂移都会触发报警。双向防作弊同时禁止「凑金样」——在结果侧加入特判,以及「自改考卷」——悄悄重生成金样;金样换代必须由 Kevin 拍板。 <span class="src">CLAUDE.md · selfcheck</span></p></div>
   <div class="gl"><span class="term">鹈鹕模式<small>Probe-and-Repair</small></span>
     <p>主动构造对抗性建筑案例,寻找「<b>验证通过,但建筑错误</b>」的假阴性;幽灵柱就是「账对、图不对」的判例。第一原理是<b>修法不修果</b>:修复必须落在律法、掩码、canon 或义务链上,而不是直接修改生成结果;随后用同一案例进行 A/B 重跑取证。 <span class="src">CLAUDE.md 鹈鹕协议(判决 2026-07-16)</span></p></div>
-  <div class="gl"><span class="term">convert 唯一门口<small>The Only Doorway</small></span>
-    <p>convert 唯一门口是浮点 bbox 世界进入离散体素<b>交付空间</b>的单一转换点,由 <code>to_voxels()</code> 与 <code>conversion_findings()</code> 组成。existence / bearing 两条法都在交付空间执法,使承托判定从 bbox 层升级到体素层,也让「离散可判定」这一主张在系统内部得到兑现。 <span class="src">archflow/convert/ · 铁律16候选</span></p></div>
+  <div class="gl"><span class="term">convert 唯一通道<small>Single Conversion Channel</small></span>
+    <p>convert 唯一通道是浮点 bbox 世界进入离散体素<b>交付空间</b>的统一转换入口,由 <code>to_voxels()</code> 与 <code>conversion_findings()</code> 组成。existence / bearing 两条规则都在交付空间执行校验,使承托判定从 bbox 层升级到体素层,也让「离散可判定」这一主张在系统内部得到兑现。 <span class="src">archflow/convert/ · 铁律16候选</span></p></div>
   <div class="gl"><span class="term">诚实拒绝<small>Honest Refusal</small></span>
     <p>当系统能力不足时,它会拒绝生成并把债留在账上。例如,法院的石梁柱体系无法覆盖 20m 大厅,因此留下 4 项债务,而不是用表面漂亮的几何强行遮盖问题;未清义务绝不进入 ValidationResult。拒绝是特性,不是缺陷,失败分类学也由此建立。 <span class="src">ledger · 地图 §1.4</span></p></div>
 </section>

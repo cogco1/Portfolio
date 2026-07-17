@@ -101,7 +101,7 @@ a.figtap{display:block}
 <header class="hero">
   <p class="eyebrow">Architecture Atlas · 判决 2026-07-17 · 与施工看板同一套视觉系统 · Unlisted</p>
   <h1>Nine Diagrams, One Machine.</h1>
-  <p class="sub">九张架构图:六步原子 → 状态编译 → 义务生命周期 → convert 唯一门口 → 三门与鹈鹕回路 → 席位体系 → 结构化 RAD → 空间 MDP → 溯源上账。图上任何主张必须在真源有出处;每图 figcaption 注真源。一图一 SVG,落 <code style="font-family:var(--mono);font-size:12px">docs/看板/图/</code>,暗色模式自动反色。</p>
+  <p class="sub">九张架构图:六步原子 → 状态编译 → 义务生命周期 → convert 唯一通道 → 三门与鹈鹕回路 → 席位体系 → 结构化 RAD → 空间 MDP → 溯源上账。图上任何主张都必须有真源依据;每张图的 figcaption 标明出处。一图一 SVG,存放于 <code style="font-family:var(--mono);font-size:12px">docs/看板/图/</code>,暗色模式自动反色。</p>
 </header>
 
 <section id="a1" class="blk">
@@ -109,7 +109,7 @@ a.figtap{display:block}
   <figure>
     <div class="figwrap"><a class="figtap" href="fig/01-six-step-atom.svg" target="_blank" rel="noopener"><img class="pr" src="fig/01-six-step-atom.svg" alt="六步原子架构图"></a></div>
     <p class="fighint">↔ 横向滑动查看全图 · 点图全屏可缩放 swipe / tap to zoom</p>
-    <figcaption><b>读法</b>:每个决策都采用相同结构——观察读取编译态,菜单生成候选,掩码将菜单缩到合法集(切除非法未来并降低条件熵),策略只回答「选哪个」,且席位可在确定性/LLM/人之间插拔。应用负责提交增量,门只记录、不裁决;每一步的问句、菜单、动作与席位都会上账。<span class="src">真源:看板 08 Glossary「六步原子/真菜单·席位/法·判别刀」· 地图 §0.5/§1.3 · 理论卷 §2</span></figcaption>
+    <figcaption><b>读法</b>:每个决策都采用相同结构——观察读取编译态,菜单生成候选,掩码将菜单缩到合法集(切除非法未来并降低条件熵),策略只回答「选哪个」,且席位可在确定性/LLM/人之间切换。应用负责提交增量,门负责记录校验结果而不替策略作出选择;每一步的问句、菜单、动作与席位都会写入账本。<span class="src">真源:看板 08 Glossary「六步原子/真菜单·席位/法·判别刀」· 地图 §0.5/§1.3 · 理论卷 §2</span></figcaption>
   </figure>
 </section>
 
@@ -132,11 +132,11 @@ a.figtap{display:block}
 </section>
 
 <section id="a4" class="blk">
-  <div class="sec-head"><span class="no">04</span><h2>convert 唯一门口 The Only Doorway</h2><span class="hint">archflow/convert/ · 铁律16候选</span></div>
+  <div class="sec-head"><span class="no">04</span><h2>convert 唯一通道 Single Conversion Channel</h2><span class="hint">archflow/convert/ · 铁律16候选</span></div>
   <figure>
-    <div class="figwrap"><a class="figtap" href="fig/04-convert-gate.svg" target="_blank" rel="noopener"><img class="pr" src="fig/04-convert-gate.svg" alt="convert 唯一门口架构图"></a></div>
+    <div class="figwrap"><a class="figtap" href="fig/04-convert-gate.svg" target="_blank" rel="noopener"><img class="pr" src="fig/04-convert-gate.svg" alt="convert 唯一通道架构图"></a></div>
     <p class="fighint">↔ 横向滑动查看全图 · 点图全屏可缩放 swipe / tap to zoom</p>
-    <figcaption><b>读法</b>:浮点 bbox 推导空间与体素交付空间之间只有 convert 唯一门口。to_voxels() 负责网格化与逐件归属,conversion_findings() 则让 existence/bearing 两条法在交付空间执法。幽灵柱判例暴露了「账对、图不对」的问题,促使结构链坐标门、sample_export 与 cli 全部经过 convert;三门共同证明这一调整没有造成字节漂移。<span class="src">真源:看板 08 Glossary「convert 唯一门口」· 地图 已清账 2026-07-16 · §7.2 域框定</span></figcaption>
+    <figcaption><b>读法</b>:浮点 bbox 推导空间与体素交付空间之间只保留 convert 这一条转换通道。to_voxels() 负责网格化与逐件归属,conversion_findings() 则在交付空间执行 existence/bearing 校验。幽灵柱判例暴露了「账对、图不对」的问题,因此结构链坐标门、sample_export 与 cli 都统一经过 convert;三门确认这一调整没有造成字节漂移。<span class="src">真源:看板 08 Glossary「convert 唯一通道」· 地图 已清账 2026-07-16 · §7.2 域框定</span></figcaption>
   </figure>
 </section>
 
@@ -154,7 +154,7 @@ a.figtap{display:block}
   <figure>
     <div class="figwrap"><a class="figtap" href="fig/06-seat-system.svg" target="_blank" rel="noopener"><img class="pr" src="fig/06-seat-system.svg" alt="席位体系架构图"></a></div>
     <p class="fighint">↔ 横向滑动查看全图 · 点图全屏可缩放 swipe / tap to zoom</p>
-    <figcaption><b>读法</b>:策略席可在确定性/LLM/人之间插拔。调度席实验 S1–S5 记录了一条完整防线:效度门拒收 ids 全空的 glm 回复后,确定性回退上账;deepseek 批判席准确指出两项问题;hard 发现写回编译态后,修复环只重答 oculus 这一问,将 4m 修订为 8.9m。这是 Selective Uncommit 的微缩实例。实验形成三点结论:多席构成纵深防御,调度门本身也要接受审查,采样漂移需要门与批判席双重保险。<span class="src">真源:probes/20260717_头部问句/REPORT.md 追加二·三·四</span></figcaption>
+    <figcaption><b>读法</b>:策略席可在确定性/LLM/人之间切换。调度席实验 S1–S5 展示了一条完整防线:效度门拒收 ids 全空的 glm 回复后,系统采用确定性结果并把回退过程写入账本;deepseek 批判席准确指出两项问题;hard 发现写回编译态后,修复环只重答 oculus 这一问,将 4m 修订为 8.9m。这是 Selective Uncommit 的小型实例。实验形成三点结论:多个席位能够形成纵深防御,调度席的校验规则本身也要接受审查,采样漂移需要门与批判席双重保险。<span class="src">真源:probes/20260717_头部问句/REPORT.md 追加二·三·四</span></figcaption>
   </figure>
 </section>
 
@@ -163,7 +163,7 @@ a.figtap{display:block}
   <figure>
     <div class="figwrap"><a class="figtap" href="fig/07-structured-rad.svg" target="_blank" rel="noopener"><img class="pr" src="fig/07-structured-rad.svg" alt="结构化 RAD 流水线架构图"></a></div>
     <p class="fighint">↔ 横向滑动查看全图 · 点图全屏可缩放 swipe / tap to zoom</p>
-    <figcaption><b>读法</b>:可用的 RAD 流程是:检索段落 → 按来源隔离,以掩码单问抽取(固定槽位与单位)→ 写入带单位的事实账本(双源互证后合并)→ 进入律层完成推导、换算与互证 → 拓扑正则化 → 一致门。三轮检查依次拒绝、拒绝、通过,整个实验没有漏放;只有通过门的事实才能进入状态。对照组把整段资料直接灌入 prompt,反而出现字面性劫持、引用不等于理解和变相滚动上下文等问题。<span class="src">真源:REPORT.md 追加五(RAD 三方对照/判词)· 追加四(明信片偏差)· 看板 08 Glossary「RAD」</span></figcaption>
+    <figcaption><b>读法</b>:可用的 RAD 流程是:检索段落 → 按来源隔离,以掩码单问抽取(固定槽位与单位)→ 写入带单位的事实账本(双源互证后合并)→ 进入律层完成推导、换算与互证 → 拓扑正则化 → 一致门。三轮检查依次拒绝、拒绝、通过,整个实验没有漏放;事实只有通过一致门后才能写入状态。对照组把整段资料直接灌入 prompt,反而出现字面信息劫持判断、引用不等于理解和变相滚动上下文等问题。<span class="src">真源:REPORT.md 追加五(RAD 三方对照/判词)· 追加四(明信片偏差)· 看板 08 Glossary「RAD」</span></figcaption>
   </figure>
 </section>
 
@@ -172,7 +172,7 @@ a.figtap{display:block}
   <figure>
     <div class="figwrap"><a class="figtap" href="fig/08-spatial-mdp.svg" target="_blank" rel="noopener"><img class="pr" src="fig/08-spatial-mdp.svg" alt="空间 MDP 落位架构图"></a></div>
     <p class="fighint">↔ 横向滑动查看全图 · 点图全屏可缩放 swipe / tap to zoom</p>
-    <figcaption><b>读法</b>:关系图是一张依赖 DAG:以鼓心和入口轴为基准,drum、vestibule 与 portico 依次落位,dome bears_on drum,oculus 位于穹顶中心。落位按拓扑序前向推算,每一步只读取父集;「柱位|台基」就是局部马尔可夫的例子。重叠与越界等非局部约束不进入父节点,而由全局门统一检查,形成「推导局部化、验证全局化」。落位求解器已经立项,LLM 永不回答坐标。<span class="src">真源:REPORT.md 追加五(Kevin 空间 MDP 判词)· 追加四(五拓扑)· 看板 05 明日</span></figcaption>
+    <figcaption><b>读法</b>:关系图是一张依赖 DAG:以鼓心和入口轴为基准,drum、vestibule 与 portico 依次落位,dome bears_on drum,oculus 位于穹顶中心。落位按拓扑序前向推算,每一步只读取父节点集合;「柱位|台基」就是局部马尔可夫的例子。重叠与越界等非局部约束不纳入父节点集合,而由全局门统一检查,形成「局部推导、全局验证」。落位求解器已经立项,坐标始终由确定性规则计算,不交给 LLM 回答。<span class="src">真源:REPORT.md 追加五(Kevin 空间 MDP 判词)· 追加四(五拓扑)· 看板 05 明日</span></figcaption>
   </figure>
 </section>
 

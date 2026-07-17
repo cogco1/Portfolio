@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="640" viewBox="0 0 1160 640" role="img" aria-label="结构化 RAD 流水线:检索段落、逐源掩码单问抽取、带单位事实账本、律层、拓扑正则化、一致门;对照朴素 RAD 整段灌注净变差画叉">
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="640" viewBox="0 0 1160 640" role="img" aria-label="结构化 RAD 流水线:检索段落、逐源掩码单问抽取、带单位事实账本、律层、拓扑正则化、一致门;对照朴素 RAD 整段灌入后效果变差">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=Space+Mono:wght@400;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap');
 :root{--ink:#1a1a1a;--muted:#737373;--faint:#a6a6a6;--line:#ededed;--line-strong:#dcdcdc;--bg:#ffffff;--ok:#3f7350;--gate:#a3822f;--risk:#a4453a;
@@ -76,14 +76,14 @@
 
 <path d="M1040,190 L1040,208" class="ln" marker-end="url(#ah)"/>
 <rect x="800" y="210" width="320" height="52" class="bx2"/>
-<text x="812" y="232" class="t4">过门才入状态 S_t</text>
+<text x="812" y="232" class="t4">通过一致门后才写入状态 S_t</text>
 <text x="812" y="250" class="t2s">体块承诺 + 拓扑关系,带 basis 与出处</text>
 
 <!-- 判词 -->
 <rect x="40" y="292" width="1080" height="66" class="bx2"/>
 <text x="56" y="318" class="t1">判词</text>
 <text x="150" y="318" class="t2">检索结果进入事实账本,不直接灌入 prompt;LLM 只回答知识问句(有什么 · 谁托谁)</text>
-<text x="150" y="340" class="t2">结果性问题(数值是多少 · 位于何处 · 是否自洽)全部交给律层——这条边界就是白盒论点本身</text>
+<text x="150" y="340" class="t2">结果性问题(数值是多少 · 位于何处 · 是否自洽)全部交给律层——这正是白盒机制的核心边界</text>
 
 <!-- 朴素 RAD 对照 -->
 <text x="40" y="398" class="t3">对照:朴素 RAD NAIVE INJECTION — 整段灌入后,整体效果反而变差 ✗</text>
@@ -91,7 +91,7 @@
 <text x="52" y="438" class="t4">检索段落</text>
 <text x="52" y="456" class="t2s">同样六源</text>
 <path d="M220,442 L418,442" class="rk-l" marker-end="url(#ahr)"/>
-<text x="320" y="430" class="rk-t" text-anchor="middle">整段灌注 prompt</text>
+<text x="320" y="430" class="rk-t" text-anchor="middle">整段资料直接写入 prompt</text>
 <path d="M305,427 L335,457" class="rk-l"/>
 <path d="M335,427 L305,457" class="rk-l"/>
 <rect x="420" y="414" width="180" height="56" class="bx"/>
@@ -104,7 +104,7 @@
 
 <text x="40" y="502" class="t2">· 字面性劫持:「壁厚 6.4」被造成 6.4m 高的板 / 6.4×6.4×43.3 的柱(槽位语义不在散文里)</text>
 <text x="40" y="524" class="t2">· 六个来源一次性灌入 = 变相滚动上下文,违反 MDP 单问纪律;检索淹没先验(盲考时成立的 bears_on 链反而丢失)</text>
-<text x="40" y="546" class="t2">· 盲考基线也不可用:明信片偏差——中介体块 0/3 全漏,图纸级知识在文本语料结构性缺席(RAD 必要性最硬实证)</text>
+<text x="40" y="546" class="t2">· 盲考基线同样不可用:三个模型都遗漏中介体块,说明文本语料缺少图纸层级知识,也直接证明了 RAD 的必要性</text>
 
 <text x="40" y="604" class="t3">真源:REPORT.md 追加五(RAD 三方对照 / 修复三轮 / 判词) · 追加四(标准答案考 · 明信片偏差) · 看板 08 Glossary「RAD」</text>
 </svg>
