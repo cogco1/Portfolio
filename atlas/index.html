@@ -102,7 +102,7 @@ a.figtap{display:block}
 </nav>
 
 <header class="hero">
-  <p class="eyebrow">Architecture Atlas · 判决 2026-07-17 · 与施工看板同一套视觉系统 · Private</p>
+  <p class="eyebrow">Architecture Atlas · 判决 2026-07-17 · 与施工看板同一套视觉系统 · Unlisted</p>
   <h1>Nine Diagrams, One Machine.</h1>
   <p class="sub">九张架构图:六步原子 → 状态编译 → 义务生命周期 → convert 唯一通道 → 三门与鹈鹕回路 → 席位体系 → 结构化 RAD → 空间 MDP → 溯源上账。图上任何主张都必须有真源依据;每张图的 figcaption 标明出处。一图一 SVG,存放于 <code style="font-family:var(--mono);font-size:12px">docs/看板/图/</code>,暗色模式自动反色。</p>
 </header>
@@ -130,7 +130,7 @@ a.figtap{display:block}
   <figure>
     <div class="figwrap"><a class="figtap" href="fig/03-obligation-lifecycle.svg" target="_blank" rel="noopener"><img class="pr" src="fig/03-obligation-lifecycle.svg" alt="义务生命周期架构图"></a></div>
     <p class="fighint">↔ 横向滑动查看全图 · 点图全屏可缩放 swipe / tap to zoom</p>
-    <figcaption><b>读法</b>:义务是前向债——created 后,要么由当前或后续决策逐项 discharged(按多重集差对账),要么以诚实拒绝的形式留债;未清义务绝不进入 ValidationResult。cover:/bear: 的级联召唤连同跨向都会上账;D05 创建隐私义务、D09 通过楼板检查清偿,构成首条跨决策链。小屋 16/16 全部清偿,法院则创建 11、清偿 7、留债 4。<span class="src">真源:看板 08 Glossary「义务/诚实拒绝」· 地图 §1.4/承托召唤上账 · 看板 03 指标</span></figcaption>
+    <figcaption><b>读法</b>:义务是前向债——created 后,要么由当前或后续决策逐项 discharged,要么以诚实拒绝留债。义务现为两级(LEGALITY / COMMITMENT)、四态并携带 predicate、payload 与 source；聚合构件可以先创建子债,父债只在全部子债清偿后关闭。门廊判例因此不再允许“16根柱发完就算整座门廊完成”；最新决策路径以 16/16 具名清偿完成台基、柱列、楣梁、屋盖、山花与实体接缝。<span class="src">真源:地图 §1.4/2026-07-18 门廊山花拓扑 · 看板 01 最新闭环</span></figcaption>
   </figure>
 </section>
 
@@ -139,7 +139,7 @@ a.figtap{display:block}
   <figure>
     <div class="figwrap"><a class="figtap" href="fig/04-convert-gate.svg" target="_blank" rel="noopener"><img class="pr" src="fig/04-convert-gate.svg" alt="convert 唯一通道架构图"></a></div>
     <p class="fighint">↔ 横向滑动查看全图 · 点图全屏可缩放 swipe / tap to zoom</p>
-    <figcaption><b>读法</b>:浮点 bbox 推导空间与体素交付空间之间只保留 convert 这一条转换通道。to_voxels() 负责网格化与逐件归属,conversion_findings() 则在交付空间执行 existence/bearing 校验。幽灵柱判例暴露了「账对、图不对」的问题,因此结构链坐标门、sample_export 与 cli 都统一经过 convert;三门确认这一调整没有造成字节漂移。<span class="src">真源:看板 08 Glossary「convert 唯一通道」· 地图 已清账 2026-07-16 · §7.2 域框定</span></figcaption>
+    <figcaption><b>读法</b>:浮点 bbox 推导空间与体素交付空间之间只保留 convert 这一条转换通道。to_voxels() 负责网格化与逐件归属；conversion_findings() 现执行 existence、bearing、overlap、dialect 与 csg 五法。typed SolidOp 又把实体拓扑写进同一通道：具名 union 必须真实共体积,subtract 只扣点名 targets。无 typed 操作时旧路径不变,因此新法能够咬住门廊接缝而不改冻结 composer 与 Pipeline.run。<span class="src">真源:地图 2026-07-18 门廊 CSG 拓扑 · archflow/convert/csg.py</span></figcaption>
   </figure>
 </section>
 
@@ -166,7 +166,7 @@ a.figtap{display:block}
   <figure>
     <div class="figwrap"><a class="figtap" href="fig/07-structured-rad.svg" target="_blank" rel="noopener"><img class="pr" src="fig/07-structured-rad.svg" alt="结构化 RAD 流水线架构图"></a></div>
     <p class="fighint">↔ 横向滑动查看全图 · 点图全屏可缩放 swipe / tap to zoom</p>
-    <figcaption><b>读法</b>:可用的 RAD 流程是:检索段落 → 按来源隔离,以掩码单问抽取(固定槽位与单位)→ 写入带单位的事实账本(双源互证后合并)→ 进入律层完成推导、换算与互证 → 拓扑正则化 → 一致门。三轮检查依次拒绝、拒绝、通过,整个实验没有漏放;事实只有通过一致门后才能写入状态。对照组把整段资料直接灌入 prompt,反而出现字面信息劫持判断、引用不等于理解和变相滚动上下文等问题。<span class="src">真源:REPORT.md 追加五(RAD 三方对照/判词)· 追加四(明信片偏差)· 看板 08 Glossary「RAD」</span></figcaption>
+    <figcaption><b>读法</b>:可用的 RAD 流程是:检索段落 → 按来源隔离,以掩码单问抽取 → 写入带单位的事实账本 → 律层推导与互证 → 拓扑正则化 → 一致门。最新甲段已经把这条链接到真实建造:type_facts 生成体量承诺,落位求解器编译关系,D11 逐项清偿,convert 在交付空间验收。由此边界进一步坐实：检索与 LLM 负责知识提案,结果性计算和合法性裁决属于确定性律层。<span class="src">真源:20260717_甲段验收 · 20260718_落位求解器入链 · 看板 01</span></figcaption>
   </figure>
 </section>
 
@@ -175,7 +175,7 @@ a.figtap{display:block}
   <figure>
     <div class="figwrap"><a class="figtap" href="fig/08-spatial-mdp.svg" target="_blank" rel="noopener"><img class="pr" src="fig/08-spatial-mdp.svg" alt="空间 MDP 落位架构图"></a></div>
     <p class="fighint">↔ 横向滑动查看全图 · 点图全屏可缩放 swipe / tap to zoom</p>
-    <figcaption><b>读法</b>:关系图是一张依赖 DAG:以鼓心和入口轴为基准,drum、vestibule 与 portico 依次落位,dome bears_on drum,oculus 位于穹顶中心。落位按拓扑序前向推算,每一步只读取父节点集合;「柱位|台基」就是局部马尔可夫的例子。重叠与越界等非局部约束不纳入父节点集合,而由全局门统一检查,形成「局部推导、全局验证」。落位求解器已经立项,坐标始终由确定性规则计算,不交给 LLM 回答。<span class="src">真源:REPORT.md 追加五(Kevin 空间 MDP 判词)· 追加四(五拓扑)· 看板 05 明日</span></figcaption>
+    <figcaption><b>读法</b>:关系图是一张依赖 DAG:以唯一 primary 和 circulation entry 为基准,drum、vestibule、portico 与 approach 依次落位,dome bears_on drum,oculus 位于穹顶中心。落位求解器现已进入 D09/D11 生产链；SiteContext front/left 交换会让圆鼓、门廊、柱列与入口留位整体旋转。每一步只读取父节点集合,重叠、越界与轴槽冲突由全局门检查,形成已运行的“局部推导、全局验证”。<span class="src">真源:probes/20260718_落位求解器入链/REPORT.md · 地图已清账</span></figcaption>
   </figure>
 </section>
 
@@ -190,7 +190,7 @@ a.figtap{display:block}
 
 <footer>
   <p>ARCHFLOW V3 · 白盒 LLM 引导体素建筑生成引擎 — 研究进行中 WORK IN PROGRESS<br>
-  本页为 ARCHFLOW-V3 私有仓库 docs/看板/架构图集.html 的站点镜像;术语对齐看板 Glossary 与理论卷,图上主张必须在真源有出处<br>
+  本页为 ARCHFLOW-V3 私有仓库 docs/看板/架构图集.html 的站点镜像(unlisted · noindex);术语对齐看板 Glossary 与理论卷,图上主张必须在真源有出处<br>
   绘制 2026-07-17 · <a href="../index.html">kaiwenliu.work ←</a></p>
 </footer>
 

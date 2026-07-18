@@ -16,7 +16,7 @@
    ARCHFLOW V3 — Build Log 施工看板
    Style: Pure-white / architecture-studio minimal (同 kaiwenliu.work)
    结构(判决 2026-07-16 晚): 主页 = 原理图 + Benchmark 三格百分比;
-   其余内容全部收进模块标签页(战报/施工序/指标/万神殿/明日/风险/历史)。
+   其余内容全部收进模块标签页(战报/周期/指标/万神殿/明日/风险/历史)。
 ===================================================================== */
 :root{
   --ink:#1a1a1a; --muted:#737373; --faint:#a6a6a6;
@@ -74,6 +74,11 @@ h3.sub-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-t
 
 /* ---- 原理图 ---- */
 .figwrap{overflow-x:auto;padding:26px 0 4px}
+.diagram-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:20px 0 8px;border-bottom:1px solid var(--line)}
+.diagram-card{display:block;border:1px solid var(--line);background:var(--paper);padding:10px;color:var(--ink)}
+.diagram-card img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;object-position:left top;background:#fff}
+.diagram-card span{display:block;margin-top:8px;font:10px var(--mono);letter-spacing:.05em;color:var(--muted)}
+.diagram-card:hover{border-color:var(--ink)}
 .pr{display:block;min-width:1020px;width:100%;height:auto}
 figcaption{font-size:13px;color:var(--muted);padding:12px 0 0;border-top:1px solid var(--line);max-width:920px}
 .pr .bx{fill:none;stroke:var(--line-strong);stroke-width:1}
@@ -128,7 +133,8 @@ figcaption{font-size:13px;color:var(--muted);padding:12px 0 0;border-top:1px sol
 .dd-menu li a{display:block;padding:8px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dd-menu li a:hover{color:var(--ink);background:var(--hover)}
 .dd-menu li a::after{content:"↗ vscode";float:right;color:var(--faint);font-size:9px;letter-spacing:.1em;margin-left:14px}
-@media (max-width:720px){.row{grid-template-columns:1fr auto;grid-template-rows:auto auto}.row .hash{order:3}.row p{grid-column:1/-1}}
+@media (max-width:720px){.row{grid-template-columns:1fr auto;grid-template-rows:auto auto}.row .hash{order:3}.row p{grid-column:1/-1}.diagram-strip{grid-template-columns:1fr 1fr}}
+@media (max-width:430px){.diagram-strip{grid-template-columns:1fr}}
 
 /* ---- phases ---- */
 .phase{padding:18px 0;border-bottom:1px solid var(--line)}
@@ -182,7 +188,7 @@ footer a:hover{color:var(--ink)}
   <ul>
     <li><a data-tab="home" href="#home">原理 Principle</a></li>
     <li><a data-tab="sitrep" href="#sitrep">战报 Sitrep</a></li>
-    <li><a data-tab="phases" href="#phases">施工序 Phases</a></li>
+    <li><a data-tab="phases" href="#phases">周期 Cycles</a></li>
     <li><a data-tab="metrics" href="#metrics">指标 Metrics</a></li>
     <li><a data-tab="pantheon" href="#pantheon">万神殿 Pantheon</a></li>
     <li><a data-tab="next" href="#next">明日 Next</a></li>
@@ -202,9 +208,9 @@ footer a:hover{color:var(--ink)}
     <h1>Committed into Being.</h1>
     <p class="sub">白盒 LLM 引导体素建筑生成引擎:每一步都是可审计的决策,每一份责任都在账上。摘要 v5 的每一句,都是 2026-10-26 全文截止前的建造义务。</p>
     <div class="meta">
-      <div><span class="label">Head</span><span class="v num">9c85363</span></div>
-      <div><span class="label">Gates 三门</span><span class="v ok num">pytest 1143 · doctor 0 · selfcheck 16/16</span></div>
-      <div><span class="label">Today 今日提交</span><span class="v num">16 · 探针 6 / 代码 3 / 文档 7</span></div>
+      <div><span class="label">Source Head</span><span class="v num">3cf5a91</span></div>
+      <div><span class="label">Gates 三门</span><span class="v ok num">pytest 1193* · doctor 0 · selfcheck 16/16+ruin</span></div>
+      <div><span class="label">Today 今日收口</span><span class="v num">placement → assembly → typed CSG</span></div>
       <div><span class="label">Abstract 摘要截止</span><span class="v num" id="d-abs">07-27 · D-11</span></div>
       <div><span class="label">Full Paper 全文截止</span><span class="v risk num" id="d-full">10-26 · D-102</span></div>
     </div>
@@ -370,7 +376,7 @@ footer a:hover{color:var(--ink)}
         <span class="label">架构 Architecture</span>
         <span class="pct num">—</span>
         <span class="bar"><i></i></span>
-        <span class="sub">施工序 P0–P3.1 · 明细 → 施工序</span>
+        <span class="sub">现役 R0–R3 + M0–M3 · P 序列保留为历史</span>
       </a>
       <a class="tile" href="#metrics" data-tile="assets">
         <span class="label">素材 Materials</span>
@@ -392,9 +398,52 @@ footer a:hover{color:var(--ink)}
 <!-- ================= 01 SITREP 战报 ================= -->
 <section id="sitrep" class="view">
 <section class="blk">
-  <div class="sec-head"><span class="no">01</span><h2>今日战报 Sitrep · 2026-07-17</h2><span class="hint">悬停行尾的 files ▾ 可展开文件列表 · 点击文件可用 VSCode 打开</span></div>
+  <div class="sec-head"><span class="no">01</span><h2>今日战报 Sitrep · 2026-07-18</h2><span class="hint">悬停行尾的 files ▾ 可展开文件列表 · 点击文件可用 VSCode 打开</span></div>
 
-  <h3 class="sub-label">Engine 架构与代码 — 引擎今天实际改了什么</h3>
+  <div class="row ruling"><span class="hash">3cf5a91</span><span class="tag">周期分轨</span>
+    <p><b>Modify M0–M3 已成为现役路径修正的唯一执行编号</b>:P0–P4 只保留为 V3 架构怎样建成的历史证据；R0–R3 负责旧机制在替代者接管后退出生产；M0–M3 负责止假绿、接 canon 与补引注、清实例污染、收编无主数。R 与 M 可以并行,但同一卡只归一条线；本周仍以 Retirement 为主攻,Modify 先 M0 再 M1,M2/M3 不抢跑未判数字。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/docs/提案/提案_Modify修正周期_M0-M3_2026-07-18.md">Modify M0–M3 完整施工卡</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/docs/项目动态地图_V3.md">项目动态地图 V3</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/docs/审议/审计_写死公式十席_2026-07-18.md">十席审计原卷</a></li>
+    </ul></span></div>
+
+  <h3 class="sub-label">Latest 闭环推进 — 检索事实已经穿过承诺、落位、构造与交付空间</h3>
+  <div class="row arch"><span class="hash">c222d19</span><span class="tag">typed CSG</span>
+    <p><b>门廊与圆鼓不再靠“看起来接触”成立</b>:D2.5 新增 <code>join:portico_drum</code> 子义务,D11 发射具名 <code>SolidOp</code>；union 必须在交付空间真实共体积,subtract 只扣点名 targets。入口 passage 从门廊贯穿鼓墙,冲突轴柱按拓扑退役。最终 B 路径为 <b>12170 blocks · 五法 0 findings · 16/16 义务清偿</b>。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/convert/csg.py">archflow/convert/csg.py</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/core/contracts/solid_op.py">archflow/core/contracts/solid_op.py</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260718_门廊CSG拓扑/REPORT.md">门廊 CSG 拓扑 REPORT</a></li>
+    </ul></span></div>
+  <div class="row arch"><span class="hash">90850af</span><span class="tag">聚合义务</span>
+    <p><b>门廊从“16根柱就算建成”升级为完整子装配</b>:实心台基→柱列→三边楣梁→木屋盖→独立山花依次清偿；父义务只有在四项子义务全部完成后才由 <code>portico_assembly</code> 清偿。由此钉死“账清但拓扑未成”的历史假绿。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/phases/structure/portico.py">archflow/phases/structure/portico.py</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260718_门廊山花拓扑/REPORT.md">门廊山花拓扑 REPORT</a></li>
+    </ul></span></div>
+  <div class="row arch"><span class="hash">6499037</span><span class="tag">空间 MDP 入链</span>
+    <p><b>坐标从启发式猜测改为关系编译</b>:落位求解器以唯一 primary、circulation entry、承托、毗邻、顶心与轴关系生成 semantic seed；SiteContext 的 front/left 交换会让圆鼓、门廊、柱列和入口留位整体旋转。局部只读父节点,非局部冲突继续交给全局门。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/phases/massing/placement.py">archflow/phases/massing/placement.py</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260718_落位求解器入链/REPORT.md">落位求解器入链 REPORT</a></li>
+    </ul></span></div>
+  <div class="row fix"><span class="hash">ebb7c2e</span><span class="tag">家族 8/8</span>
+    <p><b>类型事实开始约束室内程序而非只塑造外轮廓</b>:S7 权威事实纠偏为七礼拜堂之间穿插八龛庙；龛庙按圆鼓切向落座,藻井由 canon 的 5环×28经线写入穹承诺,台阶谱同步场地 approach、共同基座与通行义务。决策路径的语义家族覆盖由 2/8 推进到 <b>8/8</b>。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260718_S7室内程序/REPORT.md">S7 室内程序 REPORT</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260718_coffer词汇/REPORT.md">coffer 词汇 REPORT</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260718_台阶谱方案A/REPORT.md">台阶谱方案 A REPORT</a></li>
+    </ul></span></div>
+
+  <figure class="diagram-strip" aria-label="最新推进对应的四张原理图">
+    <a class="diagram-card" href="../atlas/fig/07-structured-rad.svg" target="_blank" rel="noopener"><img src="../atlas/fig/07-structured-rad.svg" alt="结构化 RAD 原理图"><span>01 · 证据进入事实账本</span></a>
+    <a class="diagram-card" href="../atlas/fig/03-obligation-lifecycle.svg" target="_blank" rel="noopener"><img src="../atlas/fig/03-obligation-lifecycle.svg" alt="义务生命周期原理图"><span>02 · 父债与子债具名清偿</span></a>
+    <a class="diagram-card" href="../atlas/fig/08-spatial-mdp.svg" target="_blank" rel="noopener"><img src="../atlas/fig/08-spatial-mdp.svg" alt="空间 MDP 原理图"><span>03 · 关系编译为空间状态</span></a>
+    <a class="diagram-card" href="../atlas/fig/04-convert-gate.svg" target="_blank" rel="noopener"><img src="../atlas/fig/04-convert-gate.svg" alt="convert 唯一通道原理图"><span>04 · typed CSG 在交付空间执法</span></a>
+  </figure>
+
+  <h3 class="sub-label">Previous 2026-07-17 基础弧 — 从矮棚到穹显形</h3>
   <div class="row arch"><span class="hash">7d310d6</span><span class="tag">退役第一案</span>
     <p><b>决策路径万神殿 v0</b>:compose_mode 旋钮让 D11 composer 让位;盖谱席把 dome 纳入菜单;环律归位编译器负责结构环,但仍会拒绝稀疏环声明,因此铁律6保持不变。结果生成 32m hall 穹顶与 60 根环柱,10 项义务全部清偿,并通过坐标门的块级验收;视觉席随后发现闸E存在「天空被回答两次」的问题。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
@@ -472,12 +521,44 @@ footer a:hover{color:var(--ink)}
 </section>
 </section>
 
-<!-- ================= 02 PHASES 施工序 ================= -->
+<!-- ================= 02 CYCLES 周期 ================= -->
 <section id="phases" class="view">
 <section class="blk">
-  <div class="sec-head"><span class="no">02</span><h2>施工序 Phases · P0 → P4</h2><span class="hint">= 摘要 v5 的兑现路线 · 10-26 前必须为真 · P0–P3.1 计入主页「架构」格</span></div>
+  <div class="sec-head"><span class="no">02</span><h2>周期总览 Cycles · P / R / M</h2><span class="hint">P=历史施工 · R=退役交权 · M=现役修正 · 主页「架构」格只统计 R/M</span></div>
+
+  <div class="gatebox">
+    <span class="label">Numbering Boundary 编号边界</span>
+    <b>P0–P4</b> 回答“V3 架构怎样建成”,只作历史证据；<b>R0–R3</b> 回答“旧职责怎样在替代者接管后退出”；<b>M0–M3</b> 回答“现役路径怎样修正账图不符、失注、实例污染与无主数”。修正现役行为归 M,撤销旧职责归 R。
+  </div>
+
+  <h3 class="sub-label">Active 当前执行编号 — R 与 M</h3>
+  <div class="phase" data-bench="arch">
+    <div class="phead"><span class="pno">R0–R3</span><span class="pname">Retirement · 旧机制退役交权</span><span class="bar"><i style="width:20%"></i></span><span class="pct">R0 active</span></div>
+    <div class="pitems">
+      <span class="pi done">R0 前置:D2.5 两轮实例去污已完成</span>
+      <span class="pi gate">R0.1 机器可读退役清单 + 禁增规则 — 待施工</span>
+      <span class="pi">R1 公式问句 + Fact-to-Commitment Compiler + 通用拓扑 IR</span>
+      <span class="pi">R2 CLI / Studio 切 MDP runner,旧职责分批退出生产</span>
+      <span class="pi">R3 wrapper / adapter / 死钩清场,旧训练链归消融</span>
+    </div>
+    <p class="pnote">Retirement 是本周主攻。每次退役必须同时具备替代者、非万神殿复用证据与回滚参照；先接盘,后删除。</p>
+  </div>
 
   <div class="phase" data-bench="arch">
+    <div class="phead"><span class="pno">M0–M3</span><span class="pname">Modify · 现役路径修正</span><span class="bar"><i style="width:0%"></i></span><span class="pct">M0 queued</span></div>
+    <div class="pitems">
+      <span class="pi gate">M0.1 fluted 内容闸门 + D≥3 体素行为测试 — 下一刀</span>
+      <span class="pi">M0.2 checkpoint 活值 / fallback / 代码一致性锁</span>
+      <span class="pi">M1 portico order/D 接 canon + 驱动字段逐项引注</span>
+      <span class="pi">M2 龛庙 / 鼓墙 / span / krepidoma 回到逐建筑事实</span>
+      <span class="pi">M3 法院系数 / 走廊比例 / 高度倍率 / 默认权重逐项判决</span>
+    </div>
+    <p class="pnote">这不是架构重建:金样、字节锚与论文核心层当前无损。M0、M1 先修可证行为与通路；M2、M3 不把未判数字换成另一批硬编码。</p>
+  </div>
+
+  <h3 class="sub-label">Historical 历史架构施工序 — P0–P4（保留证据,不再复用编号）</h3>
+
+  <div class="phase">
     <div class="phead"><span class="pno">P0</span><span class="pname">已确认 bug 修复</span><span class="bar"><i style="width:67%"></i></span><span class="pct">2 / 3</span></div>
     <div class="pitems">
       <span class="pi done">obligation_completion 按身份</span>
@@ -486,31 +567,31 @@ footer a:hover{color:var(--ink)}
     </div>
   </div>
 
-  <div class="phase" data-bench="arch">
-    <div class="phead"><span class="pno">P1</span><span class="pname">Spine · 义务数据类型 + 溯源上账</span><span class="bar"><i style="width:83%"></i></span><span class="pct">5 / 6</span></div>
+  <div class="phase">
+    <div class="phead"><span class="pno">P1</span><span class="pname">Spine · 义务数据类型 + 溯源上账</span><span class="bar"><i style="width:100%"></i></span><span class="pct">6 / 6</span></div>
     <div class="pitems">
       <span class="pi done">席位身份 seat</span>
       <span class="pi done">规则/构造器版本 + 种子上账</span>
       <span class="pi done">LLMPolicy 回退留痕</span>
       <span class="pi done">合法菜单 + 提交动作上账</span>
       <span class="pi done">LLM 原始回复上账</span>
-      <span class="pi gate">义务升 dataclass — 形状待 Kevin 批</span>
+      <span class="pi done">义务 dataclass:两级 · 四态 · predicate/payload/source</span>
     </div>
-    <p class="pnote">两级义务(legality / commitment)是链三表达冲突与豁免语义的唯一来源;形状一经拍板即可开工。convert 唯一通道(633dbd2)已经为交付空间校验建立基础;voxelize 本体迁入 convert/ 的工作也已进入队列(垫片模式)。</p>
+    <p class="pnote">两级义务(legality / commitment)与具名父子债已经进入生产路径。convert 现在同时承担 existence / bearing / overlap / dialect / csg 五法；无 typed 操作时旧转换路径保持不变。</p>
   </div>
 
-  <div class="phase" data-bench="arch">
-    <div class="phead"><span class="pno">P2</span><span class="pname">链三 · 场地影响模块</span><span class="bar"><i style="width:0%"></i></span><span class="pct">0 / 4</span></div>
+  <div class="phase">
+    <div class="phead"><span class="pno">P2</span><span class="pname">链三 · 场地影响模块</span><span class="bar"><i style="width:50%"></i></span><span class="pct">2 / 4</span></div>
     <div class="pitems">
-      <span class="pi gate">v0 范围待 Kevin 拍(提案已在)</span>
-      <span class="pi">SiteContext + raycast</span>
+      <span class="pi done">SiteContext 轴向进入落位求解器</span>
+      <span class="pi done">approach volume + access 义务</span>
       <span class="pi">view_corridor 义务</span>
       <span class="pi">朝向偏置</span>
     </div>
-    <p class="pnote">Codex 独立判断:在三条链中,只有这一条同时包含冲突、协商与豁免,因此它是提升全文可信度最有力的杠杆。</p>
+    <p class="pnote">front/left 活体交换已证明场地轴向会整体旋转圆鼓、门廊、柱列和入口；景观视廊与朝向偏置仍留在链三后半段。</p>
   </div>
 
-  <div class="phase" data-bench="arch">
+  <div class="phase">
     <div class="phead"><span class="pno">P3.1</span><span class="pname">选择性修订 Selective Uncommit</span><span class="bar"><i style="width:0%"></i></span><span class="pct">0 / 3</span></div>
     <div class="pitems">
       <span class="pi riskp">从 2027-02 上移 Oct — 全案最紧赌注</span>
@@ -526,7 +607,7 @@ footer a:hover{color:var(--ink)}
       <span class="pi">L1 单发整图(建驱动)</span>
       <span class="pi">L2 逐步+掩码(席已通,最便宜)</span>
       <span class="pi">L3 需"义务关"旋钮</span>
-      <span class="pi">L4 需第二条跨决策族(dome cover→ring bear = 万神殿退役试点)</span>
+      <span class="pi doing">L4 第二义务族底座已证(dome→drum→ring / portico 父子债),正式消融未跑</span>
       <span class="pi gate">CS 二作 · 8 月面谈</span>
     </div>
   </div>
@@ -566,9 +647,12 @@ footer a:hover{color:var(--ink)}
     {"label":"25ecb84","passed":1129},
     {"label":"633dbd2","passed":1134},
     {"label":"2624add","passed":1136},
-    {"label":"07-17","passed":1136}
+    {"label":"07-17","passed":1166},
+    {"label":"落位入链","passed":1182},
+    {"label":"门廊装配","passed":1189},
+    {"label":"typed CSG","passed":1193}
   ]</script>
-  <p class="pnote" style="border-bottom:1px solid var(--line);padding-bottom:16px">doctor 0 findings · selfcheck 16/16 + 废墟门 PASS(2026-07-16 实测)· 曲线持续上升,说明每个新建模块都带有自己的回归网。</p>
+  <p class="pnote" style="border-bottom:1px solid var(--line);padding-bottom:16px">最近一次全量为 1193 passed；随后 passage 变体出现 1 个失败,修复后定向 2/2 通过,依 campaign 纪律未重复跑全量。doctor 0 · selfcheck 16/16 + ruin · 甲段 PASS。</p>
 
   <h3 class="sub-label">Benchmark 明细 — 素材 Materials(主页第二格的算法:● 1 · ◐ 0.5 · ○ 0)</h3>
   <div class="pitems" data-bench="assets" style="padding-bottom:16px;border-bottom:1px solid var(--line)">
@@ -576,10 +660,10 @@ footer a:hover{color:var(--ink)}
     <span class="pi done">金样库 16 golden + 废墟门</span>
     <span class="pi done">探针产物制度 export_probe + log.jsonl</span>
     <span class="pi done">战役卡#1 四案例(检查板/剖面/schem)</span>
-    <span class="pi doing">万神殿每日档(Day 1 基准已立)</span>
-    <span class="pi doing">§7.3 验证门升级素材(已录 2 件)</span>
+    <span class="pi done">万神殿 A/B 八图+双 schem 连续金样档</span>
+    <span class="pi done">§7.3 验证门升级素材(假绿→修法完整战役)</span>
     <span class="pi">三链演示素材(链一/二/三)</span>
-    <span class="pi">封面案例:万神殿义务链版(退役试点)</span>
+    <span class="pi done">封面候选:决策路径万神殿 8/8 家族版</span>
     <span class="pi">消融 L1 单发整图</span>
     <span class="pi">消融 L2 逐步+掩码</span>
     <span class="pi">消融 L3 义务关</span>
@@ -588,16 +672,16 @@ footer a:hover{color:var(--ink)}
 
   <h3 class="sub-label">Benchmark 明细 — 验证 Validation(主页第三格的算法同上)</h3>
   <div class="pitems" data-bench="valid" style="padding-bottom:16px;border-bottom:1px solid var(--line)">
-    <span class="pi done">pytest 全绿(1136)</span>
+    <span class="pi done">最近一次全量 pytest 1193 passed</span>
     <span class="pi done">doctor 0 findings</span>
     <span class="pi done">selfcheck 金样 16/16 + 废墟门</span>
     <span class="pi done">字节锚:旋钮全关 = V2 等价</span>
     <span class="pi done">义务账本例证(小屋全清 · 法院留债)</span>
     <span class="pi done">鹈鹕战役#1 楼板污染四拓扑 CLEAN</span>
     <span class="pi done">坐标检验门(构件成块+块级承托)</span>
-    <span class="pi done">convert 门:existence/bearing 交付空间执法</span>
-    <span class="pi done">万神殿指纹基线 Day 1</span>
-    <span class="pi">eyeball_p12 渲染眼验(P1.2 柱网)</span>
+    <span class="pi done">convert 五法:existence/bearing/overlap/dialect/csg</span>
+    <span class="pi done">决策路径万神殿:16/16 债清 · 五法 0</span>
+    <span class="pi done">落位求解器:轴向交换+偏心承托</span>
     <span class="pi">门洞可通行探针(战役卡#2 候选)</span>
     <span class="pi done">LLM 席重放:原始回复+菜单+动作已上账</span>
     <span class="pi done">D05 留债成品测试(不可验支付)</span>
@@ -611,33 +695,33 @@ footer a:hover{color:var(--ink)}
   <div class="sec-head"><span class="no">04</span><h2>万神殿每日 Pantheon Daily</h2><span class="hint">鹈鹕测试 · 同一 prompt 每日重生成 · 指纹变=行为漂移</span></div>
   <div class="hero" style="padding:18px 0 0;max-width:none">
     <div class="meta" style="margin-top:0;border-top:0;padding-top:6px">
-      <div><span class="label">Date 日期</span><span class="v num">2026-07-17 · Day 2</span></div>
-      <div><span class="label">Fingerprint 指纹</span><span class="v ok num">2aaca5e6d336 · 2d 稳定</span></div>
-      <div><span class="label">Components 构件</span><span class="v num">333(柱 32 · 梁 18 · 饰 249)</span></div>
-      <div><span class="label">Validation 验证</span><span class="v ok num">PASS</span></div>
-      <div><span class="label">Obligations 义务账</span><span class="v risk num">0 / 0 / 0 — 链未触发</span></div>
-      <div><span class="label">Seats 席位</span><span class="v num">deterministic ×14</span></div>
+      <div><span class="label">Date 日期</span><span class="v num">2026-07-18 · Decision Path</span></div>
+      <div><span class="label">A Composer 参照</span><span class="v num">324706 blocks · 40 historical overlaps</span></div>
+      <div><span class="label">B Decision Path</span><span class="v num">12170 blocks · families 8 / 8</span></div>
+      <div><span class="label">Validation 验证</span><span class="v ok num">五法 0 · 四视图 PASS</span></div>
+      <div><span class="label">Obligations 义务账</span><span class="v ok num">16 / 16 清偿</span></div>
+      <div><span class="label">Replay Boundary</span><span class="v num">Pipeline.run / composer 金样未动</span></div>
     </div>
   </div>
   <div style="padding:20px 0 6px;border-bottom:1px solid var(--line)"><img src="看板万神殿.svg" alt="Pantheon elevation and plan line diagram 万神殿立面与平面线图" style="width:100%;max-width:760px;display:block"></div>
-  <h3 class="sub-label">Critic 今日一问 · 2026-07-17(每日一位 critic,问题必须扎在当日数据/图像上)</h3>
-  <div class="row fix" style="grid-template-columns:1fr"><p><b>连续两天没有漂移,但账本也连续两天保持全零。</b>Day 2 指纹 2aaca5e6d336 没有变化,稳定本身是好消息;然而 obligation 账仍为 <b>0 / 0 / 0</b>。原因是「a large pantheon」仍走 composer 类型学:333 个构件中包含 249 个装饰、32 根柱和 18 根梁,却没有任何一项上账。今晨 <b>76330b8</b> 的理论 A/B 对照提供了直接反例:面对同一个帕拉第奥体量,旋钮全关的 A 路径只有 20 个构件、5.0m 的统一天花和零结构件;义务模式 B 则生成 <b>97 个构件 · 44 柱 · 22 梁 · 12 板</b>,天花按房间比例分为 5/7/10,并且 <b>16 项义务全部清偿</b>。剖面检查确认:A 是一个平顶盒子,B 的横剖中楼板各就其位,没有切穿高厅。由此产生今日问题:B 已经证明通用义务路径能够真正承托这类建筑,那么「a large pantheon」何时转入 B 路径,让账本不再为零?退役试点的第一步——将 composer 冻结为 V2 参照——是否应在今天启动?<span class="src" style="color:var(--faint)">(性能补充:B 有 97 个构件,A 有 20 个;渲染与导出成本会随义务展开而上升,因此 N30 指标应同时记录 token-per-building。)</span></p></div>
+  <h3 class="sub-label">Critic 今日一问 · 2026-07-18(每日一位 critic,问题必须扎在当日数据/图像上)</h3>
+  <div class="row fix" style="grid-template-columns:1fr"><p><b>旗舰案例已经从“账对楼错”推进到“账、拓扑与交付空间一致”,但传统差异仍未进入菜单。</b>决策路径现在具有圆鼓、穹、oculus、环柱、门廊、山花、台阶、七礼拜堂、八龛庙与藻井；16项义务全部清偿,五法零发现。然而同型异答探针表明,把 timber / brick / trabeated 换进同一类型后仍会生成逐字节同构的罗马穹。下一步不是继续给万神殿加构件,而是回答:<b>材料与传统词应当怎样改变合法菜单,同时不破坏默认排序和字节锚?</b></p></div>
 </section>
 </section>
 
 <!-- ================= 05 NEXT 明日 ================= -->
 <section id="next" class="view">
 <section class="blk">
-  <div class="sec-head"><span class="no">05</span><h2>明日方向 Next · 2026-07-17 晚(手动轮)</h2><span class="hint">每日 00:02 自动更新本段</span></div>
+  <div class="sec-head"><span class="no">05</span><h2>下一步 Next · 2026-07-18</h2><span class="hint">最新建造弧已收口,以下按 R/M 现役施工顺序排列</span></div>
   <ol class="next">
-    <li><span><b>落位求解器 v0</b>(落实空间 MDP 判决):以鼓心和入口轴为基准,根据轴与关系确定性地前向推算坐标,替换调度实验中问错席的 S2 门;如果关系不可满足,求解器直接拒绝,同时升级一致门。</span></li>
-    <li><span><b>D2.5 类型体块席接线</b>(等待义务 dataclass 拍板):以事实账本与律层组成的结构化 RAD 流水线作为原型;同步完成 S1 门硬化清单、跨体量一致门,并收敛 object enum 与 qualitative 通道两种抽取方言。</span></li>
-    <li><span><b>voxelize 本体迁入 convert/</b>(P1.5 垫片模式,已排队):完成表示空间转换模块的物理归位。</span></li>
-    <li><span><b>闸F 鼓座起拱</b>:头部问句接线后同步解决,将「体量承诺 h=半径」写入状态;porch 穹顶的不合理结果留给盖谱席继续细化。</span></li>
+    <li><span><b>M0.1 · fluted 内容闸门</b>:让 <code>fluted=False</code> 真正关闭柱身开槽；同一柱径以 D≥3 验证 True/False 体素差异,同时证明默认金样零漂移。</span></li>
+    <li><span><b>R0.1 · 冻结退役边界</b>:建立机器可读退役清单与禁增规则,钉死 composer、关键词路由、type canon 与 Pipeline 的现状职责,再进入 R1 编译链接盘。</span></li>
+    <li><span><b>M0.2 · checkpoint 漂移锁</b>:锁住活值、fallback 与代码同名比例的一致性；读取失败不得静默换数,默认路径变化必须显式上账。</span></li>
+    <li><span><b>M1 预备 · canon 通路与字段引注</b>:先补 portico order/D 的下行契约与来源页码；完成 M0 后再串行施工,不顺带扩写实例数据库。</span></li>
   </ol>
   <div class="gatebox">
-    <span class="label">Awaiting Ruling 待 Kevin 拍 — 拍完即开大块</span>
-    ① 义务 dataclass 形状(状态枚举 + 两级 legality/commitment)→ 开 P1 主体 · ② 链三场地模块 v0 范围 → 开 P2 · ③ 战役卡#2 是否发「门洞真实可通行」
+    <span class="label">Execution Guardrails 施工护栏</span>
+    Retirement 仍是本周主攻 · Modify 只先做 M0→M1 · M2/M3 不抢跑未判数字 · 触及默认翻转或金样变化即停下交 Kevin 判决
   </div>
 </section>
 </section>
@@ -647,9 +731,9 @@ footer a:hover{color:var(--ink)}
 <section class="blk">
   <div class="sec-head"><span class="no">06</span><h2>风险雷达 Risks</h2></div>
   <div class="risks">
-    <div class="riskcard"><b>P3.1 上移 = 最紧赌注</b>repair 机器从零建 + N≥30 出数,3 个月内。9 月检查点定去留;退路已备。</div>
-    <div class="riskcard"><b>LLM 参与的构建过程暂时无法完整重放</b>LLMPolicy 尚未保存原始回复,因此目前只有确定性席可以重放。P1 将回复写入账本后即可补齐。</div>
-    <div class="riskcard"><b>渲染眼验剩 1 件</b>eyeball_p12(P1.2 柱网)。deck 修复已由战役卡#1 剖面亲验清账(2026-07-16)。</div>
+    <div class="riskcard"><b>局部修订实验仍是最紧赌注</b>历史 P3.1 留下 repair 机器 + N≥30 的研究义务,但 P3.1 不再作为现役执行编号；9 月检查点仍决定论文主张去留。</div>
+    <div class="riskcard"><b>传统词目前不改变构造结果</b>同型异答探针中 timber / brick / trabeated 零候选,四题逐字节同构；如果不修,系统会把“理解传统”误报成只识别类型。</div>
+    <div class="riskcard"><b>1193 不是当前精确全量基线</b>它是最近一次全量通过数；随后 passage 变体失败已定向2/2修绿,但依 campaign 限次没有再次全量运行,看板不得写成“1195全绿”。</div>
   </div>
 </section>
 </section>
@@ -690,7 +774,7 @@ footer a:hover{color:var(--ink)}
   <div class="gl"><span class="term">D⁺(X) · 依赖闭包<small>Dependency Graph</small></span>
     <p>决策 X 的全部下游 <code>D⁺(X)={Y|X⤳Y}</code>;修订成本 <code>C_revision ∝ |D⁺(X)|</code>——改一个决策的代价由<b>依赖闭包</b>决定,不由结果规模决定(repair locality 的测量面)。代码 = 读写集 + <code>downstream_of()</code>。 <span class="src">谱系:TMS(Doyle 1979) · de Kleer 1986</span></p></div>
   <div class="gl"><span class="term">Selective Uncommit<small>选择性修订 · P3.1</small></span>
-    <p><code>invalidate(D⁺(X))</code> → 局部重规划,而不是整图重生:只解除受影响的承诺,其余部分保持不变。它针对修改难以逆转的三个原因——下游扩散、编译丢史与路径依赖。施工序 P3.1 正在推进,这是全案风险最高的赌注,9 月设置检查点。 <span class="src">理论卷 §5–6</span></p></div>
+    <p><code>invalidate(D⁺(X))</code> → 局部重规划,而不是整图重生:只解除受影响的承诺,其余部分保持不变。它针对修改难以逆转的三个原因——下游扩散、编译丢史与路径依赖。历史施工序 P3.1 曾将其列为高风险目标；现役工作先由 R1 补齐编译链接盘,9 月检查点仍决定实验主张去留。 <span class="src">理论卷 §5–6</span></p></div>
   <div class="gl"><span class="term">RAD · 检索增强决策<small>Retrieval-Augmented Decision-making</small></span>
     <p>这里使用 RAD 而非 RAG:<b>RAG 把检索结果用于生成 token,RAD 把检索结果用于约束决策</b>。它包含三部分:① 检索进入掩码文法,先例只影响「在合法项中选哪个」,不会引入非法动作;② 溯源记录,把影响每个决策的先例写入可回放的合法史;③ 通过确定性重放审计忠实度——删除检索信息后重放一次,观察选择是否改变。现有系统通常难以审计引用是否真正影响决策,而 ArchFlow 的重放基础设施提供了这一条件。当前仍待 Kevin 拍板入宪方式、语料池与指标,P2.5 已有接口桩。 <span class="src">提案_检索增强决策 · precedent.py · 谱系:CBR 三祖 · LeanDojo · LayoutGPT</span></p></div>
   <div class="gl"><span class="term">义务 ⊕<small>Obligation</small></span>
@@ -719,7 +803,7 @@ footer a:hover{color:var(--ink)}
 </section>
 
 <footer>
-  <p>更新制度 UPDATE PROTOCOL — ① 每日 00:02 定时刷新(战报 / 施工序 / 明日方向 / 指标 / 历史归档;主页原理图与 Benchmark 结构不动,百分比由明细自动求和)· ② 思想性更新当轮即时 push + 刷手机镜像 Artifact · ③ 数据真源 = git log + 动态地图 + 义务探针,看板只可视化<br>
+  <p>更新制度 UPDATE PROTOCOL — ① 每日 00:02 定时刷新(战报 / 周期 / 明日方向 / 指标 / 历史归档;主页原理图与 Benchmark 结构不动,百分比由现役 R/M 明细自动求和)· ② 思想性更新当轮即时 push + 刷手机镜像 Artifact · ③ 数据真源 = git log + 动态地图 + 义务探针,看板只可视化<br>
   vscode 链接须在<b>系统浏览器</b>打开本页才生效(Claude 面板与手机镜像拦协议跳转;首次点击浏览器会问一次,勾"始终允许")<br>
   重构 2026-07-16(判决:主页=原理图+Benchmark,内容入模块)· 下次自动刷新 2026-07-18 00:02 · <a href="vscode://file/D:/ARCHFLOW_V3/docs/项目动态地图_V3.md">动态地图 ↗ vscode</a> · <a href="vscode://file/D:/ARCHFLOW_V3/docs/审议/合议_Codex预审与全项目审计_2026-07-16.md">合议报告 ↗ vscode</a></p>
 </footer>
