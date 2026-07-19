@@ -206,13 +206,13 @@ footer a:hover{color:var(--ink)}
   <header class="hero">
     <p class="eyebrow">Construction Log · 判决 A — 加速建造 · Ruling A: Build, Don't Retreat</p>
     <h1>Committed into Being.</h1>
-    <p class="sub">白盒 LLM 引导体素建筑生成引擎:每一步都是可审计的决策,每一份责任都在账上。摘要 v5 的每一句,都是 2026-10-26 全文截止前的建造义务。</p>
+    <p class="sub">白盒 LLM 引导体素建筑生成引擎:每一步都是可审计的决策,每一份责任都在账上。摘要 v6 投稿候选的每一句,都是 2026-10-26 全文截止前的建造义务。</p>
     <div class="meta">
-      <div><span class="label">Source Head</span><span class="v num">3cf5a91</span></div>
-      <div><span class="label">Gates 三门</span><span class="v ok num">pytest 1193* · doctor 0 · selfcheck 16/16+ruin</span></div>
-      <div><span class="label">Today 今日收口</span><span class="v num">placement → assembly → typed CSG</span></div>
-      <div><span class="label">Abstract 摘要截止</span><span class="v num" id="d-abs">07-27 · D-11</span></div>
-      <div><span class="label">Full Paper 全文截止</span><span class="v risk num" id="d-full">10-26 · D-102</span></div>
+      <div><span class="label">Source Head</span><span class="v num">f8b141a</span></div>
+      <div><span class="label">Gates 三门</span><span class="v ok num">pytest 1624 · doctor 0 · selfcheck 16/16+ruin</span></div>
+      <div><span class="label">Today 今日收口</span><span class="v num">persistent repair → dial permit → critic gate</span></div>
+      <div><span class="label">Abstract 摘要截止</span><span class="v num" id="d-abs">07-27 · D-8</span></div>
+      <div><span class="label">Full Paper 全文截止</span><span class="v risk num" id="d-full">10-26 · D-99</span></div>
     </div>
   </header>
 
@@ -398,7 +398,7 @@ footer a:hover{color:var(--ink)}
 <!-- ================= 01 SITREP 战报 ================= -->
 <section id="sitrep" class="view">
 <section class="blk">
-  <div class="sec-head"><span class="no">01</span><h2>今日战报 Sitrep · 2026-07-18</h2><span class="hint">悬停行尾的 files ▾ 可展开文件列表 · 点击文件可用 VSCode 打开</span></div>
+  <div class="sec-head"><span class="no">01</span><h2>今日战报 Sitrep · 2026-07-19</h2><span class="hint">悬停行尾的 files ▾ 可展开文件列表 · 点击文件可用 VSCode 打开</span></div>
 
   <div class="row ruling"><span class="hash">3cf5a91</span><span class="tag">周期分轨</span>
     <p><b>Modify M0–M3 已成为现役路径修正的唯一执行编号</b>:P0–P4 只保留为 V3 架构怎样建成的历史证据；R0–R3 负责旧机制在替代者接管后退出生产；M0–M3 负责止假绿、接 canon 与补引注、清实例污染、收编无主数。R 与 M 可以并行,但同一卡只归一条线；本周仍以 Retirement 为主攻,Modify 先 M0 再 M1,M2/M3 不抢跑未判数字。</p>
@@ -408,7 +408,59 @@ footer a:hover{color:var(--ink)}
       <li><a href="vscode://file/D:/ARCHFLOW_V3/docs/审议/审计_写死公式十席_2026-07-18.md">十席审计原卷</a></li>
     </ul></span></div>
 
-  <h3 class="sub-label">Latest 闭环推进 — 检索事实已经穿过承诺、落位、构造与交付空间</h3>
+  <h3 class="sub-label">Latest R1 收口 + P2 开门 — 修复可持久,拨号可约束,品味仍须举证</h3>
+  <div class="row ruling"><span class="hash">5b50e68</span><span class="tag">P2.3A 证据门</span>
+    <p><b>critic 不再凭训练内高分自称就绪</b>:<code>CriticHeldOutEvidence@0</code> 从冻结模型、评估器、反馈、盲屏 manifest 与逐条 holdout 观察重算 tie-aware Spearman 和同屏 pairwise。训练/留出家族交叠、坏指纹、重复记录、非正相关或缺盲评都具名 <code>NOT_READY</code>。当前实况是 <b>blind=0</b>；既有 <code>0.878</code> 只是训练内回算,不能进入 RL。全量 <b>1624 passed · 47 skipped · 131 subtests</b>。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/critic/readiness.py">archflow/critic/readiness.py</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/docs/项目动态地图_V3.md">动态地图 · P2.3A</a></li>
+    </ul></span></div>
+  <div class="row arch"><span class="hash">13d8eec</span><span class="tag">R1.9 拨号许可</span>
+    <p><b>外部席的“一次”从进程纪律升级为跨进程持久许可</b>:<code>external_attempt</code> sidecar 经 ArtifactRouter 的锁、WAL 与 manifest 在 transport 前公开提交；同一 building run + adapter + request 指纹只能赢得一次授权。准确承诺是 <b>durable at-most-once dial authorization</b>,不是 provider exactly-once；许可后、拨号前死亡可以零次,但绝不允许第二次。落盘不含 prompt、key、response 或预算私账。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/knowledge/external_attempt.py">archflow/knowledge/external_attempt.py</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/docs/项目动态地图_V3.md">动态地图 · R1.9</a></li>
+    </ul></span></div>
+  <div class="row arch"><span class="hash">909ee4d</span><span class="tag">R1.8B 持久修复</span>
+    <p><b>Selective Repair 已从内存语义内核闭合为只写 child 的 sealed run</b>:实际语义读写生成 old/new 依赖闭包,无关轮原回答字节复用,受影响轮显式重算,父 proof 永久只读；source/base/child checkpoint、plan、result、proof supersession 与 lineage 经 R0.2 Router/WAL 归档。最终 evidence manifest 是唯一公开点,未封印、半写、追加或漂移全部拒绝。默认 scheduler、几何与 Gold 未改变。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/knowledge/selective_repair.py">archflow/knowledge/selective_repair.py</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/knowledge/repair_archive.py">archflow/knowledge/repair_archive.py</a></li>
+    </ul></span></div>
+  <div class="row fix"><span class="hash">d54f078</span><span class="tag">R1.7 外部席</span>
+    <p><b>真实检索/LLM 席已接入现役公式,但默认仍零注册、零联网</b>:wire body/response 字节硬界、进程级防重、预算 escrow、累计与单次费用门、raw 结构秘密门和 backend 身份→拨号同源均已闭合；provider 失败不重试、不回退。对抗探针覆盖 39,832 字符零秘密命中；当轮全量 1570,随后由 R1.8B、R1.9 与 P2.3A 继续抬升。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/knowledge/external_seat.py">archflow/knowledge/external_seat.py</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/docs/项目动态地图_V3.md">动态地图 · R1.7</a></li>
+    </ul></span></div>
+
+  <h3 class="sub-label">Earlier R1 编译链接盘 — 从逐楼事实到可原子重放的结构消费者</h3>
+  <div class="row arch"><span class="hash">1842d31</span><span class="tag">R1.8A 重放链</span>
+    <p><b>多步重放不再是“把单步 API 套进循环”</b>:<code>ReplayChain@0</code> 逐轮绑定父链、完整知识前态、typed delta、后态与 validator 指纹；整链先在隔离 Blackboard 上验证,全部通过后才一次交换 live state。两步“检索→拓扑”重放与原 derivation 哈希相同；任一步漂移都让真实板、Ledger 与 derivation 零漂移。当前只完成 exact replay 底座,<b>尚未宣称 Selective Uncommit</b>。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/docs/项目动态地图_V3.md">动态地图 · R1.8A</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/knowledge/replay.py">archflow/knowledge/replay.py</a></li>
+    </ul></span></div>
+  <div class="row arch"><span class="hash">8efcc63</span><span class="tag">R1.6 消费者</span>
+    <p><b>第一条计算问句全链已经接到真实结构消费者</b>:逐楼 ColumnGridIR 经具名义务、独立公式轮与 placement-bound bundle 进入 portico；consumer 每个 node 只发一柱,只沿显式 rank/alignment 发梁。scope、重放、承托或跨限任一不实即零发射、零清债；两种建筑复用同一编译/求解法,默认几何与 Gold 零漂移。最后一次无并列中间态的全量基线为 <b>1458 passed · 47 skipped · 60 subtests</b>。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/docs/项目动态地图_V3.md">动态地图 · R1.6</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/knowledge/column_grid.py">archflow/knowledge/column_grid.py</a></li>
+    </ul></span></div>
+  <div class="row fix"><span class="hash">7fdca86</span><span class="tag">R0.2 WAL</span>
+    <p><b>逐楼事实账从“同进程原子”推进到可恢复的跨进程提交</b>:ArtifactRouter 以 workspace 文件锁串行写入,正式文件变更前先落 WAL 与旧 artifact 备份；manifest replace 是唯一提交点。进程在 artifact 后硬退出会回旧代,在 manifest 后硬退出会保留新代；错楼 scope、坏 journal 与身份漂移全部 fail-closed,但不冒称介质损坏或分布式文件系统安全。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/docs/项目动态地图_V3.md">动态地图 · R0.2 WAL</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/governance/artifacts.py">archflow/governance/artifacts.py</a></li>
+    </ul></span></div>
+  <div class="row ruling"><span class="hash">a5302ba</span><span class="tag">M1 证据门</span>
+    <p><b>M0 与 M1 已从待施工推进为四张完成卡</b>:fluted 内容闸门、checkpoint 一致性锁、portico order/D canon 通路与字段级证据契约均已接通。52 个驱动叶数值哈希保持不变；现状分为 cited 5、derived 8、conflicted 14、unresolved 26,<code>approved_by</code> 仍为空,因此“有引注”不会冒充“数值已批准”。M2/M3 继续等待逐概念判决,不批量合理化。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/docs/提案/提案_Modify修正周期_M0-M3_2026-07-18.md">Modify M0–M3 施工卡</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/docs/项目动态地图_V3.md">动态地图 · M0/M1</a></li>
+    </ul></span></div>
+
+  <h3 class="sub-label">Earlier 今日建造弧 — 检索事实已经穿过承诺、落位、构造与交付空间</h3>
   <div class="row arch"><span class="hash">c222d19</span><span class="tag">typed CSG</span>
     <p><b>门廊与圆鼓不再靠“看起来接触”成立</b>:D2.5 新增 <code>join:portico_drum</code> 子义务,D11 发射具名 <code>SolidOp</code>；union 必须在交付空间真实共体积,subtract 只扣点名 targets。入口 passage 从门廊贯穿鼓墙,冲突轴柱按拓扑退役。最终 B 路径为 <b>12170 blocks · 五法 0 findings · 16/16 义务清偿</b>。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
@@ -437,10 +489,10 @@ footer a:hover{color:var(--ink)}
     </ul></span></div>
 
   <figure class="diagram-strip" aria-label="最新推进对应的四张原理图">
-    <a class="diagram-card" href="../atlas/fig/07-structured-rad.svg" target="_blank" rel="noopener"><img src="../atlas/fig/07-structured-rad.svg" alt="结构化 RAD 原理图"><span>01 · 证据进入事实账本</span></a>
-    <a class="diagram-card" href="../atlas/fig/03-obligation-lifecycle.svg" target="_blank" rel="noopener"><img src="../atlas/fig/03-obligation-lifecycle.svg" alt="义务生命周期原理图"><span>02 · 父债与子债具名清偿</span></a>
-    <a class="diagram-card" href="../atlas/fig/08-spatial-mdp.svg" target="_blank" rel="noopener"><img src="../atlas/fig/08-spatial-mdp.svg" alt="空间 MDP 原理图"><span>03 · 关系编译为空间状态</span></a>
-    <a class="diagram-card" href="../atlas/fig/04-convert-gate.svg" target="_blank" rel="noopener"><img src="../atlas/fig/04-convert-gate.svg" alt="convert 唯一通道原理图"><span>04 · typed CSG 在交付空间执法</span></a>
+    <a class="diagram-card" href="../atlas/fig/07-structured-rad.svg" target="_blank" rel="noopener"><img src="../atlas/fig/07-structured-rad.svg" alt="结构化 RAD 原理图"><span>01 · 检索事实编译为逐楼承诺</span></a>
+    <a class="diagram-card" href="../atlas/fig/03-obligation-lifecycle.svg" target="_blank" rel="noopener"><img src="../atlas/fig/03-obligation-lifecycle.svg" alt="义务生命周期原理图"><span>02 · 未清债生成下一道问句</span></a>
+    <a class="diagram-card" href="../atlas/fig/08-spatial-mdp.svg" target="_blank" rel="noopener"><img src="../atlas/fig/08-spatial-mdp.svg" alt="空间 MDP 原理图"><span>03 · 拓扑与柱网进入结构消费者</span></a>
+    <a class="diagram-card" href="../atlas/fig/09-ledger-provenance.svg" target="_blank" rel="noopener"><img src="../atlas/fig/09-ledger-provenance.svg" alt="溯源上账原理图"><span>04 · 选择性修复封印为 child run</span></a>
   </figure>
 
   <h3 class="sub-label">Previous 2026-07-17 基础弧 — 从矮棚到穹显形</h3>
@@ -533,23 +585,26 @@ footer a:hover{color:var(--ink)}
 
   <h3 class="sub-label">Active 当前执行编号 — R 与 M</h3>
   <div class="phase" data-bench="arch">
-    <div class="phead"><span class="pno">R0–R3</span><span class="pname">Retirement · 旧机制退役交权</span><span class="bar"><i style="width:20%"></i></span><span class="pct">R0 active</span></div>
+    <div class="phead"><span class="pno">R0–R3</span><span class="pname">Retirement · 旧机制退役交权</span><span class="bar"><i style="width:79%"></i></span><span class="pct">R2 next</span></div>
     <div class="pitems">
-      <span class="pi done">R0 前置:D2.5 两轮实例去污已完成</span>
-      <span class="pi gate">R0.1 机器可读退役清单 + 禁增规则 — 待施工</span>
-      <span class="pi">R1 公式问句 + Fact-to-Commitment Compiler + 通用拓扑 IR</span>
+      <span class="pi done">R0.1–R0.3 契约界碑 / 逐楼工作区 / 原子状态事务</span>
+      <span class="pi done">R1.0–R1.6 事实编译 / 公式 / 拓扑 / 议程 / 派发 / 完备门 / 柱网消费者</span>
+      <span class="pi done">R1.7 有界真实外部席:预算 / 字节 / 身份 / 秘密门</span>
+      <span class="pi done">R1.8A/B1/B2 exact replay → 依赖闭包 → sealed child run</span>
+      <span class="pi done">R1.9 durable at-most-once dial authorization</span>
       <span class="pi">R2 CLI / Studio 切 MDP runner,旧职责分批退出生产</span>
-      <span class="pi">R3 wrapper / adapter / 死钩清场,旧训练链归消融</span>
+      <span class="pi doing">R3 detail 转发与 9 个死 proportion 表面已退；其余按证据清场</span>
     </div>
-    <p class="pnote">Retirement 是本周主攻。每次退役必须同时具备替代者、非万神殿复用证据与回滚参照；先接盘,后删除。</p>
+    <p class="pnote">R1 本地闭环已经成立,下一阶段是 R2 生产交权。真实 provider 尚未 smoke；无幂等或查询协议时不承诺 exactly-once。每次退役仍须替代者、跨建筑证据与回滚参照齐备。</p>
   </div>
 
   <div class="phase" data-bench="arch">
-    <div class="phead"><span class="pno">M0–M3</span><span class="pname">Modify · 现役路径修正</span><span class="bar"><i style="width:0%"></i></span><span class="pct">M0 queued</span></div>
+    <div class="phead"><span class="pno">M0–M3</span><span class="pname">Modify · 现役路径修正</span><span class="bar"><i style="width:67%"></i></span><span class="pct">M1 complete</span></div>
     <div class="pitems">
-      <span class="pi gate">M0.1 fluted 内容闸门 + D≥3 体素行为测试 — 下一刀</span>
-      <span class="pi">M0.2 checkpoint 活值 / fallback / 代码一致性锁</span>
-      <span class="pi">M1 portico order/D 接 canon + 驱动字段逐项引注</span>
+      <span class="pi done">M0.1 fluted 内容闸门 + D≥3 体素行为测试 + Gold 有意换代</span>
+      <span class="pi done">M0.2 checkpoint 活值 / fallback / 代码一致性锁</span>
+      <span class="pi done">M1.1 portico order/D 接 canon + 多 D / 四视图契约</span>
+      <span class="pi done">M1.2 52 个驱动叶逐项来源 / 推导 / 冲突 / 缺席证据门</span>
       <span class="pi">M2 龛庙 / 鼓墙 / span / krepidoma 回到逐建筑事实</span>
       <span class="pi">M3 法院系数 / 走廊比例 / 高度倍率 / 默认权重逐项判决</span>
     </div>
@@ -650,13 +705,18 @@ footer a:hover{color:var(--ink)}
     {"label":"07-17","passed":1166},
     {"label":"落位入链","passed":1182},
     {"label":"门廊装配","passed":1189},
-    {"label":"typed CSG","passed":1193}
+    {"label":"typed CSG","passed":1193},
+    {"label":"R1.7 外部席","passed":1570},
+    {"label":"R1.8B1 修复","passed":1584},
+    {"label":"R1.8B2 持久化","passed":1592},
+    {"label":"R1.9 拨号许可","passed":1608},
+    {"label":"P2.3A critic门","passed":1624}
   ]</script>
-  <p class="pnote" style="border-bottom:1px solid var(--line);padding-bottom:16px">最近一次全量为 1193 passed；随后 passage 变体出现 1 个失败,修复后定向 2/2 通过,依 campaign 纪律未重复跑全量。doctor 0 · selfcheck 16/16 + ruin · 甲段 PASS。</p>
+  <p class="pnote" style="border-bottom:1px solid var(--line);padding-bottom:16px">当前最近一次全量为 1624 passed / 47 skipped / 131 subtests；doctor 0 · selfcheck 16/16 + ruin。R1.7–R1.9 与 P2.3A 均在各自验收轮通过；默认联网、默认 scheduler、几何与 Gold 未因这些卡改变。</p>
 
   <h3 class="sub-label">Benchmark 明细 — 素材 Materials(主页第二格的算法:● 1 · ◐ 0.5 · ○ 0)</h3>
   <div class="pitems" data-bench="assets" style="padding-bottom:16px;border-bottom:1px solid var(--line)">
-    <span class="pi done">CAADRIA 摘要 v5(619 词可投)</span>
+    <span class="pi done">CAADRIA 摘要 v6 投稿候选</span>
     <span class="pi done">金样库 16 golden + 废墟门</span>
     <span class="pi done">探针产物制度 export_probe + log.jsonl</span>
     <span class="pi done">战役卡#1 四案例(检查板/剖面/schem)</span>
@@ -664,6 +724,10 @@ footer a:hover{color:var(--ink)}
     <span class="pi done">§7.3 验证门升级素材(假绿→修法完整战役)</span>
     <span class="pi">三链演示素材(链一/二/三)</span>
     <span class="pi done">封面候选:决策路径万神殿 8/8 家族版</span>
+    <span class="pi done">R1.7 外部席秘密 / 预算对抗证据包</span>
+    <span class="pi done">R1.8B sealed child-run 修复档案</span>
+    <span class="pi done">P2.6 紧凑语义 IR 往返与任务闭包探针</span>
+    <span class="pi done">P2.3A critic held-out readiness 证据门</span>
     <span class="pi">消融 L1 单发整图</span>
     <span class="pi">消融 L2 逐步+掩码</span>
     <span class="pi">消融 L3 义务关</span>
@@ -672,7 +736,7 @@ footer a:hover{color:var(--ink)}
 
   <h3 class="sub-label">Benchmark 明细 — 验证 Validation(主页第三格的算法同上)</h3>
   <div class="pitems" data-bench="valid" style="padding-bottom:16px;border-bottom:1px solid var(--line)">
-    <span class="pi done">最近一次全量 pytest 1193 passed</span>
+    <span class="pi done">当前全量 pytest 1624 passed / 47 skipped / 131 subtests</span>
     <span class="pi done">doctor 0 findings</span>
     <span class="pi done">selfcheck 金样 16/16 + 废墟门</span>
     <span class="pi done">字节锚:旋钮全关 = V2 等价</span>
@@ -685,6 +749,10 @@ footer a:hover{color:var(--ink)}
     <span class="pi">门洞可通行探针(战役卡#2 候选)</span>
     <span class="pi done">LLM 席重放:原始回复+菜单+动作已上账</span>
     <span class="pi done">D05 留债成品测试(不可验支付)</span>
+    <span class="pi done">R1.7 wire / 预算 / 秘密 / 失败零漂移门</span>
+    <span class="pi done">R1.8B persistent selective repair + sealed child-run reload</span>
+    <span class="pi done">R1.9 跨进程 at-most-once 拨号许可</span>
+    <span class="pi done">P2.3A held-out critic readiness:blind=0 诚实拒绝</span>
   </div>
 </section>
 </section>
@@ -704,24 +772,24 @@ footer a:hover{color:var(--ink)}
     </div>
   </div>
   <div style="padding:20px 0 6px;border-bottom:1px solid var(--line)"><img src="看板万神殿.svg" alt="Pantheon elevation and plan line diagram 万神殿立面与平面线图" style="width:100%;max-width:760px;display:block"></div>
-  <h3 class="sub-label">Critic 今日一问 · 2026-07-18(每日一位 critic,问题必须扎在当日数据/图像上)</h3>
-  <div class="row fix" style="grid-template-columns:1fr"><p><b>旗舰案例已经从“账对楼错”推进到“账、拓扑与交付空间一致”,但传统差异仍未进入菜单。</b>决策路径现在具有圆鼓、穹、oculus、环柱、门廊、山花、台阶、七礼拜堂、八龛庙与藻井；16项义务全部清偿,五法零发现。然而同型异答探针表明,把 timber / brick / trabeated 换进同一类型后仍会生成逐字节同构的罗马穹。下一步不是继续给万神殿加构件,而是回答:<b>材料与传统词应当怎样改变合法菜单,同时不破坏默认排序和字节锚?</b></p></div>
+  <h3 class="sub-label">Critic 今日一问 · 2026-07-19(每日一位 critic,问题必须扎在当日数据/图像上)</h3>
+  <div class="row fix" style="grid-template-columns:1fr"><p><b>机器现在能证明一次修订只刷新受影响域,但仍不能证明它知道什么是“更好”。</b>P2.3A 已阻止训练内 <code>0.878</code> 冒充 held-out 成绩,代价是诚实暴露 <b>blind=0</b>。下一步不应继续调 ranker 数字,而应回答:<b>如何从 M1.4 最终可见且 M1.5 活消费者成立的方案中,建立与 catch/train 隔离、跨建筑家族无泄漏的匿名盲评集?</b></p></div>
 </section>
 </section>
 
 <!-- ================= 05 NEXT 明日 ================= -->
 <section id="next" class="view">
 <section class="blk">
-  <div class="sec-head"><span class="no">05</span><h2>下一步 Next · 2026-07-18</h2><span class="hint">最新建造弧已收口,以下按 R/M 现役施工顺序排列</span></div>
+  <div class="sec-head"><span class="no">05</span><h2>下一步 Next · 2026-07-19</h2><span class="hint">R1 本地闭环已收口；木桶转向真实调用、critic 证据与生产交权</span></div>
   <ol class="next">
-    <li><span><b>M0.1 · fluted 内容闸门</b>:让 <code>fluted=False</code> 真正关闭柱身开槽；同一柱径以 D≥3 验证 True/False 体素差异,同时证明默认金样零漂移。</span></li>
-    <li><span><b>R0.1 · 冻结退役边界</b>:建立机器可读退役清单与禁增规则,钉死 composer、关键词路由、type canon 与 Pipeline 的现状职责,再进入 R1 编译链接盘。</span></li>
-    <li><span><b>M0.2 · checkpoint 漂移锁</b>:锁住活值、fallback 与代码同名比例的一致性；读取失败不得静默换数,默认路径变化必须显式上账。</span></li>
-    <li><span><b>M1 预备 · canon 通路与字段引注</b>:先补 portico order/D 的下行契约与来源页码；完成 M0 后再串行施工,不顺带扩写实例数据库。</span></li>
+    <li><span><b>真实 provider smoke</b>:在 Kevin 提供合法凭据与 endpoint 后只做一次有界真实调用,核验实际 transport、usage 与随楼证据；无 provider 幂等/查询协议时继续只承诺 at-most-once authorization。</span></li>
+    <li><span><b>P2.4A · Critic 隔离门</b>:把可变 Blackboard 换成冻结只读观察快照,critic 异常只生成 fail-open 审计回执,不能中断 scheduler；完成后再接 LLM-审或 ranker。</span></li>
+    <li><span><b>P2.3 · 盲评数据</b>:严格拆开 catch / train / held-out；只让最终可见 artifact、M1.4 合格且 M1.5 证实真实 consumer 的 survivor 进入匿名盲评。</span></li>
+    <li><span><b>R2 · 生产交权</b>:建立统一 MDPRunner,让 CLI / Studio / export 先 opt-in 接入；composer、关键词路由与 type canon 逐项证明替代者后再退出生产。</span></li>
   </ol>
   <div class="gatebox">
     <span class="label">Execution Guardrails 施工护栏</span>
-    Retirement 仍是本周主攻 · Modify 只先做 M0→M1 · M2/M3 不抢跑未判数字 · 触及默认翻转或金样变化即停下交 Kevin 判决
+    无凭据不自动联网 · critic 未达 held-out 正相关不得进入 RL · R2 默认翻转必须交 Kevin · M2/M3 不抢跑未判数字 · Rhino/Blender 只作远期后端 adapter
   </div>
 </section>
 </section>
@@ -731,9 +799,9 @@ footer a:hover{color:var(--ink)}
 <section class="blk">
   <div class="sec-head"><span class="no">06</span><h2>风险雷达 Risks</h2></div>
   <div class="risks">
-    <div class="riskcard"><b>局部修订实验仍是最紧赌注</b>历史 P3.1 留下 repair 机器 + N≥30 的研究义务,但 P3.1 不再作为现役执行编号；9 月检查点仍决定论文主张去留。</div>
-    <div class="riskcard"><b>传统词目前不改变构造结果</b>同型异答探针中 timber / brick / trabeated 零候选,四题逐字节同构；如果不修,系统会把“理解传统”误报成只识别类型。</div>
-    <div class="riskcard"><b>1193 不是当前精确全量基线</b>它是最近一次全量通过数；随后 passage 变体失败已定向2/2修绿,但依 campaign 限次没有再次全量运行,看板不得写成“1195全绿”。</div>
+    <div class="riskcard"><b>Persistent Selective Repair 仍是 opt-in 本地能力</b>R1.8B 已具备依赖闭包、proof supersession 与 sealed child run,但尚未接默认 scheduler、几何或 R2 生产入口；论文必须写清这一边界。</div>
+    <div class="riskcard"><b>Critic 目前不是“负相关”,而是未证明正相关</b>blind=0；训练内0.878不可复验为 held-out。若先接 RL,系统只会把未经证明的品味放大。</div>
+    <div class="riskcard"><b>拨号许可不等于 provider exactly-once</b>R1.9 只保证跨进程最多授权一次；许可提交后、拨号前崩溃允许零次。真实 provider smoke 仍受凭据与外部幂等能力约束。</div>
   </div>
 </section>
 </section>
@@ -773,10 +841,10 @@ footer a:hover{color:var(--ink)}
     <p>将每一步的条件熵 <code>H(A_t|S_t)≈log₂|A_valid|</code> 控制在预算区间 <code>[H_min,H_max]</code> 内:掩码先把菜单缩到合法集 A_valid,策略再从合法项中选择。代码中的对应实体是 MenuSpec;目前已有三个真菜单接入流程。 <span class="src">policy.py · 谱系:SPRING(AIJ 2024) · shielded RL</span></p></div>
   <div class="gl"><span class="term">D⁺(X) · 依赖闭包<small>Dependency Graph</small></span>
     <p>决策 X 的全部下游 <code>D⁺(X)={Y|X⤳Y}</code>;修订成本 <code>C_revision ∝ |D⁺(X)|</code>——改一个决策的代价由<b>依赖闭包</b>决定,不由结果规模决定(repair locality 的测量面)。代码 = 读写集 + <code>downstream_of()</code>。 <span class="src">谱系:TMS(Doyle 1979) · de Kleer 1986</span></p></div>
-  <div class="gl"><span class="term">Selective Uncommit<small>选择性修订 · P3.1</small></span>
-    <p><code>invalidate(D⁺(X))</code> → 局部重规划,而不是整图重生:只解除受影响的承诺,其余部分保持不变。它针对修改难以逆转的三个原因——下游扩散、编译丢史与路径依赖。历史施工序 P3.1 曾将其列为高风险目标；现役工作先由 R1 补齐编译链接盘,9 月检查点仍决定实验主张去留。 <span class="src">理论卷 §5–6</span></p></div>
-  <div class="gl"><span class="term">RAD · 检索增强决策<small>Retrieval-Augmented Decision-making</small></span>
-    <p>这里使用 RAD 而非 RAG:<b>RAG 把检索结果用于生成 token,RAD 把检索结果用于约束决策</b>。它包含三部分:① 检索进入掩码文法,先例只影响「在合法项中选哪个」,不会引入非法动作;② 溯源记录,把影响每个决策的先例写入可回放的合法史;③ 通过确定性重放审计忠实度——删除检索信息后重放一次,观察选择是否改变。现有系统通常难以审计引用是否真正影响决策,而 ArchFlow 的重放基础设施提供了这一条件。当前仍待 Kevin 拍板入宪方式、语料池与指标,P2.5 已有接口桩。 <span class="src">提案_检索增强决策 · precedent.py · 谱系:CBR 三祖 · LeanDojo · LayoutGPT</span></p></div>
+  <div class="gl"><span class="term">Selective Uncommit<small>选择性修订 · R1.8B</small></span>
+    <p><code>invalidate(D⁺(X))</code> → 在 detached child 中重答目标并按 old/new 语义写差扩张依赖闭包；无关轮字节复用,受影响轮显式刷新,父 proof 只读,child proof 重签。R1.8B2 已将 source/base/child checkpoint、lineage 与最终 seal 归档为可 fail-closed reload 的逐楼 child run；生产默认接线仍归 R2。 <span class="src">selective_repair.py · repair_archive.py · 理论卷 §5–6</span></p></div>
+  <div class="gl"><span class="term">RAD · 检索增强推导/设计<small>Retrieval-Augmented Derivation / Design</small></span>
+    <p>这里使用 RAD 而非普通 RAG:<b>检索结果不是只用于生成 token,而是先成为带来源的逐楼事实,再编译为承诺、关系与可验证设计增量</b>。LLM 负责问句、抽取与合法菜单内提议；精确算术、坐标、布尔和承托后果仍由公式、求解器与闸口决定。R1.7 已提供默认关闭的有界外部席,R1.8B 使受影响推导可修复并封印。 <span class="src">理论_RAD与建筑状态编译 · external_seat.py · selective_repair.py</span></p></div>
   <div class="gl"><span class="term">义务 ⊕<small>Obligation</small></span>
     <p>义务是一种前向债:<code>created → discharged</code>,未清部分以 debt 留账。义务可以跨决策创建与清偿,例如 D05 创建隐私义务,D09 通过楼板检查清偿;cover→bear 则形成级联召唤。清偿按多重集差逐项对账,对应形式方法中的 proof obligation。 <span class="src">ledger · ⊕=比理论卷多出的增补件</span></p></div>
   <div class="gl"><span class="term">自问自答 ⊕<small>Question-Driven Agenda</small></span>
@@ -805,7 +873,7 @@ footer a:hover{color:var(--ink)}
 <footer>
   <p>更新制度 UPDATE PROTOCOL — ① 每日 00:02 定时刷新(战报 / 周期 / 明日方向 / 指标 / 历史归档;主页原理图与 Benchmark 结构不动,百分比由现役 R/M 明细自动求和)· ② 思想性更新当轮即时 push + 刷手机镜像 Artifact · ③ 数据真源 = git log + 动态地图 + 义务探针,看板只可视化<br>
   vscode 链接须在<b>系统浏览器</b>打开本页才生效(Claude 面板与手机镜像拦协议跳转;首次点击浏览器会问一次,勾"始终允许")<br>
-  重构 2026-07-16(判决:主页=原理图+Benchmark,内容入模块)· 下次自动刷新 2026-07-18 00:02 · <a href="vscode://file/D:/ARCHFLOW_V3/docs/项目动态地图_V3.md">动态地图 ↗ vscode</a> · <a href="vscode://file/D:/ARCHFLOW_V3/docs/审议/合议_Codex预审与全项目审计_2026-07-16.md">合议报告 ↗ vscode</a></p>
+  重构 2026-07-16(判决:主页=原理图+Benchmark,内容入模块)· 下次自动刷新 2026-07-20 00:02 · <a href="vscode://file/D:/ARCHFLOW_V3/docs/项目动态地图_V3.md">动态地图 ↗ vscode</a> · <a href="vscode://file/D:/ARCHFLOW_V3/docs/审议/合议_Codex预审与全项目审计_2026-07-16.md">合议报告 ↗ vscode</a></p>
 </footer>
 
 <script>
