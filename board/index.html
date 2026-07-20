@@ -225,7 +225,7 @@ footer a:hover{color:var(--ink)}
     <li><a data-tab="risks" href="#risks" data-zh="风险 Risks" data-en="Risks">风险 Risks</a></li>
     <li><a data-tab="history" href="#history" data-zh="历史 History" data-en="History">历史 History</a></li>
     <li><a data-tab="glossary" href="#glossary" data-zh="术语 Glossary" data-en="Glossary">术语 Glossary</a></li>
-    <li><a href="架构图集.html" data-zh="图集 Atlas" data-en="Atlas">图集 Atlas</a></li>
+    <li><a href="../atlas/">图集 Atlas</a></li>
     <li><a class="vsc" href="vscode://file/D:/ARCHFLOW_V3">VSCode ↗</a></li>
   </ul>
   <button class="lang-toggle" id="lang-toggle" type="button" aria-label="Switch dashboard language">English</button>
@@ -1083,6 +1083,7 @@ footer a:hover{color:var(--ink)}
   var root = document.documentElement;
   var btn = document.getElementById("lang-toggle");
   var keyed = Array.prototype.slice.call(document.querySelectorAll("[data-zh][data-en]"));
+  var atlas = document.querySelector('a[href="架构图集.html"], a[href="../atlas/"]');
   var query = new URLSearchParams(location.search).get("lang");
   var saved = null;
   try{ saved = localStorage.getItem("archflow-dashboard-language"); }catch(e){}
@@ -1091,6 +1092,7 @@ footer a:hover{color:var(--ink)}
     root.setAttribute("data-lang", lang);
     root.setAttribute("lang", lang === "en" ? "en" : "zh-CN");
     keyed.forEach(function(el){ el.textContent = el.getAttribute("data-" + lang); });
+    if(atlas) atlas.textContent = lang === "en" ? "Atlas" : "图集 Atlas";
     document.title = lang === "en" ? "ArchFlow V3 — Build Log" : "ArchFlow V3 — Build Log 施工看板";
     btn.textContent = lang === "en" ? "中文" : "English";
     btn.setAttribute("aria-label", lang === "en" ? "切换为中文" : "Switch dashboard to English");
