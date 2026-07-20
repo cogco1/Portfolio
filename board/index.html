@@ -49,6 +49,11 @@ a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .nav a.on{color:var(--ink);border-bottom-color:var(--ink)}
 .nav .vsc{border:1px solid var(--line-strong);padding:7px 13px;color:var(--ink)}
 .nav .vsc:hover{background:var(--hover)}
+.nav .lang-toggle{border:1px solid var(--ink);background:var(--ink);color:var(--bg);padding:7px 13px;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+.nav .lang-toggle:hover{background:var(--bg);color:var(--ink)}
+.en-only{display:none!important}
+html[data-lang="en"] .zh-only{display:none!important}
+html[data-lang="en"] .en-only{display:block!important}
 
 /* ---- views(标签页) ---- */
 .view{display:none}
@@ -99,6 +104,31 @@ figcaption{font-size:13px;color:var(--muted);padding:12px 0 0;border-top:1px sol
 .pr .rk-l{stroke:var(--risk);stroke-width:1.2;fill:none}
 .pr .rk-t{font:10.5px var(--sans);fill:var(--risk)}
 .pr .ah{fill:var(--ink)} .pr .ahk{fill:var(--ok)} .pr .ahr{fill:var(--risk)}
+
+/* ---- English principle map ---- */
+.principle-flow{display:grid;grid-template-columns:1.15fr .3fr 1.15fr .3fr 1.15fr;gap:14px;align-items:stretch;padding:28px 0 8px}
+.flow-col{display:flex;flex-direction:column;gap:10px}
+.flow-node{border:1px solid var(--line-strong);padding:14px 16px;min-height:72px}
+.flow-node.accent{border-color:var(--ink)}
+.flow-node.ok{border-color:var(--ok)}
+.flow-node.risk{border-color:var(--risk)}
+.flow-node .k{display:block;font:9.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-bottom:5px}
+.flow-node b{display:block;font-size:13px;margin-bottom:2px}
+.flow-node p{font-size:11.5px;color:var(--muted);line-height:1.55}
+.flow-arrow{display:flex;align-items:center;justify-content:center;font:11px var(--mono);letter-spacing:.1em;color:var(--faint);text-align:center}
+.flow-loop{margin-top:12px;border-top:1px solid var(--risk);padding:11px 0 0;font:10px var(--mono);letter-spacing:.08em;color:var(--risk);text-transform:uppercase}
+@media (max-width:760px){
+  .principle-flow{grid-template-columns:1fr}.flow-arrow{padding:2px 0}
+  .nav{display:block;padding:14px 18px;overflow:hidden}
+  .nav .name{display:block;margin-bottom:11px;padding-right:82px}
+  .nav ul{width:100%;max-width:100%;gap:16px;flex-wrap:nowrap;overflow-x:auto;padding-bottom:3px;scrollbar-width:none}
+  .nav ul::-webkit-scrollbar{display:none}
+  .nav li{flex:0 0 auto}
+  .nav .lang-toggle{position:absolute;top:10px;right:18px;padding:6px 10px}
+  section.blk{width:100%;min-width:0}
+  .risks{grid-template-columns:minmax(0,1fr)}
+  .riskcard,.row p,.gl p,footer p{overflow-wrap:anywhere}
+}
 
 /* ---- benchmark tiles ---- */
 .bench{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0 44px;margin-top:4px}
@@ -186,24 +216,72 @@ footer a:hover{color:var(--ink)}
 <nav class="nav">
   <a class="name" href="#home">ARCHFLOW&nbsp;V3 · BUILD&nbsp;LOG</a>
   <ul>
-    <li><a data-tab="home" href="#home">原理 Principle</a></li>
-    <li><a data-tab="sitrep" href="#sitrep">战报 Sitrep</a></li>
-    <li><a data-tab="phases" href="#phases">周期 Cycles</a></li>
-    <li><a data-tab="metrics" href="#metrics">指标 Metrics</a></li>
-    <li><a data-tab="pantheon" href="#pantheon">万神殿 Pantheon</a></li>
-    <li><a data-tab="next" href="#next">明日 Next</a></li>
-    <li><a data-tab="risks" href="#risks">风险 Risks</a></li>
-    <li><a data-tab="history" href="#history">历史 History</a></li>
-    <li><a data-tab="glossary" href="#glossary">术语 Glossary</a></li>
-    <li><a href="../atlas/">图集 Atlas</a></li>
+    <li><a data-tab="home" href="#home" data-zh="原理 Principle" data-en="Principle">原理 Principle</a></li>
+    <li><a data-tab="sitrep" href="#sitrep" data-zh="战报 Sitrep" data-en="Sitrep">战报 Sitrep</a></li>
+    <li><a data-tab="phases" href="#phases" data-zh="周期 Cycles" data-en="Cycles">周期 Cycles</a></li>
+    <li><a data-tab="metrics" href="#metrics" data-zh="指标 Metrics" data-en="Metrics">指标 Metrics</a></li>
+    <li><a data-tab="pantheon" href="#pantheon" data-zh="万神殿 Pantheon" data-en="Pantheon">万神殿 Pantheon</a></li>
+    <li><a data-tab="next" href="#next" data-zh="明日 Next" data-en="Next">明日 Next</a></li>
+    <li><a data-tab="risks" href="#risks" data-zh="风险 Risks" data-en="Risks">风险 Risks</a></li>
+    <li><a data-tab="history" href="#history" data-zh="历史 History" data-en="History">历史 History</a></li>
+    <li><a data-tab="glossary" href="#glossary" data-zh="术语 Glossary" data-en="Glossary">术语 Glossary</a></li>
+    <li><a href="架构图集.html" data-zh="图集 Atlas" data-en="Atlas">图集 Atlas</a></li>
     <li><a class="vsc" href="vscode://file/D:/ARCHFLOW_V3">VSCode ↗</a></li>
   </ul>
+  <button class="lang-toggle" id="lang-toggle" type="button" aria-label="Switch dashboard language">English</button>
 </nav>
 
 <!-- ================= HOME 主页 = 原理图 + BENCHMARK ================= -->
 <section id="home" class="view">
 
-  <header class="hero">
+  <header class="hero en-only">
+    <p class="eyebrow">Construction Log · Ruling A: Build, Don't Retreat</p>
+    <h1>Committed into Being.</h1>
+    <p class="sub">A white-box, LLM-guided engine for architectural generation. Every step is an auditable decision; every unresolved responsibility remains visible on the ledger. The work shown here is a live construction record, not a polished claim of completion.</p>
+    <div class="meta">
+      <div><span class="label">Source Head</span><span class="v num">a79b405</span></div>
+      <div><span class="label">Three Gates</span><span class="v ok num">last clean 1651 · doctor 0 · selfcheck 16/16+ruin</span></div>
+      <div><span class="label">Current Closure</span><span class="v num">module frame → tectonic envelope → liveness gate</span></div>
+      <div><span class="label">Abstract Deadline</span><span class="v num" id="d-abs-en">07-27 · D-8</span></div>
+      <div><span class="label">Full Paper Deadline</span><span class="v risk num" id="d-full-en">10-26 · D-99</span></div>
+    </div>
+  </header>
+
+  <section class="blk en-only">
+    <div class="sec-head"><span class="no">00</span><h2>The Principle · One System Map</h2><span class="hint">law → decision → ledger → delivery space → probe</span></div>
+    <div class="principle-flow" role="img" aria-label="ArchFlow principle map: laws constrain a fourteen-decision chain; decisions write state and obligations; geometry passes through one conversion channel; gates and adversarial probes send defects back to the laws.">
+      <div class="flow-col">
+        <div class="flow-node accent"><span class="k">Laws</span><b>The fixed layer</b><p>Tradition packs, canon ratios, type masks and structural capability tables define what may be written as law.</p></div>
+        <div class="flow-node"><span class="k">Six-step decision atom</span><b>Observe → Menu → Mask → Policy → Apply → Gate</b><p>Law narrows each real menu before deterministic, LLM or human policy selects an action.</p></div>
+        <div class="flow-node"><span class="k">D01–D14</span><b>Fourteen accountable decisions</b><p>Premise, plan, tradition, massing, structure, composition, validation and evaluation form one replayable trajectory.</p></div>
+      </div>
+      <div class="flow-arrow">READ / WRITE<br>↓</div>
+      <div class="flow-col">
+        <div class="flow-node accent"><span class="k">Compiled state</span><b>Blackboard</b><p>A minimal sufficient state carries premises, slot reads and writes, and current commitments.</p></div>
+        <div class="flow-node ok"><span class="k">Forward debt</span><b>Obligation ledger</b><p>Obligations are created and discharged across decisions. Anything unresolved remains as debt and produces an honest refusal.</p></div>
+        <div class="flow-node accent"><span class="k">Single conversion channel</span><b>convert → delivery space</b><p><code>to_voxels()</code> is the only projection from physical geometry into the discrete space where the artifact is judged.</p></div>
+      </div>
+      <div class="flow-arrow">DELIVER<br>→</div>
+      <div class="flow-col">
+        <div class="flow-node accent"><span class="k">Artifact</span><b>Voxel architecture</b><p>Plans, sections, elevations, isometrics, transcripts and provenance remain bound to the same building run.</p></div>
+        <div class="flow-node"><span class="k">Three gates</span><b>pytest · doctor · selfcheck</b><p>Regression, system health and frozen goldens guard the executable path.</p></div>
+        <div class="flow-node risk"><span class="k">Probe-and-repair</span><b>Find false negatives</b><p>Adversarial building cases search for “validation passed, architecture wrong.” The repair changes the law, then replays the derivation.</p></div>
+      </div>
+    </div>
+    <div class="flow-loop">↶ Fix the law, not the result · replay only the affected dependency closure</div>
+    <figcaption><b>How to read it:</b> ArchFlow does not ask one model to compress architectural causality into a latent image. It constructs a bounded decision process whose state, choices, obligations and failures remain inspectable. Deterministic rules own dimensions, coordinates, boolean operations and structural consequences; LLM seats are limited to retrieval, extraction and proposals inside a lawful menu.</figcaption>
+  </section>
+
+  <section class="blk en-only">
+    <div class="sec-head"><span class="no">B</span><h2>Benchmark Progress</h2><span class="hint">complete 1 · active 0.5 · pending 0</span></div>
+    <div class="bench">
+      <a class="tile" href="#phases"><span class="label">Architecture</span><span class="pct num">72%</span><span class="bar"><i style="width:72%"></i></span><span class="sub">Active R0–R3 + M0–M3 · P retained only as planning</span></a>
+      <a class="tile" href="#metrics"><span class="label">Research Materials</span><span class="pct num">72%</span><span class="bar"><i style="width:72%"></i></span><span class="sub">Paper evidence, probe records and architectural views</span></a>
+      <a class="tile" href="#metrics"><span class="label">Validation</span><span class="pct num">95%</span><span class="bar"><i style="width:95%"></i></span><span class="sub">Gate and probe coverage · details in Metrics</span></a>
+    </div>
+  </section>
+
+  <header class="hero zh-only">
     <p class="eyebrow">Construction Log · 判决 A — 加速建造 · Ruling A: Build, Don't Retreat</p>
     <h1>Committed into Being.</h1>
     <p class="sub">白盒 LLM 引导体素建筑生成引擎:每一步都是可审计的决策,每一份责任都在账上。摘要 v6 投稿候选的每一句,都是 2026-10-26 全文截止前的建造义务。</p>
@@ -216,7 +294,7 @@ footer a:hover{color:var(--ink)}
     </div>
   </header>
 
-  <section class="blk">
+  <section class="blk zh-only">
     <div class="sec-head"><span class="no">00</span><h2>原理 The Principle · 一图</h2><span class="hint">法 → 决策 → 账本 → 交付空间 → 探针,一条回路</span></div>
     <figure>
       <div class="figwrap">
@@ -369,7 +447,7 @@ footer a:hover{color:var(--ink)}
     </figure>
   </section>
 
-  <section class="blk">
+  <section class="blk zh-only">
     <div class="sec-head"><span class="no">B</span><h2>Benchmark 进度</h2><span class="hint">● 1 · ◐ 0.5 · ○ 0 求和 · 明细在模块页</span></div>
     <div class="bench">
       <a class="tile" href="#phases" data-tile="arch">
@@ -397,7 +475,24 @@ footer a:hover{color:var(--ink)}
 
 <!-- ================= 01 SITREP 战报 ================= -->
 <section id="sitrep" class="view">
-<section class="blk">
+<section class="blk en-only">
+  <div class="sec-head"><span class="no">01</span><h2>Sitrep · 19 July 2026</h2><span class="hint">evidence, boundary and remaining claim</span></div>
+  <div class="row ruling"><span class="hash">3cf5a91</span><span class="tag">Cycle split</span><p><b>Modify M0–M3 is now the sole numbering system for repairs to the live path.</b> P0–P4 remains historical evidence of how V3 was constructed; R0–R3 retires superseded mechanisms after their replacements take ownership; M0–M3 removes false greens, connects canon and citations, separates building-specific facts, and adjudicates orphan constants.</p><span></span></div>
+  <h3 class="sub-label">Current construction front · scale, tectonics and causal consumption</h3>
+  <div class="row arch"><span class="hash">a79b405</span><span class="tag">M1.4A</span><p><b>A colonnade no longer passes because its centre-lines merely appear collision-free.</b> <code>TectonicEnvelopeIR@0</code> compiles full column envelopes, explicit lintel edge-sets and three classes of placed interfaces before structure and detail. Envelope overlap, missing hosts, broken junctions or stale state all fail closed. D2/D4 evidence confirms clear spacing, a shared-volume entrance and dome-to-drum support; the clean baseline is <b>1651 passed · 47 skipped · 131 subtests</b>.</p><span></span></div>
+  <div class="row arch"><span class="hash">2cf7a9c</span><span class="tag">M1.3</span><p><b>D no longer doubles as both architectural module and voxel resolution.</b> Each building receives an <code>AdaptiveModuleFrame@0</code> that separates physical module <code>D_phys</code> from representational density <code>rho</code>. Placement, grids and porticoes read only the physical frame; convert is the single <code>rho</code> projection channel. Scaling D2→D4 doubles physical bounds and multiplies volume by eight without changing component IDs, obligations or topology.</p><span></span></div>
+  <div class="row arch"><span class="hash">M1.5A</span><span class="tag">Active</span><p><b>Declared use is being separated from causal use.</b> Every building-level field must carry a producer→consumer→artifact reverse trace. Removing or perturbing it must produce a named downstream difference; a field that is merely registered, logged or read is classified <code>declared_but_inert</code>, not presented as faithful provenance.</p><span></span></div>
+  <h3 class="sub-label">Evidence already closed</h3>
+  <div class="row fix"><span class="hash">R1.8B</span><span class="tag">Repair</span><p><b>Selective Repair is now a sealed, child-only run.</b> Old and new semantic read/write sets expand the affected dependency closure; unaffected answers are reused byte-for-byte, affected rounds are recomputed, and the parent proof stays immutable. The evidence manifest is the sole publication point.</p><span></span></div>
+  <div class="row ruling"><span class="hash">P2.3A</span><span class="tag">Evidence gate</span><p><b>The critic can no longer cite an in-training score as readiness.</b> Held-out readiness is recomputed from frozen models, evaluators, feedback and blind-screen manifests. The current state is honestly <b>blind=0</b>; the prior <code>0.878</code> remains an in-training reconstruction and cannot justify reinforcement learning.</p><span></span></div>
+  <div class="diagram-strip" aria-label="Four diagrams linked to the current construction front">
+    <a class="diagram-card" href="../atlas/fig/07-structured-rad.svg" target="_blank" rel="noopener"><img src="../atlas/fig/07-structured-rad.svg" alt="Structured RAD diagram"><span>01 · Retrieved facts become building-level commitments</span></a>
+    <a class="diagram-card" href="../atlas/fig/03-obligation-lifecycle.svg" target="_blank" rel="noopener"><img src="../atlas/fig/03-obligation-lifecycle.svg" alt="Obligation lifecycle diagram"><span>02 · Unresolved debt generates the next question</span></a>
+    <a class="diagram-card" href="../atlas/fig/08-spatial-mdp.svg" target="_blank" rel="noopener"><img src="../atlas/fig/08-spatial-mdp.svg" alt="Spatial MDP diagram"><span>03 · Module frame → grid → envelope → junction gate</span></a>
+    <a class="diagram-card" href="../atlas/fig/09-ledger-provenance.svg" target="_blank" rel="noopener"><img src="../atlas/fig/09-ledger-provenance.svg" alt="Ledger provenance diagram"><span>04 · Selective repair is sealed as a child run</span></a>
+  </div>
+</section>
+<section class="blk zh-only">
   <div class="sec-head"><span class="no">01</span><h2>今日战报 Sitrep · 2026-07-19</h2><span class="hint">悬停行尾的 files ▾ 可展开文件列表 · 点击文件可用 VSCode 打开</span></div>
 
   <div class="row ruling"><span class="hash">3cf5a91</span><span class="tag">周期分轨</span>
@@ -589,7 +684,26 @@ footer a:hover{color:var(--ink)}
 
 <!-- ================= 02 CYCLES 周期 ================= -->
 <section id="phases" class="view">
-<section class="blk">
+<section class="blk en-only">
+  <div class="sec-head"><span class="no">02</span><h2>Cycles · P / R / M / A</h2><span class="hint">planning · retirement · modification · archive</span></div>
+  <div class="gatebox"><span class="label">Numbering Boundary</span><b>P0–P4</b> contains only modules not yet integrated or accepted. Completed items leave P and enter <b>Archive</b>. <b>R0–R3</b> describes how obsolete responsibilities relinquish production ownership; <b>M0–M3</b> describes repairs to the live path.</div>
+  <h3 class="sub-label">Active execution · Retirement and Modify</h3>
+  <div class="phase">
+    <div class="phead"><span class="pno">R0–R3</span><span class="pname">Retirement · production handover</span><span class="bar"><i style="width:79%"></i></span><span class="pct">R2 next</span></div>
+    <div class="pitems"><span class="pi done">R0 contracts, per-building workspaces and atomic state transactions</span><span class="pi done">R1 fact compilation, formulas, topology, agenda, dispatch and consumers</span><span class="pi done">Bounded external seats and sealed selective repair</span><span class="pi">R2 switch CLI / Studio to the MDP runner</span><span class="pi doing">R3 retire remaining proportion surfaces by evidence</span></div>
+    <p class="pnote">The local R1 loop is closed. R2 is a production-ownership transfer, not a rewrite. A provider smoke test remains pending; without provider idempotency or a query protocol the claim stays at durable at-most-once dial authorization.</p>
+  </div>
+  <div class="phase">
+    <div class="phead"><span class="pno">M0–M3</span><span class="pname">Modify · repairs to the live path</span><span class="bar"><i style="width:67%"></i></span><span class="pct">M1.5A active</span></div>
+    <div class="pitems"><span class="pi done">M0 fluted-content gate and checkpoint consistency lock</span><span class="pi done">M1.1 order/D canon path and multi-scale view contract</span><span class="pi done">M1.2 evidence status for 52 driving leaf values</span><span class="pi done">M1.3 separates D_phys, rho and D_vox</span><span class="pi doing">M1.4A pre-detail tectonic envelope is green; final artifact gate remains</span><span class="pi doing">M1.5A causal consumer liveness contract</span><span class="pi">M2 restore niches, drum wall, span and krepidoma to per-building facts</span><span class="pi">M3 adjudicate court, corridor, height and default-weight constants</span></div>
+    <p class="pnote">M1.4A proves a pre-detail tectonic condition, not blind-review eligibility of the final visible artifact. M2/M3 will not replace unresolved values with a new layer of hard-coded defaults.</p>
+  </div>
+  <h3 class="sub-label">Planning and archive</h3>
+  <div class="phase"><div class="phead"><span class="pno">P2</span><span class="pname">Near-term capability integration</span><span class="bar"><i style="width:0%"></i></span><span class="pct">open</span></div><div class="pitems"><span class="pi">Anonymous blind-review data isolation</span><span class="pi">Frozen critic observations and fail-open receipts</span><span class="pi">Real-provider smoke and cost evidence</span><span class="pi">Site successors: sun, slope, snapshot and default reversal</span></div></div>
+  <div class="phase"><div class="phead"><span class="pno">P3–P4</span><span class="pname">Platform and experiments</span><span class="bar"><i style="width:0%"></i></span><span class="pct">not admitted</span></div><div class="pitems"><span class="pi">Backend-neutral GeometryIR and Rhino / Blender adapters</span><span class="pi">Four-level ablation across building families</span><span class="pi">repair-locality and obligation-propagation statistics, N≥30</span></div></div>
+  <div class="phase"><div class="phead"><span class="pno">A</span><span class="pname">Auditable construction archive</span><span class="bar"><i style="width:100%"></i></span><span class="pct">append-only</span></div><p class="pnote">Completed modules move here with date, commit, tests and evidence. Archive is a settled state, not a future phase, and is excluded from Planning percentages.</p></div>
+</section>
+<section class="blk zh-only">
   <div class="sec-head"><span class="no">02</span><h2>周期总览 Cycles · P / R / M / A</h2><span class="hint">P=Planning 未加入 · R=退役交权 · M=现役修正 · A=Archive 已清账</span></div>
 
   <div class="gatebox">
@@ -680,7 +794,20 @@ footer a:hover{color:var(--ink)}
 
 <!-- ================= 03 METRICS 指标 ================= -->
 <section id="metrics" class="view">
-<section class="blk">
+<section class="blk en-only">
+  <div class="sec-head"><span class="no">03</span><h2>Metrics · Ledger and Gates</h2><span class="hint">source of truth: obligation probes + measured tests</span></div>
+  <h3 class="sub-label">Obligation ledger · two measured building cases</h3>
+  <div class="row arch"><span class="hash num">16 / 16</span><span class="tag" style="color:var(--ok)">discharged</span><p><b>small house</b> (timber_trabeated) — 16 created, 16 discharged, 0 unresolved. The behaviour chain D05→D09 and structural chain cover→bear both close.</p><span></span></div>
+  <div class="row fix"><span class="hash num">7 / 11</span><span class="tag" style="color:var(--risk)">debt 4</span><p><b>courthouse</b> (trabeated_stone) — 11 created, 7 discharged, 4 unresolved. Stone post-and-lintel cannot span the 20 m hall; the refusal is recorded instead of hidden behind plausible geometry. <b>Honest refusal is a feature.</b></p><span></span></div>
+  <h3 class="sub-label">Three-gate baseline</h3>
+  <div class="meta" style="display:flex;gap:34px;flex-wrap:wrap;padding:16px 0;border-bottom:1px solid var(--line)"><div><span class="label">pytest</span><span class="v ok num">1651 passed</span></div><div><span class="label">doctor</span><span class="v ok num">0 findings</span></div><div><span class="label">selfcheck</span><span class="v ok num">16/16 + ruin</span></div><div><span class="label">scope</span><span class="v num">last clean baseline</span></div></div>
+  <p class="pnote">This baseline excludes the uncommitted M1.5A intermediate state. It is evidence for <code>a79b405</code>, not a claim that every current working-tree change is green.</p>
+  <h3 class="sub-label">Research material coverage · 72%</h3>
+  <div class="pitems"><span class="pi done">CAADRIA abstract v6 submission candidate</span><span class="pi done">16 goldens plus ruin gate</span><span class="pi done">Probe export and log.jsonl protocol</span><span class="pi done">Pantheon A/B eight views and paired schematics</span><span class="pi done">False-green → law-repair evidence campaign</span><span class="pi done">D2/D4 module-frame evidence and non-Pantheon reuse</span><span class="pi done">Tectonic envelope and junction evidence</span><span class="pi">Three-chain demonstration set</span><span class="pi">L1–L4 ablation set</span></div>
+  <h3 class="sub-label">Validation coverage · 95%</h3>
+  <div class="pitems"><span class="pi done">Byte anchor: all knobs off = V2 equivalence</span><span class="pi done">Obligation ledger examples and honest refusal</span><span class="pi done">Probe campaign: slab pollution, four topologies clean</span><span class="pi done">Conversion checks: existence, bearing, overlap, dialect and CSG</span><span class="pi done">Pantheon decision path: 16/16 discharged, five checks clean</span><span class="pi done">Persistent selective repair and child-run reload</span><span class="pi done">Held-out critic readiness refuses blind=0</span><span class="pi">Traversable doorway probe</span></div>
+</section>
+<section class="blk zh-only">
   <div class="sec-head"><span class="no">03</span><h2>指标 Metrics · 账本与三门</h2><span class="hint">真源 = 义务探针 + pytest 实测 · 每日刷新</span></div>
 
   <h3 class="sub-label">Obligation Ledger 义务账本 — 两个例证建筑(实测)</h3>
@@ -766,7 +893,16 @@ footer a:hover{color:var(--ink)}
 
 <!-- ================= 04 PANTHEON 万神殿 ================= -->
 <section id="pantheon" class="view">
-<section class="blk">
+<section class="blk en-only">
+  <div class="sec-head"><span class="no">04</span><h2>Pantheon Daily</h2><span class="hint">same prompt · daily regeneration · changed fingerprint = behavioural drift</span></div>
+  <div class="hero" style="padding:18px 0 0;max-width:none"><div class="meta" style="margin-top:0;border-top:0;padding-top:6px">
+    <div><span class="label">Date</span><span class="v num">2026-07-18 · Decision Path</span></div><div><span class="label">A · Composer Reference</span><span class="v num">324706 blocks · 40 historical overlaps</span></div><div><span class="label">B · Decision Path</span><span class="v num">12170 blocks · families 8 / 8</span></div><div><span class="label">Validation</span><span class="v ok num">five checks 0 · four views PASS</span></div><div><span class="label">Obligations</span><span class="v ok num">16 / 16 discharged</span></div><div><span class="label">Replay Boundary</span><span class="v num">Pipeline.run / composer golden unchanged</span></div>
+  </div></div>
+  <div style="padding:20px 0 6px;border-bottom:1px solid var(--line)"><img src="看板万神殿.svg" alt="Pantheon elevation and plan line diagram" style="width:100%;max-width:760px;display:block"></div>
+  <h3 class="sub-label">Today's critic question · 19 July 2026</h3>
+  <div class="row fix" style="grid-template-columns:1fr"><p><b>The machine can now prove that a revision refreshes only the affected domain; it still cannot prove that it knows what is better.</b> P2.3A prevents an in-training <code>0.878</code> from masquerading as held-out evidence, honestly exposing <b>blind=0</b>. The next question is not how to tune another ranker number, but how to build an anonymous, cross-family, leakage-free blind-review set from artifacts that pass both final visibility and causal-consumer gates.</p></div>
+</section>
+<section class="blk zh-only">
   <div class="sec-head"><span class="no">04</span><h2>万神殿每日 Pantheon Daily</h2><span class="hint">鹈鹕测试 · 同一 prompt 每日重生成 · 指纹变=行为漂移</span></div>
   <div class="hero" style="padding:18px 0 0;max-width:none">
     <div class="meta" style="margin-top:0;border-top:0;padding-top:6px">
@@ -786,7 +922,18 @@ footer a:hover{color:var(--ink)}
 
 <!-- ================= 05 NEXT 明日 ================= -->
 <section id="next" class="view">
-<section class="blk">
+<section class="blk en-only">
+  <div class="sec-head"><span class="no">05</span><h2>Next · 19 July 2026</h2><span class="hint">prove causal use before blind review or production handover</span></div>
+  <ol class="next">
+    <li><span><b>M1.5A · Causal consumer contract:</b> build a producer→consumer→artifact reverse trace for every building-level field. Removal and perturbation must produce a named downstream change; inert fields are classified explicitly.</span></li>
+    <li><span><b>M1.4B · Final visible artifact admission:</b> after convert, recheck fused columns, wrong pediments, false support, missing views and UNKNOWN states. Catch cases remain Red and cannot inherit a pre-damage pass.</span></li>
+    <li><span><b>P2.4A · Critic isolation gate:</b> replace the mutable Blackboard with a frozen, read-only observation. Critic failure emits a fail-open audit receipt and cannot interrupt the scheduler.</span></li>
+    <li><span><b>R2 · Scale ownership and production handover:</b> once M1.3–M1.5 own the replacement path, retire old overrides, footprint derivation, composer duties and field fallbacks; expose the unified MDPRunner to CLI, Studio and export as opt-in first.</span></li>
+    <li><span><b>Real-provider smoke:</b> after Kevin supplies lawful credentials and an endpoint, run one bounded call. Keep the guarantee at at-most-once authorization unless the provider supplies idempotency or query semantics.</span></li>
+  </ol>
+  <div class="gatebox"><span class="label">Execution Guardrails</span>M1.4A is not final-artifact eligibility · fields that fail M1.5 cannot enter taste data · never mix <code>D_phys</code> and <code>rho</code> · Kevin approves the R2 default flip · no credentials, no network call</div>
+</section>
+<section class="blk zh-only">
   <div class="sec-head"><span class="no">05</span><h2>下一步 Next · 2026-07-19</h2><span class="hint">M1.5A 正在施工；先证明字段真消费,再开放盲评与生产交权</span></div>
   <ol class="next">
     <li><span><b>M1.5A · 活消费者合同</b>:为逐楼字段建立 producer→consumer→artifact 反链；remove 与 perturb 必须造成具名下游变化,只登记/读取但不影响工件的字段判 <code>declared_but_inert</code>。</span></li>
@@ -804,7 +951,17 @@ footer a:hover{color:var(--ink)}
 
 <!-- ================= 06 RISKS 风险 ================= -->
 <section id="risks" class="view">
-<section class="blk">
+<section class="blk en-only">
+  <div class="sec-head"><span class="no">06</span><h2>Risk Radar</h2></div>
+  <div class="risks">
+    <div class="riskcard"><b>M1.4A pre-detail pass ≠ final architectural validity</b>The envelope and junction gate runs before decorative materialisation. Fused columns, wrong pediments, false support or missing views may still appear after convert. No blind review before M1.4B.</div>
+    <div class="riskcard"><b>Declared consumer ≠ causal consumer</b>A field appearing in a schema, log or function read does not prove that it changes the artifact. M1.5 requires paired remove/perturb evidence and a named downstream effect.</div>
+    <div class="riskcard"><b>Mixing D_phys and rho can conceal topological errors</b>Only the physical frame may drive placement and grids; convert alone projects voxel density. Post-hoc scaling cannot repair junctions, support or pediment form.</div>
+    <div class="riskcard"><b>The critic has not shown positive held-out correlation</b><code>blind=0</code>. The in-training 0.878 is not a held-out result. Failed catches and inert traces cannot enter taste Spearman or reinforcement learning.</div>
+    <div class="riskcard"><b>The clean baseline is evidence-scoped</b>1651 belongs to <code>a79b405</code>, before the M1.5A intermediate state. The dashboard must not turn a historical clean run into a claim about unverified production code.</div>
+  </div>
+</section>
+<section class="blk zh-only">
   <div class="sec-head"><span class="no">06</span><h2>风险雷达 Risks</h2></div>
   <div class="risks">
     <div class="riskcard"><b>M1.4A pre-detail 通过 ≠ 最终建筑成立</b>构造包络和接头门发生在装饰物化前；convert 后仍可能出现柱贴连、错山花、伪支撑或缺图。M1.4B 前不得把方案送进盲评。</div>
@@ -818,7 +975,14 @@ footer a:hover{color:var(--ink)}
 
 <!-- ================= 07 HISTORY 历史 ================= -->
 <section id="history" class="view">
-<section class="blk">
+<section class="blk en-only">
+  <div class="sec-head"><span class="no">07</span><h2>History</h2><span class="hint">daily records retained for 30 days</span></div>
+  <details style="border-bottom:1px solid var(--line);padding:12px 0">
+    <summary style="cursor:pointer;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:var(--muted)">2026-07-16 — Ruling A construction started · Probe-and-Repair protocol activated · abstract v5 locked</summary>
+    <div style="padding:10px 0 4px;font-size:13px;color:var(--muted);line-height:2">The abstract closed at 619 words and the P0→P4 construction sequence was established.<br>The first cross-decision obligation chain, D05→D09, entered code; seat identity and question/answer transcripts entered the ledger.<br>Two high-severity defects were repaired at the level of law: identity-scoped obligation completion and per-zone grounding for floor decks.<br>The first four-topology probe campaign closed CLEAN, and the project adopted the rule “fix the law, not the result.”<br>The dashboard was reorganised around one principle map, measurable benchmarks and modular evidence pages.</div>
+  </details>
+</section>
+<section class="blk zh-only">
   <div class="sec-head"><span class="no">07</span><h2>历史战报 History</h2><span class="hint">零点刷新时昨日战报归档于此 · 保留 30 天</span></div>
   <details style="border-bottom:1px solid var(--line);padding:12px 0">
     <summary style="cursor:pointer;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:var(--muted)">2026-07-16 — 判决 A 施工开工 + 鹈鹕协议上线 · 36 commits · 摘要 v5 锁定 · 战役卡#1 CLEAN</summary>
@@ -835,7 +999,30 @@ footer a:hover{color:var(--ink)}
 
 <!-- ================= 08 GLOSSARY 术语 ================= -->
 <section id="glossary" class="view">
-<section class="blk">
+<section class="blk en-only">
+  <div class="sec-head"><span class="no">08</span><h2>Glossary</h2><span class="hint">canonical sources: theory notation + term concordance + rulings</span></div>
+  <h3 class="sub-label">Theory · the paper's conceptual spine</h3>
+  <div class="gl"><span class="term">MDP<small>Markov Decision Process</small></span><p>The project models architectural composition as a decision trajectory <code>p(τ)=p(a₀…a_T|s₀)</code>, with the building as its terminal artifact <code>B=f(τ)</code>. Rather than sampling a finished image conditioned on C, ArchFlow constructs a state system that bounds combinatorics, records commitments and supports local revision. Architecture is not sampled into existence; it is committed into being.</p></div>
+  <div class="gl"><span class="term">POMDP<small>Partially Observable MDP</small></span><p>Design contains latent intentions. A column exclusion may encode an unspoken sightline, ritual sequence or future façade. ArchFlow does not ask the model to guess these indefinitely; it progressively compiles them into explicit state.</p></div>
+  <div class="gl"><span class="term">Constructed Markovianity<small>构造马尔可夫性</small></span><p>ArchFlow does not claim that design is naturally Markovian. It makes the process operationally Markovian by compiling hidden intent into explicit premises such as <code>parti</code>, <code>function_intent</code> and <code>tradition</code>. Each decision must read those premises, so the next lawful action can be chosen from the current compiled state.</p></div>
+  <div class="gl"><span class="term">State Compiler S_t<small>状态编译</small></span><p>History, proposals and validation are compiled into a minimal sufficient state <code>S_t=(G,C,L,O,U)</code>, including the obligation ledger <code>𝒪_t</code>. Unlike a full chain-of-thought history, compiled state retains only information that can change future lawful actions.</p></div>
+  <div class="gl"><span class="term">Action Budgeter<small>熵预算</small></span><p>The mask reduces the action menu to the lawful set <code>A_valid</code>; policy chooses only within it. The target is to keep <code>H(A_t|S_t)≈log₂|A_valid|</code> inside a useful interval, preventing both combinatorial explosion and a falsely deterministic process.</p></div>
+  <div class="gl"><span class="term">D⁺(X)<small>Dependency Closure</small></span><p><code>D⁺(X)={Y|X⤳Y}</code> is the full downstream closure of decision X. Revision cost follows <code>C_revision ∝ |D⁺(X)|</code>: the cost of changing a decision depends on its causal reach, not on the total size of the finished artifact.</p></div>
+  <div class="gl"><span class="term">Selective Uncommit<small>R1.8B</small></span><p><code>invalidate(D⁺(X))</code> re-answers a target inside a detached child run. Old/new semantic differences expand the affected closure; unrelated rounds are reused byte-for-byte, affected rounds are recomputed, the parent proof remains read-only and the child proof is resealed.</p></div>
+  <div class="gl"><span class="term">RAD<small>Retrieval-Augmented Derivation / Design</small></span><p>Retrieved material does not flow directly into token generation. It first becomes sourced, building-level facts, then compiles into commitments, relations and verifiable design deltas. LLMs handle questions, extraction and proposals within lawful menus; formulas and solvers retain ownership of arithmetic, coordinates, boolean operations and support consequences.</p></div>
+  <div class="gl"><span class="term">Obligation ⊕<small>义务</small></span><p>An obligation is forward debt: <code>created → discharged</code>. It may be created in one decision and discharged in another; unresolved items remain visible on the ledger. Discharge is checked as a multiset difference, analogous to a proof obligation.</p></div>
+  <div class="gl"><span class="term">Question-Driven Agenda<small>自问自答</small></span><p>The agenda is an explicit question list. Every decision carries a <code>question</code>; <code>transcript()</code> renders the derivation as a question/answer record. Repair means asking a question again, not painting over geometry.</p></div>
+  <h3 class="sub-label">Engineering · gates and operating discipline</h3>
+  <div class="gl"><span class="term">Six-Step Atom<small>六步原子</small></span><p>Every decision uses the same internal form: <code>observe → menu → mask → policy → apply → gate</code>. The mask establishes legality, policy selects an option, and the gate records validity without inventing the answer.</p></div>
+  <div class="gl"><span class="term">True Menu / Seat<small>真菜单 / 席位</small></span><p>A decision with a real <code>MenuSpec</code> is a true menu. Its policy seat can be deterministic, LLM or human; the answering identity is written to <code>seat</code> and posted to the ledger. Deterministic policy remains the default.</p></div>
+  <div class="gl"><span class="term">Laws / Discriminator<small>法 / 判别刀</small></span><p>Every constant must first be classified as law or choice. Reusable vocabulary, masks and canon relations may become law; a judgement specific to one design must pass through a policy seat. Otherwise the system collapses into another parameterised recipe engine.</p></div>
+  <div class="gl"><span class="term">Three Gates<small>三门</small></span><p><code>pytest</code>, <code>doctor</code> and <code>selfcheck</code> (16 goldens plus the ruin gate) form the regression boundary. A change to default bytes must declare its effect on the goldens.</p></div>
+  <div class="gl"><span class="term">Byte Anchor / Golden<small>字节锚 / 金样</small></span><p>With all feature knobs off, output must remain byte-equivalent to V2 <code>Pipeline.run</code>. The frozen golden detects drift. Anti-cheating rules prohibit both result-side special cases and silent regeneration of the test oracle.</p></div>
+  <div class="gl"><span class="term">Probe-and-Repair<small>鹈鹕模式</small></span><p>Adversarial building cases search for false negatives: <b>validation passed, architecture wrong</b>. Repairs must change law, mask, canon or obligation logic, never the generated artifact directly; the same case is then replayed for A/B evidence.</p></div>
+  <div class="gl"><span class="term">Single Conversion Channel<small>convert 唯一通道</small></span><p><code>convert</code> is the sole entry from the floating-point bbox world into discrete voxel delivery space. <code>to_voxels()</code> and <code>conversion_findings()</code> judge existence, bearing and related rules in the same space that is delivered.</p></div>
+  <div class="gl"><span class="term">Honest Refusal<small>诚实拒绝</small></span><p>When system capacity is insufficient, generation is refused and debt remains on the ledger. A stone post-and-lintel system that cannot span a 20 m hall must not hide the failure behind plausible geometry. Unresolved obligations never enter <code>ValidationResult</code>.</p></div>
+</section>
+<section class="blk zh-only">
   <div class="sec-head"><span class="no">08</span><h2>术语 Glossary</h2><span class="hint">真源 = docs/理论(记法) + 术语对照 + 提案卷 · 判决时更新</span></div>
 
   <h3 class="sub-label">理论框架 Theory — 论文的骨头(记法以理论卷为准)</h3>
@@ -880,13 +1067,39 @@ footer a:hover{color:var(--ink)}
 </section>
 </section>
 
-<footer>
+<footer class="en-only">
+  <p>UPDATE PROTOCOL — ① Daily refresh covers sitrep, cycles, next actions, metrics and history; benchmark percentages derive from active R/M detail. ② Conceptual rulings are pushed in the same work cycle and mirrored for mobile. ③ Sources of truth are git history, the dynamic map and obligation probes; this dashboard is a reader-facing projection.<br>
+  VSCode links work only when this page is opened in a system browser. · <a href="vscode://file/D:/ARCHFLOW_V3/docs/项目动态地图_V3.md">Dynamic Map ↗ vscode</a> · <a href="vscode://file/D:/ARCHFLOW_V3/docs/审议/合议_Codex预审与全项目审计_2026-07-16.md">Review Record ↗ vscode</a> · <a href="../项目动态地图_V3.md">Map (browser)</a></p>
+</footer>
+<footer class="zh-only">
   <p>更新制度 UPDATE PROTOCOL — ① 每日 00:02 定时刷新(战报 / 周期 / 明日方向 / 指标 / 历史归档;主页原理图与 Benchmark 结构不动,百分比由现役 R/M 明细自动求和)· ② 思想性更新当轮即时 push + 刷手机镜像 Artifact · ③ 数据真源 = git log + 动态地图 + 义务探针,看板只可视化<br>
   vscode 链接须在<b>系统浏览器</b>打开本页才生效(Claude 面板与手机镜像拦协议跳转;首次点击浏览器会问一次,勾"始终允许")<br>
   重构 2026-07-16(判决:主页=原理图+Benchmark,内容入模块)· 下次自动刷新 2026-07-20 00:02 · <a href="vscode://file/D:/ARCHFLOW_V3/docs/项目动态地图_V3.md">动态地图 ↗ vscode</a> · <a href="vscode://file/D:/ARCHFLOW_V3/docs/审议/合议_Codex预审与全项目审计_2026-07-16.md">合议报告 ↗ vscode</a></p>
 </footer>
 
 <script>
+// ---- Language layer: one URL, two curated readings; choice persists locally ----
+(function(){
+  var root = document.documentElement;
+  var btn = document.getElementById("lang-toggle");
+  var keyed = Array.prototype.slice.call(document.querySelectorAll("[data-zh][data-en]"));
+  var query = new URLSearchParams(location.search).get("lang");
+  var saved = null;
+  try{ saved = localStorage.getItem("archflow-dashboard-language"); }catch(e){}
+  var initial = query === "en" || query === "zh" ? query : (saved === "en" ? "en" : "zh");
+  function apply(lang){
+    root.setAttribute("data-lang", lang);
+    root.setAttribute("lang", lang === "en" ? "en" : "zh-CN");
+    keyed.forEach(function(el){ el.textContent = el.getAttribute("data-" + lang); });
+    document.title = lang === "en" ? "ArchFlow V3 — Build Log" : "ArchFlow V3 — Build Log 施工看板";
+    btn.textContent = lang === "en" ? "中文" : "English";
+    btn.setAttribute("aria-label", lang === "en" ? "切换为中文" : "Switch dashboard to English");
+    btn.setAttribute("aria-pressed", lang === "en" ? "true" : "false");
+    try{ localStorage.setItem("archflow-dashboard-language", lang); }catch(e){}
+  }
+  btn.addEventListener("click", function(){ apply(root.getAttribute("data-lang") === "en" ? "zh" : "en"); });
+  apply(initial);
+})();
 // ---- 标签页路由(hash → 显示对应模块;默认主页) ----
 (function(){
   var views = Array.prototype.slice.call(document.querySelectorAll(".view"));
@@ -927,10 +1140,12 @@ footer a:hover{color:var(--ink)}
   function dn(iso){ return Math.floor((new Date(iso+"T23:59:59") - new Date())/day); }
   function set(id, label, iso){
     var n = dn(iso), el = document.getElementById(id);
-    if(el) el.textContent = label + " · " + (n >= 0 ? "D-" + n : "已过 " + (-n) + " 天");
+    if(el) el.textContent = label + " · " + (n >= 0 ? "D-" + n : (document.documentElement.lang === "en" ? "past " + (-n) + " days" : "已过 " + (-n) + " 天"));
   }
   set("d-abs",  "07-27", "2026-07-27");
   set("d-full", "10-26", "2026-10-26");
+  set("d-abs-en",  "07-27", "2026-07-27");
+  set("d-full-en", "10-26", "2026-10-26");
 })();
 // ---- 三门趋势 sparkline(纯 SVG,无外部库;数据在 #gates-data,零点任务追加) ----
 (function(){
