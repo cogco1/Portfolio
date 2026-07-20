@@ -258,7 +258,7 @@ img{max-width:100%;display:block}
   .card .num{font-size:10px}
   .card .desc{font-size:11.5px;margin-top:4px;line-height:1.45}
   /* hero mobile */
-  .hero--cover .hero-media{height:100svh;min-height:520px}
+  .hero--cover .hero-media{height:calc(100svh - 95px);min-height:520px}
   .hero-arrow{width:40px;height:40px;font-size:20px}
   .hero-arrow.prev{left:10px}
   .hero-arrow.next{right:10px}
