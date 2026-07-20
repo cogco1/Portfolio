@@ -32,6 +32,8 @@ img{max-width:100%;display:block}
 .nav ul{display:flex;gap:32px;list-style:none}
 .nav a{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .nav a:hover,.nav a.active{color:var(--ink)}
+.site-lang{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;color:var(--faint)}
+.site-lang .lang-toggle{font-size:10px}
 
 /* nav dropdown (Work) */
 .nav li.dd{position:relative}
@@ -240,11 +242,13 @@ img{max-width:100%;display:block}
 
 /* ---- responsive ---- */
 @media(max-width:760px){
+  .nav{padding:20px 16px}
   .about-grid{grid-template-columns:1fr;padding-top:28px;gap:8px}
   .resume-aside{position:static;margin-bottom:28px}
   .featured-block{padding-left:18px}
   .imgcol.two{grid-template-columns:1fr}
-  .nav ul{gap:18px}
+  .nav ul{gap:10px}
+  .site-lang{gap:5px}
   /* Work dropdown: anchor to nav (not the li) so it can't overflow the screen edge */
   .nav li.dd{position:static}
   .nav ul.dd-menu{top:100%;right:0;left:auto;min-width:200px;max-width:calc(100vw - 32px)}

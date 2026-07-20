@@ -14,7 +14,7 @@
     trimNavForMobile();
     heroCarousel();
     heroScroll();
-    resumeLanguage();
+    siteLanguage();
   });
 
   var imgEl = lb.querySelector('#lb-img');
@@ -162,25 +162,35 @@
     update();
   }
 
-  /* ---- Résumé language: one reading layer at a time ---- */
-  function resumeLanguage() {
+  /* ---- Site language: one reading layer at a time, persisted across pages ---- */
+  function siteLanguage() {
     var switches = document.querySelectorAll('[data-lang-switch]');
     var layers = document.querySelectorAll('[data-lang]');
-    if (!switches.length || !layers.length) return;
+    var copies = document.querySelectorAll('[data-copy-en][data-copy-zh]');
+    if (!switches.length) return;
     function show(lang) {
       document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
       for (var i = 0; i < layers.length; i++) {
         layers[i].hidden = layers[i].getAttribute('data-lang') !== lang;
+      }
+      for (var c = 0; c < copies.length; c++) {
+        copies[c].textContent = copies[c].getAttribute('data-copy-' + lang);
       }
       for (var j = 0; j < switches.length; j++) {
         var active = switches[j].getAttribute('data-lang-switch') === lang;
         switches[j].classList.toggle('is-active', active);
         switches[j].setAttribute('aria-pressed', active ? 'true' : 'false');
       }
+      var title = document.body.getAttribute('data-title-' + lang);
+      if (title) document.title = title;
+      try { localStorage.setItem('kaiwen-site-language', lang); } catch (err) {}
     }
     for (var k = 0; k < switches.length; k++) {
       switches[k].addEventListener('click', function () { show(this.getAttribute('data-lang-switch')); });
     }
-    show('en');
+    var query = new URLSearchParams(window.location.search).get('lang');
+    var saved = null;
+    try { saved = localStorage.getItem('kaiwen-site-language'); } catch (err) {}
+    show(query === 'zh' || query === 'en' ? query : (saved === 'zh' ? 'zh' : 'en'));
   }
 })();
