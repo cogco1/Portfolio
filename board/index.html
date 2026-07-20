@@ -208,9 +208,9 @@ footer a:hover{color:var(--ink)}
     <h1>Committed into Being.</h1>
     <p class="sub">白盒 LLM 引导体素建筑生成引擎:每一步都是可审计的决策,每一份责任都在账上。摘要 v6 投稿候选的每一句,都是 2026-10-26 全文截止前的建造义务。</p>
     <div class="meta">
-      <div><span class="label">Source Head</span><span class="v num">f8b141a</span></div>
-      <div><span class="label">Gates 三门</span><span class="v ok num">pytest 1624 · doctor 0 · selfcheck 16/16+ruin</span></div>
-      <div><span class="label">Today 今日收口</span><span class="v num">persistent repair → dial permit → critic gate</span></div>
+      <div><span class="label">Source Head</span><span class="v num">a79b405</span></div>
+      <div><span class="label">Gates 三门</span><span class="v ok num">last clean 1651 · doctor 0 · selfcheck 16/16+ruin</span></div>
+      <div><span class="label">Today 今日收口</span><span class="v num">module frame → tectonic envelope → liveness gate</span></div>
       <div><span class="label">Abstract 摘要截止</span><span class="v num" id="d-abs">07-27 · D-8</span></div>
       <div><span class="label">Full Paper 全文截止</span><span class="v risk num" id="d-full">10-26 · D-99</span></div>
     </div>
@@ -408,7 +408,21 @@ footer a:hover{color:var(--ink)}
       <li><a href="vscode://file/D:/ARCHFLOW_V3/docs/审议/审计_写死公式十席_2026-07-18.md">十席审计原卷</a></li>
     </ul></span></div>
 
-  <h3 class="sub-label">Latest R1 收口 + P2 开门 — 修复可持久,拨号可约束,品味仍须举证</h3>
+  <h3 class="sub-label">Latest M1 建筑成立链 — 尺度先统一,构造先成门,字段必须真消费</h3>
+  <div class="row arch"><span class="hash">a79b405</span><span class="tag">M1.4A 构造门</span>
+    <p><b>柱列不再以中心线“看起来没撞”就算成立</b>:<code>TectonicEnvelopeIR@0</code> 在结构与细节前编译完整柱包络、显式楣梁 edge-set 与三类 placed interface；包络重叠、host 缺席、接头不连贯或状态陈旧都 fail-closed。D11 不再删环柱凑入口,也不在缺 host 时先落 facade、coffer、pediment 或 aedicula。D2/D4 八图确认柱列净距、共享体积入口与穹—鼓承托；全量 <b>1651 passed · 47 skipped · 131 subtests</b>。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/knowledge/tectonic.py">archflow/knowledge/tectonic.py</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260719_M1.4A_构造包络与接头拓扑/REPORT.md">M1.4A REPORT</a></li>
+    </ul></span></div>
+  <div class="row arch"><span class="hash">2cf7a9c</span><span class="tag">M1.3 模数框架</span>
+    <p><b>D 不再同时冒充建筑模数与体素分辨率</b>:逐楼 <code>AdaptiveModuleFrame@0</code> 将物理模数 <code>D_phys</code> 与表现密度 <code>rho</code> 分开；placement、柱网与门廊只读物理 frame,convert 是唯一 <code>rho</code> 投影门。同一物理建筑 D2→D4 三维 bounds 精确×2、体积×8,145 个构件、ID、义务与拓扑不变；非万神殿 stoa 复用同一编译器。默认路径、Pipeline.run 与 Gold 零变化。</p>
+    <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/archflow/knowledge/module_frame.py">archflow/knowledge/module_frame.py</a></li>
+      <li><a href="vscode://file/D:/ARCHFLOW_V3/probes/20260719_M1.3_自适应模数框架/REPORT.md">M1.3 REPORT</a></li>
+    </ul></span></div>
+
+  <h3 class="sub-label">Earlier R1 收口 + P2 开门 — 修复可持久,拨号可约束,品味仍须举证</h3>
   <div class="row ruling"><span class="hash">5b50e68</span><span class="tag">P2.3A 证据门</span>
     <p><b>critic 不再凭训练内高分自称就绪</b>:<code>CriticHeldOutEvidence@0</code> 从冻结模型、评估器、反馈、盲屏 manifest 与逐条 holdout 观察重算 tie-aware Spearman 和同屏 pairwise。训练/留出家族交叠、坏指纹、重复记录、非正相关或缺盲评都具名 <code>NOT_READY</code>。当前实况是 <b>blind=0</b>；既有 <code>0.878</code> 只是训练内回算,不能进入 RL。全量 <b>1624 passed · 47 skipped · 131 subtests</b>。</p>
     <span class="dd"><a tabindex="0">files ▾</a><ul class="dd-menu">
@@ -491,7 +505,7 @@ footer a:hover{color:var(--ink)}
   <figure class="diagram-strip" aria-label="最新推进对应的四张原理图">
     <a class="diagram-card" href="../atlas/fig/07-structured-rad.svg" target="_blank" rel="noopener"><img src="../atlas/fig/07-structured-rad.svg" alt="结构化 RAD 原理图"><span>01 · 检索事实编译为逐楼承诺</span></a>
     <a class="diagram-card" href="../atlas/fig/03-obligation-lifecycle.svg" target="_blank" rel="noopener"><img src="../atlas/fig/03-obligation-lifecycle.svg" alt="义务生命周期原理图"><span>02 · 未清债生成下一道问句</span></a>
-    <a class="diagram-card" href="../atlas/fig/08-spatial-mdp.svg" target="_blank" rel="noopener"><img src="../atlas/fig/08-spatial-mdp.svg" alt="空间 MDP 原理图"><span>03 · 拓扑与柱网进入结构消费者</span></a>
+    <a class="diagram-card" href="../atlas/fig/08-spatial-mdp.svg" target="_blank" rel="noopener"><img src="../atlas/fig/08-spatial-mdp.svg" alt="空间 MDP 与尺度构造编译原理图"><span>03 · 模数框架→柱网→构造包络→接头门</span></a>
     <a class="diagram-card" href="../atlas/fig/09-ledger-provenance.svg" target="_blank" rel="noopener"><img src="../atlas/fig/09-ledger-provenance.svg" alt="溯源上账原理图"><span>04 · 选择性修复封印为 child run</span></a>
   </figure>
 
@@ -576,14 +590,14 @@ footer a:hover{color:var(--ink)}
 <!-- ================= 02 CYCLES 周期 ================= -->
 <section id="phases" class="view">
 <section class="blk">
-  <div class="sec-head"><span class="no">02</span><h2>周期总览 Cycles · P / R / M</h2><span class="hint">P=历史施工 · R=退役交权 · M=现役修正 · 主页「架构」格只统计 R/M</span></div>
+  <div class="sec-head"><span class="no">02</span><h2>周期总览 Cycles · P / R / M / A</h2><span class="hint">P=Planning 未加入 · R=退役交权 · M=现役修正 · A=Archive 已清账</span></div>
 
   <div class="gatebox">
     <span class="label">Numbering Boundary 编号边界</span>
-    <b>P0–P4</b> 回答“V3 架构怎样建成”,只作历史证据；<b>R0–R3</b> 回答“旧职责怎样在替代者接管后退出”；<b>M0–M3</b> 回答“现役路径怎样修正账图不符、失注、实例污染与无主数”。修正现役行为归 M,撤销旧职责归 R。
+    <b>P0–P4 = Planning</b>，只容纳尚未加入主链、仍待实现或待验收的模块；一旦完成并清账，必须从 P 移出并进入 <b>Archive / 已清账</b>，不得在 P 中以“历史模块”继续占位。<b>R0–R3</b> 回答旧职责怎样退役交权；<b>M0–M3</b> 回答现役路径怎样修正。
   </div>
 
-  <h3 class="sub-label">Active 当前执行编号 — R 与 M</h3>
+  <h3 class="sub-label">Active 当前执行编号 — Planning / R / M</h3>
   <div class="phase" data-bench="arch">
     <div class="phead"><span class="pno">R0–R3</span><span class="pname">Retirement · 旧机制退役交权</span><span class="bar"><i style="width:79%"></i></span><span class="pct">R2 next</span></div>
     <div class="pitems">
@@ -599,72 +613,59 @@ footer a:hover{color:var(--ink)}
   </div>
 
   <div class="phase" data-bench="arch">
-    <div class="phead"><span class="pno">M0–M3</span><span class="pname">Modify · 现役路径修正</span><span class="bar"><i style="width:67%"></i></span><span class="pct">M1 complete</span></div>
+    <div class="phead"><span class="pno">M0–M3</span><span class="pname">Modify · 现役路径修正</span><span class="bar"><i style="width:67%"></i></span><span class="pct">M1.5A active</span></div>
     <div class="pitems">
       <span class="pi done">M0.1 fluted 内容闸门 + D≥3 体素行为测试 + Gold 有意换代</span>
       <span class="pi done">M0.2 checkpoint 活值 / fallback / 代码一致性锁</span>
       <span class="pi done">M1.1 portico order/D 接 canon + 多 D / 四视图契约</span>
       <span class="pi done">M1.2 52 个驱动叶逐项来源 / 推导 / 冲突 / 缺席证据门</span>
+      <span class="pi done">M1.3 D_phys / rho / D_vox 分责 + placement 前统一 frame</span>
+      <span class="pi doing">M1.4A pre-detail 构造包络已绿；最终可见 artifact 门未完成</span>
+      <span class="pi doing">M1.5A producer→consumer→artifact remove / perturb 活性合同施工中</span>
       <span class="pi">M2 龛庙 / 鼓墙 / span / krepidoma 回到逐建筑事实</span>
       <span class="pi">M3 法院系数 / 走廊比例 / 高度倍率 / 默认权重逐项判决</span>
     </div>
-    <p class="pnote">这不是架构重建:金样、字节锚与论文核心层当前无损。M0、M1 先修可证行为与通路；M2、M3 不把未判数字换成另一批硬编码。</p>
+    <p class="pnote">M1.4A 只证明构造/细节前的成立门,不等于最终工件已具盲评资格；M1.5A 当前生产树仍是未提交中间态,不计入 1651 全量基线。M2、M3 不把未判数字换成另一批硬编码。</p>
   </div>
 
-  <h3 class="sub-label">Historical 历史架构施工序 — P0–P4（保留证据,不再复用编号）</h3>
+  <h3 class="sub-label">Planning — 仅列尚未加入或尚未验收的模块</h3>
 
   <div class="phase">
-    <div class="phead"><span class="pno">P0</span><span class="pname">已确认 bug 修复</span><span class="bar"><i style="width:67%"></i></span><span class="pct">2 / 3</span></div>
+    <div class="phead"><span class="pno">P2</span><span class="pname">近期能力接入</span><span class="bar"><i style="width:0%"></i></span><span class="pct">未清账</span></div>
     <div class="pitems">
-      <span class="pi done">obligation_completion 按身份</span>
-      <span class="pi done">deck 穿层(战役卡#1 眼验已清)</span>
-      <span class="pi">downstream_of WAW → 并入 P3.1</span>
+      <span class="pi">P2.3 匿名盲评数据：catch / train / held-out 隔离</span>
+      <span class="pi">P2.4A Critic 冻结观察快照与 fail-open 审计回执</span>
+      <span class="pi">P2.5 真实 provider smoke 与费用证据</span>
+      <span class="pi">场地后继：太阳 / 坡度 / 自动快照 / 默认翻转</span>
     </div>
   </div>
 
   <div class="phase">
-    <div class="phead"><span class="pno">P1</span><span class="pname">Spine · 义务数据类型 + 溯源上账</span><span class="bar"><i style="width:100%"></i></span><span class="pct">6 / 6</span></div>
+    <div class="phead"><span class="pno">P3</span><span class="pname">远期平台能力</span><span class="bar"><i style="width:0%"></i></span><span class="pct">未加入</span></div>
     <div class="pitems">
-      <span class="pi done">席位身份 seat</span>
-      <span class="pi done">规则/构造器版本 + 种子上账</span>
-      <span class="pi done">LLMPolicy 回退留痕</span>
-      <span class="pi done">合法菜单 + 提交动作上账</span>
-      <span class="pi done">LLM 原始回复上账</span>
-      <span class="pi done">义务 dataclass:两级 · 四态 · predicate/payload/source</span>
+      <span class="pi">P3.5 后端中立 GeometryIR</span>
+      <span class="pi">Rhino / Blender capability adapter 与往返溯源</span>
     </div>
-    <p class="pnote">两级义务(legality / commitment)与具名父子债已经进入生产路径。convert 现在同时承担 existence / bearing / overlap / dialect / csg 五法；无 typed 操作时旧转换路径保持不变。</p>
   </div>
 
   <div class="phase">
-    <div class="phead"><span class="pno">P2</span><span class="pname">链三 · 场地影响模块</span><span class="bar"><i style="width:50%"></i></span><span class="pct">2 / 4</span></div>
+    <div class="phead"><span class="pno">P4</span><span class="pname">实验 · 消融 + repair-locality(N≥30)</span><span class="bar"><i style="width:0%"></i></span><span class="pct">未开考</span></div>
     <div class="pitems">
-      <span class="pi done">SiteContext 轴向进入落位求解器</span>
-      <span class="pi done">approach volume + access 义务</span>
-      <span class="pi">view_corridor 义务</span>
-      <span class="pi">朝向偏置</span>
-    </div>
-    <p class="pnote">front/left 活体交换已证明场地轴向会整体旋转圆鼓、门廊、柱列和入口；景观视廊与朝向偏置仍留在链三后半段。</p>
-  </div>
-
-  <div class="phase">
-    <div class="phead"><span class="pno">P3.1</span><span class="pname">选择性修订 Selective Uncommit</span><span class="bar"><i style="width:0%"></i></span><span class="pct">0 / 3</span></div>
-    <div class="pitems">
-      <span class="pi riskp">从 2027-02 上移 Oct — 全案最紧赌注</span>
-      <span class="pi">invalidate(D⁺(X)) + 局部重规划</span>
-      <span class="pi">downstream_of WAW 收紧(随建)</span>
-    </div>
-    <p class="pnote">9 月检查点:如果进展仍不确定,退路是将 v5 的冲突修订表述降级为「框架支持,实验留待 ACADIA」。</p>
-  </div>
-
-  <div class="phase">
-    <div class="phead"><span class="pno">P4</span><span class="pname">实验 · 四级消融 + repair-locality(N≥30)</span><span class="bar"><i style="width:0%"></i></span><span class="pct">0 / 5</span></div>
-    <div class="pitems">
-      <span class="pi">L1 单发整图(建驱动)</span>
-      <span class="pi">L2 逐步+掩码(席已通,最便宜)</span>
-      <span class="pi">L3 需"义务关"旋钮</span>
-      <span class="pi doing">L4 第二义务族底座已证(dome→drum→ring / portico 父子债),正式消融未跑</span>
+      <span class="pi">四级消融与跨家族盲测</span>
+      <span class="pi">repair-locality / obligation propagation 统计</span>
       <span class="pi gate">CS 二作 · 8 月面谈</span>
     </div>
+  </div>
+
+  <h3 class="sub-label">Archive / 已清账 — 完成项从 Planning 迁入</h3>
+  <div class="phase">
+    <div class="phead"><span class="pno">A</span><span class="pname">可审计施工档案</span><span class="bar"><i style="width:100%"></i></span><span class="pct">只增不改</span></div>
+    <div class="pitems">
+      <span class="pi done">原 P0：递进门、身份计账与已确认缺陷修复</span>
+      <span class="pi done">原 P1：义务 spine、溯源七账、convert 具名法</span>
+      <span class="pi done">原 P2 已完成部分：场地轴向、approach/access、选择性修复底座</span>
+    </div>
+    <p class="pnote">完成项的日期、commit、测试与证据真源统一见动态地图「Archive / ✅ 已清账」；Archive 是清账状态，不是下一阶段，也不参与 Planning 百分比。</p>
   </div>
 
   <div class="phase">
@@ -710,9 +711,11 @@ footer a:hover{color:var(--ink)}
     {"label":"R1.8B1 修复","passed":1584},
     {"label":"R1.8B2 持久化","passed":1592},
     {"label":"R1.9 拨号许可","passed":1608},
-    {"label":"P2.3A critic门","passed":1624}
+    {"label":"P2.3A critic门","passed":1624},
+    {"label":"M1.3 模数框架","passed":1638},
+    {"label":"M1.4A 构造门","passed":1651}
   ]</script>
-  <p class="pnote" style="border-bottom:1px solid var(--line);padding-bottom:16px">当前最近一次全量为 1624 passed / 47 skipped / 131 subtests；doctor 0 · selfcheck 16/16 + ruin。R1.7–R1.9 与 P2.3A 均在各自验收轮通过；默认联网、默认 scheduler、几何与 Gold 未因这些卡改变。</p>
+  <p class="pnote" style="border-bottom:1px solid var(--line);padding-bottom:16px">最后一次不含 M1.5A 中间态的全量为 1651 passed / 47 skipped / 131 subtests；doctor 0 · selfcheck 16/16 + ruin。M1.3 与 M1.4A 默认路径、Pipeline.run 与 Gold 零变化；当前 dirty tree 不冒称全仓绿。</p>
 
   <h3 class="sub-label">Benchmark 明细 — 素材 Materials(主页第二格的算法:● 1 · ◐ 0.5 · ○ 0)</h3>
   <div class="pitems" data-bench="assets" style="padding-bottom:16px;border-bottom:1px solid var(--line)">
@@ -728,6 +731,8 @@ footer a:hover{color:var(--ink)}
     <span class="pi done">R1.8B sealed child-run 修复档案</span>
     <span class="pi done">P2.6 紧凑语义 IR 往返与任务闭包探针</span>
     <span class="pi done">P2.3A critic held-out readiness 证据门</span>
+    <span class="pi done">M1.3 D2/D4 双尺度八视图 + stoa 复用证据</span>
+    <span class="pi done">M1.4A 构造包络 / 接头拓扑八视图证据</span>
     <span class="pi">消融 L1 单发整图</span>
     <span class="pi">消融 L2 逐步+掩码</span>
     <span class="pi">消融 L3 义务关</span>
@@ -736,7 +741,7 @@ footer a:hover{color:var(--ink)}
 
   <h3 class="sub-label">Benchmark 明细 — 验证 Validation(主页第三格的算法同上)</h3>
   <div class="pitems" data-bench="valid" style="padding-bottom:16px;border-bottom:1px solid var(--line)">
-    <span class="pi done">当前全量 pytest 1624 passed / 47 skipped / 131 subtests</span>
+    <span class="pi done">最后一次干净全量 pytest 1651 passed / 47 skipped / 131 subtests</span>
     <span class="pi done">doctor 0 findings</span>
     <span class="pi done">selfcheck 金样 16/16 + 废墟门</span>
     <span class="pi done">字节锚:旋钮全关 = V2 等价</span>
@@ -753,6 +758,8 @@ footer a:hover{color:var(--ink)}
     <span class="pi done">R1.8B persistent selective repair + sealed child-run reload</span>
     <span class="pi done">R1.9 跨进程 at-most-once 拨号许可</span>
     <span class="pi done">P2.3A held-out critic readiness:blind=0 诚实拒绝</span>
+    <span class="pi done">M1.3 ModuleFrame 单位边界 / 非万神殿复用 / 五法零发现</span>
+    <span class="pi done">M1.4A 完整柱包络 / host / junction pre-detail 门</span>
   </div>
 </section>
 </section>
@@ -780,16 +787,17 @@ footer a:hover{color:var(--ink)}
 <!-- ================= 05 NEXT 明日 ================= -->
 <section id="next" class="view">
 <section class="blk">
-  <div class="sec-head"><span class="no">05</span><h2>下一步 Next · 2026-07-19</h2><span class="hint">R1 本地闭环已收口；木桶转向真实调用、critic 证据与生产交权</span></div>
+  <div class="sec-head"><span class="no">05</span><h2>下一步 Next · 2026-07-19</h2><span class="hint">M1.5A 正在施工；先证明字段真消费,再开放盲评与生产交权</span></div>
   <ol class="next">
-    <li><span><b>真实 provider smoke</b>:在 Kevin 提供合法凭据与 endpoint 后只做一次有界真实调用,核验实际 transport、usage 与随楼证据；无 provider 幂等/查询协议时继续只承诺 at-most-once authorization。</span></li>
+    <li><span><b>M1.5A · 活消费者合同</b>:为逐楼字段建立 producer→consumer→artifact 反链；remove 与 perturb 必须造成具名下游变化,只登记/读取但不影响工件的字段判 <code>declared_but_inert</code>。</span></li>
+    <li><span><b>M1.4B · 最终可见工件准入</b>:在 convert 后重验柱贴连、错山花、伪支撑、缺图与 UNKNOWN；catch 只能记 Red,不得沿用破坏前 passed/overall 或进入盲评。</span></li>
     <li><span><b>P2.4A · Critic 隔离门</b>:把可变 Blackboard 换成冻结只读观察快照,critic 异常只生成 fail-open 审计回执,不能中断 scheduler；完成后再接 LLM-审或 ranker。</span></li>
-    <li><span><b>P2.3 · 盲评数据</b>:严格拆开 catch / train / held-out；只让最终可见 artifact、M1.4 合格且 M1.5 证实真实 consumer 的 survivor 进入匿名盲评。</span></li>
-    <li><span><b>R2 · 生产交权</b>:建立统一 MDPRunner,让 CLI / Studio / export 先 opt-in 接入；composer、关键词路由与 type canon 逐项证明替代者后再退出生产。</span></li>
+    <li><span><b>R2 · 尺度所有权与生产交权</b>:M1.3/M1.4/M1.5 接盘后,再让旧 scale_override、derive_footprint、composer 与字段 fallback 退出；CLI / Studio / export 先 opt-in 接统一 MDPRunner。</span></li>
+    <li><span><b>真实 provider smoke</b>:Kevin 提供合法凭据与 endpoint 后只做一次有界调用；无 provider 幂等/查询协议时继续只承诺 at-most-once authorization。</span></li>
   </ol>
   <div class="gatebox">
     <span class="label">Execution Guardrails 施工护栏</span>
-    无凭据不自动联网 · critic 未达 held-out 正相关不得进入 RL · R2 默认翻转必须交 Kevin · M2/M3 不抢跑未判数字 · Rhino/Blender 只作远期后端 adapter
+    M1.4A 不冒充最终 artifact 资格 · M1.5 未绿的字段不得进入 taste 样本 · D_phys 与 rho 不再混用 · R2 默认翻转必须交 Kevin · 无凭据不自动联网
   </div>
 </section>
 </section>
@@ -799,9 +807,11 @@ footer a:hover{color:var(--ink)}
 <section class="blk">
   <div class="sec-head"><span class="no">06</span><h2>风险雷达 Risks</h2></div>
   <div class="risks">
-    <div class="riskcard"><b>Persistent Selective Repair 仍是 opt-in 本地能力</b>R1.8B 已具备依赖闭包、proof supersession 与 sealed child run,但尚未接默认 scheduler、几何或 R2 生产入口；论文必须写清这一边界。</div>
-    <div class="riskcard"><b>Critic 目前不是“负相关”,而是未证明正相关</b>blind=0；训练内0.878不可复验为 held-out。若先接 RL,系统只会把未经证明的品味放大。</div>
-    <div class="riskcard"><b>拨号许可不等于 provider exactly-once</b>R1.9 只保证跨进程最多授权一次；许可提交后、拨号前崩溃允许零次。真实 provider smoke 仍受凭据与外部幂等能力约束。</div>
+    <div class="riskcard"><b>M1.4A pre-detail 通过 ≠ 最终建筑成立</b>构造包络和接头门发生在装饰物化前；convert 后仍可能出现柱贴连、错山花、伪支撑或缺图。M1.4B 前不得把方案送进盲评。</div>
+    <div class="riskcard"><b>Declared consumer ≠ Causal consumer</b>字段被 schema、日志或函数读取并不证明它改变结果。M1.5 必须以 remove/perturb 双实验钉住具名下游；惰性字段不得冒充 trace faithfulness。</div>
+    <div class="riskcard"><b>D_phys 与 rho 再次混用会掩盖拓扑错误</b>M1.3 只允许物理 frame 驱动落位与柱网,convert 才投影体素密度；禁止用后置放大修接头、承托或山花形态。</div>
+    <div class="riskcard"><b>Critic 仍未证明正相关</b>blind=0；训练内0.878不可复验为 held-out。M1.4/M1.5 不合格的 catch 或 inert 轨迹不得进入 taste Spearman,更不得提前接 RL。</div>
+    <div class="riskcard"><b>当前 dirty tree 含 M1.5A 中间态</b>1651 是 a79b405 的最后干净全量基线,不是对未提交 liveness 实现的声明；本轮 HTML 不暂存、不测试、不代修生产代码。</div>
   </div>
 </section>
 </section>

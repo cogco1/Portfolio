@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="660" viewBox="0 0 1160 660" role="img" aria-label="空间 MDP:关系依赖 DAG(基准鼓心+入口轴、drum、dome、oculus、vestibule、portico),父集小框「柱位|台基」,非局部约束走全局门;三推论与落位求解器">
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="660" viewBox="0 0 1160 660" role="img" aria-label="空间 MDP 与构造编译:逐楼 AdaptiveModuleFrame 分离物理模数与体素密度,关系 DAG 前向落位,柱网进入 TectonicEnvelopeIR 与接头门,最终可见工件另行验收">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=Space+Mono:wght@400;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap');
 :root{--ink:#1a1a1a;--muted:#737373;--faint:#a6a6a6;--line:#ededed;--line-strong:#dcdcdc;--bg:#ffffff;--ok:#3f7350;--gate:#a3822f;--risk:#a4453a;
@@ -33,7 +33,7 @@
 <marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahr"/></marker>
 </defs>
 
-<text x="40" y="34" class="t3">空间 MDP SPATIAL MARKOV — 关系图 = 依赖 DAG,落位 = 拓扑序前向推算,每步只看父集(Kevin 判词 2026-07-17)</text>
+<text x="40" y="34" class="t3">空间 MDP + 尺度/构造编译 — 逐楼物理框架 → 关系 DAG → 落位/柱网 → 构造包络与接头门(M1.3 / M1.4A · 2026-07-19)</text>
 
 <!-- DAG -->
 <rect x="200" y="60" width="240" height="52" class="bx2"/>
@@ -70,6 +70,19 @@
 <text x="722" y="180" class="t4">门廊 portico</text>
 <text x="722" y="196" class="t5">box · 33.1×15.5</text>
 
+<!-- M1.3 / M1.4A 编译层 -->
+<rect x="900" y="60" width="220" height="64" class="bx2"/>
+<text x="916" y="82" class="t1">AdaptiveModuleFrame@0</text>
+<text x="916" y="102" class="t5">D_phys ⟂ rho → D_vox</text>
+<text x="916" y="118" class="t2s">placement 前统一物理 frame</text>
+<path d="M900,92 L444,92" class="gt-l" stroke-dasharray="4 3" marker-end="url(#ah)"/>
+<path d="M1010,124 L1010,146" class="ln" marker-end="url(#ah)"/>
+<rect x="900" y="148" width="220" height="66" class="bx2"/>
+<text x="916" y="170" class="t1">TectonicEnvelopeIR@0</text>
+<text x="916" y="190" class="t5">full column envelopes + edge-set</text>
+<text x="916" y="206" class="t2s">placed interface → pre-detail gate</text>
+<path d="M880,182 L898,182" class="ln" marker-end="url(#ah)"/>
+
 <!-- 父集高亮 -->
 <rect x="230" y="150" width="180" height="64" class="gt-l" stroke-dasharray="5 4"/>
 <text x="40" y="170" class="gt-m">父集 PARENT SET</text>
@@ -79,7 +92,7 @@
 
 <!-- 局部马尔可夫 inset -->
 <rect x="700" y="252" width="420" height="180" class="bx2"/>
-<text x="716" y="278" class="t1">局部马尔可夫「柱位 | 台基」</text>
+<text x="716" y="278" class="t1">局部马尔可夫「柱位 | ModuleFrame + 台基」</text>
 <text x="1104" y="278" class="t3" text-anchor="end">LOCAL MARKOV</text>
 <rect x="724" y="286" width="8" height="14" class="ah"/>
 <rect x="782" y="286" width="8" height="14" class="ah"/>
@@ -87,11 +100,11 @@
 <rect x="898" y="286" width="8" height="14" class="ah"/>
 <rect x="716" y="300" width="200" height="26" class="ln"/>
 <text x="722" y="318" class="t2s">台基 stylobate(父)</text>
-<text x="940" y="318" class="t1m">P(柱位 | 台基)</text>
+<text x="940" y="318" class="t1m">P(柱位 | frame,台基)</text>
 <text x="716" y="352" class="t2">「原点只存在于实现层,设计层无坐标——柱子的位置</text>
 <text x="716" y="372" class="t2">只与台基的大小有关;推算时只读取这一部分,无需读取其他节点。」</text>
 <text x="716" y="396" class="t3">KEVIN 判词 2026-07-17 · 空间 MDP 入论文素材</text>
-<text x="716" y="418" class="t2s">推论:局部马尔可夫性从决策序列推广到空间依赖</text>
+<text x="716" y="418" class="t2s">M1.3:物理解算只读 D_phys frame；rho 只在 convert 做表示投影</text>
 
 <!-- 全局门 -->
 <path d="M320,394 L320,466" class="lnf" marker-end="url(#ah)"/>
@@ -99,12 +112,12 @@
 <text x="332" y="440" class="t5">全部体量合并后整体检查</text>
 <rect x="140" y="468" width="500" height="72" class="bx2"/>
 <text x="156" y="492" class="t1">全局门 GLOBAL GATE</text>
-<text x="156" y="514" class="t2">非局部约束不纳入父节点集合:重叠 overlap · 越界 out-of-bounds</text>
-<text x="156" y="532" class="t2s">推导局部化,验证全局化 · 全楼重叠校验尚未完成,已作为假阴性问题列入待办</text>
+<text x="156" y="514" class="t2">非局部约束不塞进父集:包络重叠 · host 缺席 · 接头不连贯 · 越界</text>
+<text x="156" y="532" class="t2s">M1.4A 已在结构/细节前 fail-closed；最终可见 artifact 准入仍归 M1.4B</text>
 
 <!-- 三推论 -->
 <text x="40" y="576" class="t3">三推论 COROLLARIES(REPORT 追加五)</text>
-<text x="40" y="598" class="t2">① 编译态越小,漂移面越小 ② 父节点未变,子树保持不动,为 Selective Uncommit 提供理论依据(P3.1) ③ 父集越小,菜单越小,H(A_t|S_t) 越低</text>
-<text x="40" y="620" class="gt-m">落位求解器(已立项):轴 + 关系 → 坐标的确定性前向推算 —— LLM 永不回答坐标</text>
-<text x="40" y="644" class="t3">真源:REPORT.md 追加五(Kevin 空间 MDP 判词) · 追加四(标准答案五拓扑) · 看板 05 明日(落位求解器 v0)</text>
+<text x="40" y="598" class="t2">① D_phys 与 rho 分责 ② 父节点未变,无关子树保持不动(R1.8B) ③ 完整柱包络早于装饰 ④ 可见工件仍须独立验收</text>
+<text x="40" y="620" class="gt-m">现役链:逐楼事实 → ModuleFrameIR → placement / ColumnGridIR → TectonicEnvelopeIR → junction gate → convert</text>
+<text x="40" y="644" class="t3">真源:M1.3 自适应模数框架 REPORT · M1.4A 构造包络与接头拓扑 REPORT · 默认路径与 Gold 均零变化</text>
 </svg>

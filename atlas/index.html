@@ -171,11 +171,11 @@ a.figtap{display:block}
 </section>
 
 <section id="a8" class="blk">
-  <div class="sec-head"><span class="no">08</span><h2>空间 MDP 落位 Spatial Markov</h2><span class="hint">Kevin 判词 2026-07-17</span></div>
+  <div class="sec-head"><span class="no">08</span><h2>空间 MDP + 尺度/构造编译</h2><span class="hint">Spatial Markov · M1.3 / M1.4A · 2026-07-19</span></div>
   <figure>
     <div class="figwrap"><a class="figtap" href="fig/08-spatial-mdp.svg" target="_blank" rel="noopener"><img class="pr" src="fig/08-spatial-mdp.svg" alt="空间 MDP 落位架构图"></a></div>
     <p class="fighint">↔ 横向滑动查看全图 · 点图全屏可缩放 swipe / tap to zoom</p>
-    <figcaption><b>读法</b>:关系图是一张依赖 DAG:以唯一 primary 和 circulation entry 为基准,drum、vestibule、portico 与 approach 依次落位,dome bears_on drum,oculus 位于穹顶中心。落位求解器现已进入 D09/D11 生产链；SiteContext front/left 交换会让圆鼓、门廊、柱列与入口留位整体旋转。每一步只读取父节点集合,重叠、越界与轴槽冲突由全局门检查,形成已运行的“局部推导、全局验证”。<span class="src">真源:probes/20260718_落位求解器入链/REPORT.md · 地图已清账</span></figcaption>
+    <figcaption><b>读法</b>:关系 DAG 仍按父集前向落位,但“柱位只读台基”现在有了完整尺度合同：逐楼 <code>AdaptiveModuleFrame@0</code> 在 placement 前分开物理模数 <code>D_phys</code> 与表现密度 <code>rho</code>，物理解算只消费前者，convert 才投影后者。柱网随后编译为完整柱包络、楣梁 edge-set 与 placed interfaces，经 <code>TectonicEnvelopeIR@0</code> 在结构/细节前检查重叠、host 与接头连贯；装饰不能替拓扑还债。M1.4A 只完成 pre-detail 门，最终可见 artifact 准入仍待 M1.4B。<span class="src">真源:20260719_M1.3_自适应模数框架/REPORT.md · 20260719_M1.4A_构造包络与接头拓扑/REPORT.md</span></figcaption>
   </figure>
 </section>
 
