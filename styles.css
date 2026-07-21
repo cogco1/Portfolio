@@ -192,6 +192,11 @@ img{max-width:100%;display:block}
 .plates figure{margin:0 0 clamp(56px,8vw,100px)}
 .plates figcaption{margin:0 0 12px}
 .plates img{width:100%;height:auto;display:block}
+.market-photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,54px) var(--gap);margin:44px 0 clamp(64px,8vw,108px)}
+.market-photo-grid figure{min-width:0;margin:0}
+.market-photo-grid .wide{grid-column:1 / -1}
+.market-photo-grid img{display:block;width:100%;height:auto}
+.market-photo-grid .cap{margin-bottom:10px}
 .zoom{cursor:zoom-in;transition:opacity .2s}
 .zoom:hover{opacity:.9}
 
@@ -264,6 +269,8 @@ img{max-width:100%;display:block}
   .resume-aside{position:static;margin-bottom:28px}
   .featured-block{padding-left:18px}
   .imgcol.two{grid-template-columns:1fr}
+  .market-photo-grid{grid-template-columns:1fr;gap:36px;margin-top:34px}
+  .market-photo-grid .wide{grid-column:auto}
   .nav ul{gap:10px}
   .site-lang{gap:5px}
   /* Work dropdown: anchor to nav (not the li) so it can't overflow the screen edge */
