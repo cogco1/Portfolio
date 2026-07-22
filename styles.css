@@ -64,8 +64,6 @@ img{max-width:100%;display:block}
 .hero--cover .hero-slides{position:absolute;inset:0}
 .hero--cover .hero-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 46%;opacity:0;transition:opacity 1.1s ease-in-out;will-change:opacity}
 .hero--cover .hero-slide.is-active{opacity:1}
-.hero--cover .hero-intro-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 46%;opacity:0;pointer-events:none;transition:opacity .8s ease;will-change:opacity}
-.hero--cover .hero-intro-video.is-visible:not(.is-finished){opacity:1}
 .hero--cover .hero-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,18,22,.22) 0%,rgba(18,18,22,0) 28%,rgba(18,18,22,.16) 52%,rgba(14,14,18,.74) 100%)}
 .hero--cover .hero-inner{position:absolute;left:0;right:0;bottom:0;max-width:var(--max);margin:0 auto;padding:0 var(--pad) clamp(40px,6vw,64px);color:#fff}
 .hero--cover .hero-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:16px}
@@ -97,7 +95,7 @@ img{max-width:100%;display:block}
 .scroll-hint:hover{opacity:1}
 .scroll-hint .sh-chev{font-size:22px;line-height:.6;animation:shBounce 1.8s ease-in-out infinite}
 @keyframes shBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
-@media (prefers-reduced-motion:reduce){.scroll-hint .sh-chev{animation:none}.hero--cover .hero-intro-video{display:none}}
+@media (prefers-reduced-motion:reduce){.scroll-hint .sh-chev{animation:none}}
 .hero-dots button{width:9px;height:9px;border-radius:50%;border:0;padding:0;background:rgba(255,255,255,.45);cursor:pointer;transition:background .2s}
 .hero-dots button.on{background:#fff}
 .hero-meta{max-width:var(--max);margin:0 auto;padding:clamp(24px,3.2vw,38px) var(--pad);border-bottom:1px solid var(--line)}
