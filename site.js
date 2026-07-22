@@ -104,12 +104,37 @@
     var tag = hero.querySelector('#hero-tag');
     var tagNum = tag && tag.querySelector('.ht-num');
     var tagTitle = tag && tag.querySelector('.ht-title');
+    var introVideo = hero.querySelector('.hero-intro-video');
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var cur = 0;
     function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function finishIntroVideo() {
+      if (!introVideo) return;
+      introVideo.classList.add('is-finished');
+    }
+    function stopIntroVideo() {
+      if (!introVideo) return;
+      introVideo.pause();
+      introVideo.classList.remove('is-visible');
+      introVideo.classList.add('is-finished');
+    }
+    function playIntroVideo() {
+      if (!introVideo || reduceMotion) return;
+      try { introVideo.currentTime = 0; } catch (_) {}
+      introVideo.classList.remove('is-finished');
+      introVideo.classList.add('is-visible');
+      var promise = introVideo.play();
+      if (promise && promise.catch) promise.catch(finishIntroVideo);
+    }
+    if (introVideo) {
+      introVideo.addEventListener('ended', finishIntroVideo);
+      introVideo.addEventListener('error', finishIntroVideo);
+    }
     function show(n) {
       cur = (n + slides.length) % slides.length;
       for (var k = 0; k < slides.length; k++) slides[k].classList.toggle('is-active', k === cur);
       for (var d = 0; d < dots.length; d++) dots[d].classList.toggle('on', d === cur);
+      if (cur === 0) playIntroVideo(); else stopIntroVideo();
       var s = slides[cur];
       if (tag && s.getAttribute('data-href')) {
         tag.setAttribute('href', s.getAttribute('data-href'));
